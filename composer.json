@@ -1,0 +1,22 @@
+{
+  "name": "dennis84/mapped",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Dennis Dietrich",
+      "email": "d.dietrich84@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "symfony/event-dispatcher": "2.*"
+  },
+  "require-dev": {
+    "symfony/validator": "2.*",
+    "doctrine/common": "2.*"
+  },
+  "autoload": {
+    "psr-0": { "Mapped": "src/" }
+  },
+  "minimum-stability": "dev"
+}
