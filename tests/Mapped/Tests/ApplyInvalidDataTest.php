@@ -11,9 +11,9 @@ class ApplyInvalidDataTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Mapped();
 
-        $mapping = $m->create('', [
-            $m->create('username'),
-            $m->create('password'),
+        $mapping = $m->mapping([
+            'username' => $m->mapping(),
+            'password' => $m->mapping(),
         ]);
 
         $result = $mapping->apply([
@@ -31,9 +31,9 @@ class ApplyInvalidDataTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Mapped();
 
-        $mapping = $m->create('', [
-            $m->create('username'),
-            $m->create('password'),
+        $mapping = $m->mapping([
+            'username' => $m->mapping(),
+            'password' => $m->mapping(),
         ], function ($username, $password) {
             return new User($username, $password);
         });

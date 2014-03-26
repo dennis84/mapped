@@ -11,25 +11,21 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class Mapping
 {
-    protected $name;
     protected $dispatcher;
     protected $extensions = [];
     protected $transformers = [];
     protected $constraints = [];
     protected $children = [];
     protected $options = [];
-    protected $parent;
 
     /**
      * Constructor.
      *
-     * @param string                   $name       The mapping name
      * @param EventDispatcherInterface $dispatcher The event dispatcher
      * @param ExtensionInterface[]     $extensions An array of extensions
      */
-    public function __construct($name, EventDispatcherInterface $dispatcher, array $extensions = [])
+    public function __construct(EventDispatcherInterface $dispatcher, array $extensions = [])
     {
-        $this->name = $name;
         $this->dispatcher = $dispatcher;
         $this->extensions = $extensions;
         foreach ($extensions as $extension) {
@@ -106,26 +102,6 @@ class Mapping
     }
 
     /**
-     * Sets the name.
-     *
-     * @param string $name The name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * Gets the name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
      * Sets a new array of child mapping objects.
      *
      * @param Mapping[] $children An array of mapping objects
@@ -133,8 +109,8 @@ class Mapping
     public function setChildren(array $children)
     {
         $this->children = [];
-        foreach ($children as $child) {
-            $this->addChild($child);
+        foreach ($children as $name => $child) {
+            $this->addChild($name, $child);
         }
     }
 
@@ -161,11 +137,12 @@ class Mapping
     /**
      * Adds a child mapping.
      *
+     * @param string  $name    The mapping name
      * @param Mapping $mapping The mapping obejct
      */
-    public function addChild(Mapping $child)
+    public function addChild($name, Mapping $child)
     {
-        $this->children[$child->getName()] = $child;
+        $this->children[$name] = $child;
     }
 
     /**
@@ -197,26 +174,6 @@ class Mapping
         }
 
         return $this->children[$name];
-    }
-
-    /**
-     * Sets the parent mapping.
-     *
-     * @param Mapping $mapping The parent mapping object
-     */
-    public function setParent(Mapping $parent)
-    {
-        $this->parent = $parent;
-    }
-
-    /**
-     * Gets the parent mapping.
-     *
-     * @return Mapping
-     */
-    public function getParent()
-    {
-        return $this->parent;
     }
 
     /**
@@ -323,14 +280,14 @@ class Mapping
             $result = $data;
         }
 
-        foreach ($this->children as $child) {
-            if (isset($data[$child->getName()])) {
-                $r = $child->apply($data[$child->getName()]);
+        foreach ($this->children as $name => $child) {
+            if (isset($data[$name])) {
+                $r = $child->apply($data[$name]);
             } else {
                 $r = $child->apply(null);
             }
 
-            $result[$child->getName()] = $r;
+            $result[$name] = $r;
         }
 
         if ($this->dispatcher->hasListeners(Events::BEFORE_TRANSFORM)) {
@@ -379,10 +336,9 @@ class Mapping
 
         $value = [];
 
-        foreach ($this->getChildren() as $child) {
-            if (isset($data[$child->getName()])) {
-                $value[$child->getName()] =
-                    $child->unapply($data[$child->getName()]);
+        foreach ($this->getChildren() as $name => $child) {
+            if (isset($data[$name])) {
+                $value[$name] = $child->unapply($data[$name]);
             }
         }
 

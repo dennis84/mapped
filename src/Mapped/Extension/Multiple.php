@@ -30,11 +30,10 @@ class Multiple implements ExtensionInterface
      */
     public function multiple(Mapping $proto)
     {
-        $resizer = new MultipleResizeListener();
+        $resizer = new MultipleResizeListener;
 
-        $name    = $proto->getName();
-        $disp    = new EventDispatcher();
-        $mapping = new Mapping($name, $disp, $proto->getExtensions());
+        $disp    = new EventDispatcher;
+        $mapping = new Mapping($disp, $proto->getExtensions());
         $mapping->setOption('prototype', $proto);
 
         $disp->addListener(Events::APPLY, [ $resizer, 'bind' ]);

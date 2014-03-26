@@ -11,8 +11,8 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
     public function testA()
     {
         $m = new Mapped();
-        $mapping = $m->create('', [
-            $m->create('choices')->multiple(),
+        $mapping = $m->mapping([
+            'choices' => $m->mapping()->multiple(),
         ]);
 
         $result = $mapping->apply([
@@ -27,8 +27,8 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
     public function testB()
     {
         $m = new Mapped();
-        $mapping = $m->create('', [
-            $m->create('choices')->multiple(),
+        $mapping = $m->mapping([
+            'choices' => $m->mapping()->multiple(),
         ]);
 
         $result = $mapping->apply(['choices' => []]);
@@ -38,8 +38,8 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
     public function testC()
     {
         $m = new Mapped();
-        $mapping = $m->create('', [
-            $m->create('choices')->multiple(),
+        $mapping = $m->mapping([
+            'choices' => $m->mapping()->multiple(),
         ]);
 
         $result = $mapping->apply([]);
@@ -49,8 +49,8 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
     public function testD()
     {
         $m = new Mapped();
-        $mapping = $m->create('', [
-            $m->create('choices')->nonEmptyText()->multiple(),
+        $mapping = $m->mapping([
+            'choices' => $m->mapping()->nonEmptyText()->multiple(),
         ]);
 
         $result = $mapping->apply([
@@ -65,8 +65,8 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
     public function testE()
     {
         $m = new Mapped();
-        $mapping = $m->create('', [
-            $m->create('choices')->nonEmptyText()->multiple(),
+        $mapping = $m->mapping([
+            'choices' => $m->mapping()->nonEmptyText()->multiple(),
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');
@@ -77,12 +77,12 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Mapped();
 
-        $mapping = $m->create('', [
-            $m->create('title'),
-            $m->create('tags')->multiple(),
-            $m->create('attributes', [
-                $m->create('name'),
-                $m->create('value'),
+        $mapping = $m->mapping([
+            'title'      => $m->mapping(),
+            'tags'       => $m->mapping()->multiple(),
+            'attributes' => $m->mapping([
+                'name'  => $m->mapping(),
+                'value' => $m->mapping(),
             ], function ($name, $value) {
                 return new Attribute($name, $value);
             })->multiple(),
@@ -100,10 +100,10 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
     public function testG()
     {
         $m = new Mapped();
-        $mapping = $m->create('', [
-            $m->create('choices', [
-                $m->create('key'),
-                $m->create('value'),
+        $mapping = $m->mapping([
+            'choices' => $m->mapping([
+                'key'   => $m->mapping(),
+                'value' => $m->mapping(),
             ])->multiple(),
         ]);
 
@@ -121,10 +121,10 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
     public function testH()
     {
         $m = new Mapped();
-        $mapping = $m->create('', [
-            $m->create('choices', [
-                $m->create('name'),
-                $m->create('value'),
+        $mapping = $m->mapping([
+            'choices' => $m->mapping([
+                'name'  => $m->mapping(),
+                'value' => $m->mapping(),
             ], function ($name, $value) {
                 return new Attribute($name, $value);
             })->multiple(),
@@ -148,8 +148,8 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('InvalidArgumentException');
 
         $m = new Mapped();
-        $mapping = $m->create('', [
-            $m->create('choices')->multiple(),
+        $mapping = $m->mapping([
+            'choices' => $m->mapping()->multiple(),
         ]);
 
         $mapping->apply(['choices' => 'foo']);
@@ -158,8 +158,8 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
     public function testJ()
     {
         $m = new Mapped();
-        $mapping = $m->create('', [
-            $m->create('choices')->multiple(),
+        $mapping = $m->mapping([
+            'choices' => $m->mapping()->multiple(),
         ]);
 
         $result = $mapping->unapply([
@@ -174,10 +174,10 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
     public function testK()
     {
         $m = new Mapped();
-        $mapping = $m->create('', [
-            $m->create('choices', [
-                $m->create('key'),
-                $m->create('value'),
+        $mapping = $m->mapping([
+            'choices' => $m->mapping([
+                'key'   => $m->mapping(),
+                'value' => $m->mapping(),
             ])->multiple(),
         ]);
 
@@ -198,12 +198,12 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Mapped();
 
-        $mapping = $m->create('', [
-            $m->create('title'),
-            $m->create('tags')->multiple(),
-            $m->create('attributes', [
-                $m->create('name'),
-                $m->create('value'),
+        $mapping = $m->mapping([
+            'title'      => $m->mapping(),
+            'tags'       => $m->mapping()->multiple(),
+            'attributes' => $m->mapping([
+                'name'  => $m->mapping(),
+                'value' => $m->mapping(),
             ], null, function (Attribute $attr) {
                 return [
                     'name'  => $attr->getName(),
@@ -236,8 +236,8 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
     public function testM()
     {
         $m = new Mapped();
-        $mapping = $m->create('', [
-            $m->create('emails')->verifying('email', function ($value) {
+        $mapping = $m->mapping([
+            'emails' => $m->mapping()->verifying('email', function ($value) {
                 return (boolean) filter_var($value, FILTER_VALIDATE_EMAIL);
             })->multiple(),
         ]);
@@ -254,8 +254,8 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
     public function testO()
     {
         $m = new Mapped();
-        $mapping = $m->create('', [
-            $m->create('emails')->verifying('email', function ($value) {
+        $mapping = $m->mapping([
+            'emails' => $m->mapping()->verifying('email', function ($value) {
                 return (boolean) filter_var($value, FILTER_VALIDATE_EMAIL);
             })->multiple(),
         ]);
@@ -269,8 +269,8 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
     public function testP()
     {
         $m = new Mapped();
-        $mapping = $m->create('', [
-            $m->create('choices')->multiple(),
+        $mapping = $m->mapping([
+            'choices' => $m->mapping()->multiple(),
         ]);
 
         $result = $mapping->unapply([

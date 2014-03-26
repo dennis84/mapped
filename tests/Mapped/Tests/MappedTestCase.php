@@ -7,8 +7,8 @@ use Mapped\Mapping;
 
 class MappedTestCase extends \PHPUnit_Framework_TestCase
 {
-    protected function createMapping($name, array $extensions = [])
+    protected function createMapping(array $extensions = [])
     {
-        return new Mapping($name, new EventDispatcher(), $extensions);
+        return new Mapping(new EventDispatcher, $extensions);
     }
 }

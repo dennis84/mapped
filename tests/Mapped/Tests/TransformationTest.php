@@ -12,8 +12,8 @@ class TransformationTest extends \PHPUnit_Framework_TestCase
         $test = $this;
         $m = new Mapped();
 
-        $mapping = $m->create('', [
-            $m->create('foo')->integer(),
+        $mapping = $m->mapping([
+            'foo' => $m->mapping()->integer(),
         ], function ($foo) use ($test) {
             // The apply must come after transformation.
             $test->assertSame(420, $foo);

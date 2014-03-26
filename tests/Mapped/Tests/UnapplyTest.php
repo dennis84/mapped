@@ -13,9 +13,9 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Mapped();
 
-        $mapping = $m->create('', [
-            $m->create('username'),
-            $m->create('password'),
+        $mapping = $m->mapping([
+            'username' => $m->mapping(),
+            'password' => $m->mapping(),
         ]);
 
         $result = $mapping->unapply([
@@ -31,12 +31,12 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Mapped();
 
-        $mapping = $m->create('', [
-            $m->create('username'),
-            $m->create('password'),
-            $m->create('address', [
-                $m->create('city'),
-                $m->create('street'),
+        $mapping = $m->mapping([
+            'username' => $m->mapping(),
+            'password' => $m->mapping(),
+            'address'  => $m->mapping([
+                'city'   => $m->mapping(),
+                'street' => $m->mapping(),
             ]),
         ]);
 
@@ -66,9 +66,9 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
         $m = new Mapped();
         $user = new User('dennis84', 'password');
 
-        $mapping = $m->create('', [
-            $m->create('username'),
-            $m->create('password'),
+        $mapping = $m->mapping([
+            'username' => $m->mapping(),
+            'password' => $m->mapping(),
         ], null, function (User $user) {
             return [
                 'username' => $user->username,
@@ -90,15 +90,15 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
         $address  = new Address('Foo', 'Bar', $location);
         $user     = new User('dennis84', 'password', $address);
 
-        $mapping = $m->create('', [
-            $m->create('username'),
-            $m->create('password'),
-            $m->create('address', [
-                $m->create('city'),
-                $m->create('street'),
-                $m->create('location', [
-                    $m->create('lat'),
-                    $m->create('lng'),
+        $mapping = $m->mapping([
+            'username' => $m->mapping(),
+            'password' => $m->mapping(),
+            'address'  => $m->mapping([
+                'city'     => $m->mapping(),
+                'street'   => $m->mapping(),
+                'location' => $m->mapping([
+                    'lat' => $m->mapping(),
+                    'lng' => $m->mapping(),
                 ], null, function (Location $location) {
                     return [
                         'lat' => $location->lat,

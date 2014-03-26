@@ -10,8 +10,8 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Mapped();
 
-        $mapping = $m->create('', [
-            $m->create('username')->nonEmptyText(),
+        $mapping = $m->mapping([
+            'username' => $m->mapping()->nonEmptyText(),
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');
@@ -22,8 +22,8 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Mapped();
 
-        $mapping = $m->create('', [
-            $m->create('username')->nonEmptyText()
+        $mapping = $m->mapping([
+            'username' => $m->mapping()->nonEmptyText()
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');
@@ -34,8 +34,8 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Mapped();
 
-        $mapping = $m->create('', [
-            $m->create('integer')->integer()
+        $mapping = $m->mapping([
+            'integer' => $m->mapping()->integer()
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');
@@ -46,9 +46,9 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Mapped();
 
-        $mapping = $m->create('', [
-            $m->create('integer')->integer(),
-            $m->create('float')->integer(),
+        $mapping = $m->mapping([
+            'integer' => $m->mapping()->integer(),
+            'float'   => $m->mapping()->integer(),
         ]);
 
         $result = $mapping->apply([
@@ -64,8 +64,8 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Mapped();
 
-        $mapping = $m->create('', [
-            $m->create('float')->float()
+        $mapping = $m->mapping([
+            'float' => $m->mapping()->float()
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');
@@ -76,9 +76,9 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Mapped();
 
-        $mapping = $m->create('', [
-            $m->create('integer')->float(),
-            $m->create('float')->float(),
+        $mapping = $m->mapping([
+            'integer' => $m->mapping()->float(),
+            'float'   => $m->mapping()->float(),
         ]);
 
         $result = $mapping->apply([
@@ -94,11 +94,11 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Mapped();
 
-        $mapping = $m->create('', [
-            $m->create('a')->boolean(),
-            $m->create('b')->boolean(),
-            $m->create('c')->boolean(),
-            $m->create('d')->boolean(),
+        $mapping = $m->mapping([
+            'a' => $m->mapping()->boolean(),
+            'b' => $m->mapping()->boolean(),
+            'c' => $m->mapping()->boolean(),
+            'd' => $m->mapping()->boolean(),
         ]);
 
         $result = $mapping->apply([
@@ -118,8 +118,8 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Mapped();
 
-        $mapping = $m->create('', [
-            $m->create('accept')->required()->boolean(),
+        $mapping = $m->mapping([
+            'accept' => $m->mapping()->required()->boolean(),
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');

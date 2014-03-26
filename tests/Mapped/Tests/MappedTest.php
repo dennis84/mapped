@@ -12,8 +12,8 @@ class MappedTest extends \PHPUnit_Framework_TestCase
         $m = new Mapped();
 
         $m->register('Mapped\Tests\Fixtures\User', [
-            $m->create('username'),
-            $m->create('password'),
+            'username' => $m->mapping(),
+            'password' => $m->mapping(),
         ], function ($username, $password) {
             return new User($username, $password);
         }, function (User $user) {

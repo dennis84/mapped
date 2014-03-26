@@ -53,14 +53,7 @@ class MultipleResizeListener
             $proto = $mapping->getOption('prototype');
             $clone = $this->cloneMapping($proto);
 
-            $clone->setName((string) $index);
-            $clone->setParent($mapping);
-
-            foreach ($clone->getChildren() as $child) {
-                $child->setParent($clone);
-            }
-
-            $clones[] = $clone;
+            $clones[(string) $index] = $clone;
         }
 
         $mapping->setChildren($clones);

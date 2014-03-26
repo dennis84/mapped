@@ -13,7 +13,7 @@ class MappingTest extends MappedTestCase
         $ext->expects($this->once())
             ->method('initialize');
 
-        $mapping = $this->createMapping('foo', [$ext]);
+        $mapping = $this->createMapping([$ext]);
     }
 
     public function testInitializeMethodMustNotBeCallable()
@@ -22,23 +22,22 @@ class MappingTest extends MappedTestCase
         $ext->expects($this->once())
             ->method('initialize');
 
-        $mapping = $this->createMapping('foo', [$ext]);
+        $mapping = $this->createMapping([$ext]);
         $mapping->initialize($mapping);
     }
 
     public function testGetChild()
     {
         $builder = new Mapped();
-        $mapping = $builder->create('', [
-            $builder->create('username'),
-            $builder->create('password'),
-            $builder->create('address', [
-                $builder->create('street'),
+        $mapping = $builder->mapping([
+            'username' => $builder->mapping(),
+            'password' => $builder->mapping(),
+            'address'  => $builder->mapping([
+                'street' => $builder->mapping(),
             ]),
         ]);
 
         $this->assertInstanceOf('Mapped\Mapping', $mapping->getChild('username'));
-        $this->assertSame('username', $mapping->getChild('username')->getName());
     }
 
     public function testGetChildFail()
@@ -46,8 +45,8 @@ class MappingTest extends MappedTestCase
         $this->setExpectedException('InvalidArgumentException');
 
         $builder = new Mapped();
-        $mapping = $builder->create('', [
-            $builder->create('username'),
+        $mapping = $builder->mapping([
+            'username' => $builder->mapping(),
         ]);
 
         $mapping->getChild('password');
@@ -55,7 +54,7 @@ class MappingTest extends MappedTestCase
 
     public function testValidExtensionMethod()
     {
-        $mapping = $this->createMapping('foo', [
+        $mapping = $this->createMapping([
             new \Mapped\Tests\Fixtures\FooExtension()]);
 
         $return = $mapping->foo();
@@ -66,7 +65,7 @@ class MappingTest extends MappedTestCase
     {
         $this->setExpectedException('BadMethodCallException');
 
-        $mapping = $this->createMapping('foo');
+        $mapping = $this->createMapping();
         $mapping->foo();
     }
 
@@ -76,7 +75,7 @@ class MappingTest extends MappedTestCase
         $b = new \Mapped\Transformer\Float;
         $c = new \Mapped\Transformer\Boolean;
 
-        $foo = $this->createMapping('foo');
+        $foo = $this->createMapping();
         $foo->transform($a);
         $foo->transform($b);
         $foo->transform($c);
@@ -86,7 +85,7 @@ class MappingTest extends MappedTestCase
         $this->assertEquals($b, $transformers[1]);
         $this->assertEquals($c, $transformers[2]);
 
-        $foo = $this->createMapping('foo');
+        $foo = $this->createMapping();
         $foo->transform($a, 0);
         $foo->transform($b, 2);
         $foo->transform($c, 1);
@@ -99,7 +98,7 @@ class MappingTest extends MappedTestCase
 
     public function testSetGetAndHasOption()
     {
-        $foo = $this->createMapping('foo');
+        $foo = $this->createMapping();
         $foo->setOption('foo', 'Foo');
         $this->assertSame('Foo', $foo->getOption('foo'));
         $this->assertTrue($foo->hasOption('foo'));
@@ -109,7 +108,7 @@ class MappingTest extends MappedTestCase
     public function testGetOptionFail()
     {
         $this->setExpectedException('InvalidArgumentException');
-        $foo = $this->createMapping('foo');
+        $foo = $this->createMapping();
         $foo->getOption('foo');
     }
 }

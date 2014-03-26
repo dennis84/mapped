@@ -53,10 +53,10 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
     public function testC()
     {
         $m = new Mapped();
-        $mapping = $m->create('', [
-            $m->create('foo')->optional()
+        $mapping = $m->mapping([
+            'foo' => $m->mapping()->optional()
                 ->transform(new NullToBlahTransformer()),
-            $m->create('bar'),
+            'bar' => $m->mapping(),
         ]);
 
         $result = $mapping->apply(['foo' => null, 'bar' => 'blub']);
@@ -70,12 +70,12 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Mapped();
 
-        return $m->create('', [
-            $m->create('username'),
-            $m->create('password'),
-            $m->create('address', [
-                $m->create('city'),
-                $m->create('street')
+        return $m->mapping([
+            'username' => $m->mapping(),
+            'password' => $m->mapping(),
+            'address'  => $m->mapping([
+                'city'   => $m->mapping(),
+                'street' => $m->mapping()
             ], function ($city, $street) {
                 return new Address($city, $street);
             })->optional(),

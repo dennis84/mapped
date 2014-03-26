@@ -10,8 +10,8 @@ class CustomConstraintTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Mapped();
 
-        $mapping = $m->create('', [
-            $m->create('username')
+        $mapping = $m->mapping([
+            'username' => $m->mapping()
                 ->verifying('Username taken.', function ($username) {
                     return 'dennis84' !== $username;
                 })
@@ -25,10 +25,10 @@ class CustomConstraintTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Mapped();
 
-        $mapping = $m->create('', [
-            $m->create('username'),
-            $m->create('password'),
-            $m->create('password2'),
+        $mapping = $m->mapping([
+            'username'  => $m->mapping(),
+            'password'  => $m->mapping(),
+            'password2' => $m->mapping(),
         ])->verifying('Invalid password or username.', function ($username, $password, $password2) {
             return $password === $password2;
         })->verifying('Username taken.', function ($username, $password, $password2) {

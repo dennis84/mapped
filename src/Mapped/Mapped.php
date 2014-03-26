@@ -29,20 +29,20 @@ class Mapped
         ], $extensions);
     }
 
-    public function register($type, array $children = [], callable $apply = null, callable $unapply = null)
+    public function register($name, array $children = [], callable $apply = null, callable $unapply = null)
     {
-        $mapping = $this->create('', $children, $apply, $unapply);
-        $this->mappings[$type] = $mapping;
+        $mapping = $this->mapping($children, $apply, $unapply);
+        $this->mappings[$name] = $mapping;
     }
 
-    public function apply($data, $type)
+    public function apply($data, $name)
     {
-        return $this->getMapping($type)->apply($data);
+        return $this->getMapping($name)->apply($data);
     }
 
-    public function unapply($data, $type)
+    public function unapply($data, $name)
     {
-        return $this->getMapping($type)->unapply($data);
+        return $this->getMapping($name)->unapply($data);
     }
 
     /**
@@ -53,26 +53,25 @@ class Mapped
      *
      * @return Mapping
      */
-    public function create($name, array $children = [], callable $apply = null, callable $unapply = null)
+    public function mapping(array $children = [], callable $apply = null, callable $unapply = null)
     {
-        $mapping = new Mapping($name, new EventDispatcher(), $this->extensions);
+        $mapping = new Mapping(new EventDispatcher, $this->extensions);
 
-        foreach ($children as $child) {
-            $child->setParent($mapping);
-            $mapping->addChild($child);
+        foreach ($children as $name => $child) {
+            $mapping->addChild($name, $child);
         }
 
         $mapping->transform(new \Mapped\Transformer\Callback($apply, $unapply), -1);
         return $mapping;
     }
 
-    protected function getMapping($type)
+    protected function getMapping($name)
     {
-        if (false === array_key_exists($type, $this->mappings)) {
+        if (false === array_key_exists($name, $this->mappings)) {
             throw new \InvalidArgumentException(sprintf(
-                'Mapping for type "%s" does not exists.', $type));
+                'Mapping for name "%s" does not exists.', $name));
         }
 
-        return $this->mappings[$type];
+        return $this->mappings[$name];
     }
 }

@@ -15,9 +15,9 @@ class CallableTest extends \PHPUnit_Framework_TestCase
 
         $user = new User('dennis84', 'demo123');
 
-        $mapping = $m->create('', [
-            $m->create('username'),
-            $m->create('password'),
+        $mapping = $m->mapping([
+            'username' => $m->mapping(),
+            'password' => $m->mapping(),
         ], function ($username, $password) use (&$applied) {
             $applied = true;
         }, function (User $user) use (&$unapplied) {
@@ -52,9 +52,9 @@ class CallableTest extends \PHPUnit_Framework_TestCase
             ->method('unapply')
             ->with($this->equalTo($user));
 
-        $mapping = $m->create('', [
-            $m->create('username'),
-            $m->create('password'),
+        $mapping = $m->mapping([
+            'username' => $m->mapping(),
+            'password' => $m->mapping(),
         ], [$handler, 'apply'], [$handler, 'unapply']);
 
         $mapping->unapply($user);

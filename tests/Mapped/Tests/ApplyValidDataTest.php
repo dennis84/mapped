@@ -11,9 +11,9 @@ class ApplyValidDataTest extends \PHPUnit_Framework_TestCase
     public function testA()
     {
         $m = new Mapped();
-        $mapping = $m->create('', [
-            $m->create('username'),
-            $m->create('password'),
+        $mapping = $m->mapping([
+            'username' => $m->mapping(),
+            'password' => $m->mapping(),
         ]);
 
         $result = $mapping->apply([
@@ -30,9 +30,9 @@ class ApplyValidDataTest extends \PHPUnit_Framework_TestCase
     public function testB()
     {
         $m = new Mapped();
-        $mapping = $m->create('Mapped\Tests\Fixtures\User', [
-            $m->create('username'),
-            $m->create('password'),
+        $mapping = $m->mapping([
+            'username' => $m->mapping(),
+            'password' => $m->mapping(),
         ], function ($username, $password) {
             return new User($username, $password);
         });
@@ -50,12 +50,12 @@ class ApplyValidDataTest extends \PHPUnit_Framework_TestCase
     public function testC()
     {
         $m = new Mapped();
-        $mapping = $m->create('', [
-            $m->create('username'),
-            $m->create('password'),
-            $m->create('address', [
-                $m->create('city'),
-                $m->create('street'),
+        $mapping = $m->mapping([
+            'username' => $m->mapping(),
+            'password' => $m->mapping(),
+            'address'  => $m->mapping([
+                'city'   => $m->mapping(),
+                'street' => $m->mapping(),
             ], function ($city, $street) {
                 return new Address($city, $street);
             }),

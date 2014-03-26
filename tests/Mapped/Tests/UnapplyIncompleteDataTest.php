@@ -11,9 +11,9 @@ class UnapplyIncompleteDataTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Mapped();
 
-        $mapping = $m->create('', [
-            $m->create('username'),
-            $m->create('password'),
+        $mapping = $m->mapping([
+            'username' => $m->mapping(),
+            'password' => $m->mapping(),
         ]);
 
         $data = ['username' => 'dennis84'];
@@ -26,12 +26,12 @@ class UnapplyIncompleteDataTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Mapped();
 
-        $mapping = $m->create('', [
-            $m->create('username'),
-            $m->create('password'),
-            $m->create('address', [
-                $m->create('city'),
-                $m->create('street'),
+        $mapping = $m->mapping([
+            'username' => $m->mapping(),
+            'password' => $m->mapping(),
+            'address'  => $m->mapping([
+                'city'   => $m->mapping(),
+                'street' => $m->mapping(),
             ]),
         ]);
 
