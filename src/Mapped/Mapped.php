@@ -37,12 +37,12 @@ class Mapped
 
     public function apply($data, $name)
     {
-        return $this->getMapping($name)->apply($data);
+        return $this->get($name)->apply($data);
     }
 
     public function unapply($data, $name)
     {
-        return $this->getMapping($name)->unapply($data);
+        return $this->get($name)->unapply($data);
     }
 
     /**
@@ -65,7 +65,7 @@ class Mapped
         return $mapping;
     }
 
-    protected function getMapping($name)
+    public function get($name)
     {
         if (false === array_key_exists($name, $this->mappings)) {
             throw new \InvalidArgumentException(sprintf(
