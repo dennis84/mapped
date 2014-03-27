@@ -13,11 +13,11 @@ use Mapped\Mapping;
 class MultipleResizeListener
 {
     /**
-     * On bind.
+     * On apply.
      *
      * @param Event $event The event
      */
-    public function bind(Event $event)
+    public function apply(Event $event)
     {
         if (null === $event->getData()) {
             $event->setData([]);
@@ -27,11 +27,11 @@ class MultipleResizeListener
     }
 
     /**
-     * On fill.
+     * On unapply.
      *
      * @param Event $event The event
      */
-    public function fill(Event $event)
+    public function unapply(Event $event)
     {
         $this->prepare($event->getMapping(), $event->getResult());
     }

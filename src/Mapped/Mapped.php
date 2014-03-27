@@ -29,24 +29,49 @@ class Mapped
         ], $extensions);
     }
 
+    /**
+     * Creates and registers a new mapping object.
+     *
+     * @param string    $name     The mapping name
+     * @param Mapping[] $children An array of mapping objects
+     * @param callable  $apply    The apply function
+     * @param callable  $unapply  The unapply function
+     */
     public function register($name, array $children = [], callable $apply = null, callable $unapply = null)
     {
         $mapping = $this->mapping($children, $apply, $unapply);
         $this->mappings[$name] = $mapping;
     }
 
+    /**
+     * Apply.
+     *
+     * @param mixed  $data
+     * @param string $name
+     *
+     * return mixed
+     */
     public function apply($data, $name)
     {
         return $this->get($name)->apply($data);
     }
 
+    /**
+     * Unapply.
+     *
+     * @param mixed  $data
+     * @param string $name
+     *
+     * return mixed
+     */
     public function unapply($data, $name)
     {
         return $this->get($name)->unapply($data);
     }
 
     /**
-     * @param string    $name     The mapping name
+     * Creates a mapping object.
+     *
      * @param Mapping[] $children An array of mapping objects
      * @param callable  $apply    The apply function
      * @param callable  $unapply  The unapply function
@@ -65,6 +90,13 @@ class Mapped
         return $mapping;
     }
 
+    /**
+     * Gets a mapping object by name.
+     *
+     * @param string $name The name
+     *
+     * @throws InvalidArgumentException If mapping not found
+     */
     public function get($name)
     {
         if (false === array_key_exists($name, $this->mappings)) {

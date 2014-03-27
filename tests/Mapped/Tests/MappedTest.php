@@ -11,7 +11,6 @@ class MappedTest extends \PHPUnit_Framework_TestCase
     public function testA()
     {
         $m = new Mapped();
-
         $m->register('Mapped\Tests\Fixtures\Address', [
             'city'   => $m->mapping(),
             'street' => $m->mapping(),
