@@ -3,6 +3,7 @@
 namespace Mapped\Tests\Extension;
 
 use Mapped\Mapped;
+use Mapped\ValidationException;
 
 class ConstraintsTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +16,14 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');
-        $mapping->apply(['username' => '']);
+
+        try {
+            $mapping->apply(['username' => '']);
+        } catch (ValidationException $e) {
+            $errors = $e->getErrors();
+            $this->assertSame('error.non_empty_text', $errors[0]->getMessage());
+            throw $e;
+        }
     }
 
     public function test_nonEmptyText_with_nothing()
@@ -27,7 +35,14 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');
-        $mapping->apply([]);
+
+        try {
+            $mapping->apply([]);
+        } catch (ValidationException $e) {
+            $errors = $e->getErrors();
+            $this->assertSame('error.non_empty_text', $errors[0]->getMessage());
+            throw $e;
+        }
     }
 
     public function test_integer_fail()
@@ -39,7 +54,14 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');
-        $mapping->apply(['integer' => '12a']);
+
+        try {
+            $mapping->apply(['integer' => '12a']);
+        } catch (ValidationException $e) {
+            $errors = $e->getErrors();
+            $this->assertSame('error.integer', $errors[0]->getMessage());
+            throw $e;
+        }
     }
 
     public function test_integer_pass()
@@ -69,7 +91,14 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');
-        $mapping->apply(['float' => '12a']);
+
+        try {
+            $mapping->apply(['float' => '12a']);
+        } catch (ValidationException $e) {
+            $errors = $e->getErrors();
+            $this->assertSame('error.float', $errors[0]->getMessage());
+            throw $e;
+        }
     }
 
     public function test_number_pass()
@@ -123,6 +152,14 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');
-        $mapping->apply([]);
+
+        try {
+            $mapping->apply([]);
+        } catch (ValidationException $e) {
+            $errors = $e->getErrors();
+            $this->assertSame('error.required', $errors[0]->getMessage());
+            $this->assertSame('error.boolean', $errors[1]->getMessage());
+            throw $e;
+        }
     }
 }

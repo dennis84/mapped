@@ -52,7 +52,7 @@ abstract class Constraint
             return;
         }
 
-        throw new ValidationException($mapping, $this->message);
+        return new Error($mapping, $this->message);
     }
 
     /**

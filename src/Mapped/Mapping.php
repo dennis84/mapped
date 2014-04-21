@@ -306,11 +306,31 @@ class Mapping
             $result = $event->getResult();
         }
 
-        foreach ($this->constraints as $cons) {
-            $cons->validate($this, $result);
-        }
+        $this->validate($result);
 
         return $result;
+    }
+
+    /**
+     * Validates the given data against the constraints.
+     *
+     * @param mixed $data The data to validate
+     *
+     * @throws ValidationException
+     */
+    public function validate($data)
+    {
+        $errors = [];
+        foreach ($this->constraints as $cons) {
+            $error = $cons->validate($this, $data);
+            if (null !== $error) {
+                $errors[] = $error;
+            }
+        }
+
+        if (count($errors) > 0) {
+            throw new ValidationException($errors);
+        }
     }
 
     /**

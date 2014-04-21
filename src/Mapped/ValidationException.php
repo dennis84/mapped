@@ -2,10 +2,33 @@
 
 namespace Mapped;
 
+/**
+ * ValidationException.
+ *
+ * @author Dennis Dietrich <d.dietrich84@gmail.com>
+ */
 class ValidationException extends \Exception
 {
-    public function __construct(Mapping $mapping, $message)
+    protected $errors = [];
+
+    /**
+     * Constructor.
+     *
+     * @param Error[] $errors An array of array objects
+     */
+    public function __construct(array $errors)
     {
-        parent::__construct($message);
+        $this->errors = $errors;
+        parent::__construct('');
+    }
+
+    /**
+     * Returns the errors.
+     *
+     * return Error[]
+     */
+    public function getErrors()
+    {
+        return $this->errors;
     }
 }

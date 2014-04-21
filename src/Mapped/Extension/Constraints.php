@@ -30,16 +30,17 @@ class Constraints implements ExtensionInterface
      *
      * @return Mapping
      */
-    public function required(Mapping $mapping, $message = 'mapped.error.required')
+    public function required(Mapping $mapping, $message = 'error.required')
     {
         $mapping->addConstraint(new \Mapped\Constraint\Required($message));
         $disp = $mapping->getDispatcher();
 
-        $disp->addListener(Events::BEFORE_TRANSFORM, function (Event $event) {
-            foreach ($event->getMapping()->getConstraints() as $cons) {
-                $cons->validate($event->getMapping(), $event->getData());
+        $disp->addListener(
+            Events::BEFORE_TRANSFORM,
+            function (Event $event) use ($mapping) {
+                $mapping->validate($event->getData());
             }
-        });
+        );
 
         return $mapping;
     }
@@ -52,7 +53,7 @@ class Constraints implements ExtensionInterface
      *
      * @return Mapping
      */
-    public function nonEmptyText(Mapping $mapping, $message = 'mapped.error.non_empty_text')
+    public function nonEmptyText(Mapping $mapping, $message = 'error.non_empty_text')
     {
         $mapping->addConstraint(new \Mapped\Constraint\NonEmptyText($message));
         return $mapping;
@@ -66,7 +67,7 @@ class Constraints implements ExtensionInterface
      *
      * @return Mapping
      */
-    public function integer(Mapping $mapping, $message = 'mapped.error.integer')
+    public function integer(Mapping $mapping, $message = 'error.integer')
     {
         $mapping->addConstraint(new \Mapped\Constraint\Number($message));
         $mapping->transform(new \Mapped\Transformer\Integer());
@@ -81,7 +82,7 @@ class Constraints implements ExtensionInterface
      *
      * @return Mapping
      */
-    public function float(Mapping $mapping, $message = 'mapped.error.float')
+    public function float(Mapping $mapping, $message = 'error.float')
     {
         $mapping->addConstraint(new \Mapped\Constraint\Number($message));
         $mapping->transform(new \Mapped\Transformer\Float());
@@ -96,7 +97,7 @@ class Constraints implements ExtensionInterface
      *
      * @return Mapping
      */
-    public function boolean(Mapping $mapping, $message = 'mapped.error.boolean')
+    public function boolean(Mapping $mapping, $message = 'error.boolean')
     {
         $mapping->addConstraint(new \Mapped\Constraint\Boolean($message));
         $mapping->transform(new \Mapped\Transformer\Boolean());

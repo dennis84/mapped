@@ -14,8 +14,9 @@ class ConstraintTest extends MappedTestCase
     public function testValidateFail()
     {
         $mapping = $this->createMapping();
-        $constraint = new \Mapped\Constraint\Number('');
-        $this->setExpectedException('Mapped\ValidationException');
-        $constraint->validate($mapping, 'foo');
+        $constraint = new \Mapped\Constraint\Number('fail');
+        $res = $constraint->validate($mapping, 'foo');
+        $this->assertInstanceOf('Mapped\Error', $res);
+        $this->assertSame('fail', $res->getMessage());
     }
 }
