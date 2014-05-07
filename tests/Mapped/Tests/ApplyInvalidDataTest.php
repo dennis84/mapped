@@ -2,18 +2,18 @@
 
 namespace Mapped\Tests\Integration;
 
-use Mapped\Mapped;
+use Mapped\MappingFactory;
 use Mapped\Tests\Fixtures\User;
 
 class ApplyInvalidDataTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'username' => $m->mapping(),
-            'password' => $m->mapping(),
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
         ]);
 
         $result = $mapping->apply([
@@ -29,11 +29,11 @@ class ApplyInvalidDataTest extends \PHPUnit_Framework_TestCase
 
     public function testB()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'username' => $m->mapping(),
-            'password' => $m->mapping(),
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
         ], function ($username, $password) {
             return new User($username, $password);
         });

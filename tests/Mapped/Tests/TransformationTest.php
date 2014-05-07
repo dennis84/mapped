@@ -2,7 +2,7 @@
 
 namespace Mapped\Tests;
 
-use Mapped\Mapped;
+use Mapped\MappingFactory;
 use Mapped\Tests\Fixtures\NonsenseTransformer;
 
 class TransformationTest extends \PHPUnit_Framework_TestCase
@@ -10,10 +10,10 @@ class TransformationTest extends \PHPUnit_Framework_TestCase
     public function test_transform_and_apply_order()
     {
         $test = $this;
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'foo' => $m->mapping()->integer(),
+        $mapping = $factory->mapping([
+            'foo' => $factory->mapping()->integer(),
         ], function ($foo) use ($test) {
             // The apply must come after transformation.
             $test->assertSame(420, $foo);

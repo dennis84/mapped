@@ -2,7 +2,7 @@
 
 namespace Mapped\Tests;
 
-use Mapped\Mapped;
+use Mapped\MappingFactory;
 use Mapped\Tests\Fixtures\User;
 use Mapped\Tests\Fixtures\Address;
 
@@ -10,10 +10,10 @@ class ApplyValidDataTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        $m = new Mapped();
-        $mapping = $m->mapping([
-            'username' => $m->mapping(),
-            'password' => $m->mapping(),
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
         ]);
 
         $result = $mapping->apply([
@@ -29,10 +29,10 @@ class ApplyValidDataTest extends \PHPUnit_Framework_TestCase
 
     public function testB()
     {
-        $m = new Mapped();
-        $mapping = $m->mapping([
-            'username' => $m->mapping(),
-            'password' => $m->mapping(),
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
         ], function ($username, $password) {
             return new User($username, $password);
         });
@@ -49,13 +49,13 @@ class ApplyValidDataTest extends \PHPUnit_Framework_TestCase
 
     public function testC()
     {
-        $m = new Mapped();
-        $mapping = $m->mapping([
-            'username' => $m->mapping(),
-            'password' => $m->mapping(),
-            'address'  => $m->mapping([
-                'city'   => $m->mapping(),
-                'street' => $m->mapping(),
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
+            'address'  => $factory->mapping([
+                'city'   => $factory->mapping(),
+                'street' => $factory->mapping(),
             ], function ($city, $street) {
                 return new Address($city, $street);
             }),

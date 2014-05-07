@@ -2,7 +2,7 @@
 
 namespace Mapped\Tests\Integration;
 
-use Mapped\Mapped;
+use Mapped\MappingFactory;
 use Mapped\Tests\Fixtures\User;
 use Mapped\Tests\Fixtures\Address;
 use Mapped\Tests\Fixtures\Location;
@@ -11,11 +11,11 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'username' => $m->mapping(),
-            'password' => $m->mapping(),
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
         ]);
 
         $result = $mapping->unapply([
@@ -29,14 +29,14 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
 
     public function testB()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'username' => $m->mapping(),
-            'password' => $m->mapping(),
-            'address'  => $m->mapping([
-                'city'   => $m->mapping(),
-                'street' => $m->mapping(),
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
+            'address'  => $factory->mapping([
+                'city'   => $factory->mapping(),
+                'street' => $factory->mapping(),
             ]),
         ]);
 
@@ -63,12 +63,12 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
 
     public function testC()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
         $user = new User('dennis84', 'password');
 
-        $mapping = $m->mapping([
-            'username' => $m->mapping(),
-            'password' => $m->mapping(),
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
         ], null, function (User $user) {
             return [
                 'username' => $user->username,
@@ -84,21 +84,21 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
 
     public function testD()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
         $location = new Location('50', '8');
         $address  = new Address('Foo', 'Bar', $location);
         $user     = new User('dennis84', 'password', $address);
 
-        $mapping = $m->mapping([
-            'username' => $m->mapping(),
-            'password' => $m->mapping(),
-            'address'  => $m->mapping([
-                'city'     => $m->mapping(),
-                'street'   => $m->mapping(),
-                'location' => $m->mapping([
-                    'lat' => $m->mapping(),
-                    'lng' => $m->mapping(),
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
+            'address'  => $factory->mapping([
+                'city'     => $factory->mapping(),
+                'street'   => $factory->mapping(),
+                'location' => $factory->mapping([
+                    'lat' => $factory->mapping(),
+                    'lng' => $factory->mapping(),
                 ], null, function (Location $location) {
                     return [
                         'lat' => $location->lat,

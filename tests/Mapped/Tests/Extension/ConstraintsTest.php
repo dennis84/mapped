@@ -2,17 +2,17 @@
 
 namespace Mapped\Tests\Extension;
 
-use Mapped\Mapped;
+use Mapped\MappingFactory;
 use Mapped\ValidationException;
 
 class ConstraintsTest extends \PHPUnit_Framework_TestCase
 {
     public function test_nonEmptyText_fail()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'username' => $m->mapping()->nonEmptyText(),
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping()->nonEmptyText(),
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');
@@ -28,10 +28,10 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
 
     public function test_nonEmptyText_with_nothing()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'username' => $m->mapping()->nonEmptyText()
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping()->nonEmptyText()
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');
@@ -47,10 +47,10 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
 
     public function test_integer_fail()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'integer' => $m->mapping()->integer()
+        $mapping = $factory->mapping([
+            'integer' => $factory->mapping()->integer()
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');
@@ -66,11 +66,11 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
 
     public function test_integer_pass()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'integer' => $m->mapping()->integer(),
-            'float'   => $m->mapping()->integer(),
+        $mapping = $factory->mapping([
+            'integer' => $factory->mapping()->integer(),
+            'float'   => $factory->mapping()->integer(),
         ]);
 
         $result = $mapping->apply([
@@ -84,10 +84,10 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
 
     public function test_number_fail()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'float' => $m->mapping()->float()
+        $mapping = $factory->mapping([
+            'float' => $factory->mapping()->float()
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');
@@ -103,11 +103,11 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
 
     public function test_number_pass()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'integer' => $m->mapping()->float(),
-            'float'   => $m->mapping()->float(),
+        $mapping = $factory->mapping([
+            'integer' => $factory->mapping()->float(),
+            'float'   => $factory->mapping()->float(),
         ]);
 
         $result = $mapping->apply([
@@ -121,13 +121,13 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
 
     public function test_boolean()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'a' => $m->mapping()->boolean(),
-            'b' => $m->mapping()->boolean(),
-            'c' => $m->mapping()->boolean(),
-            'd' => $m->mapping()->boolean(),
+        $mapping = $factory->mapping([
+            'a' => $factory->mapping()->boolean(),
+            'b' => $factory->mapping()->boolean(),
+            'c' => $factory->mapping()->boolean(),
+            'd' => $factory->mapping()->boolean(),
         ]);
 
         $result = $mapping->apply([
@@ -145,10 +145,10 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
 
     public function test_required_boolean()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'accept' => $m->mapping()->required()->boolean(),
+        $mapping = $factory->mapping([
+            'accept' => $factory->mapping()->required()->boolean(),
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');

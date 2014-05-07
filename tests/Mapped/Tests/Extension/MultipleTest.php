@@ -2,7 +2,7 @@
 
 namespace Mapped\Tests\Integration;
 
-use Mapped\Mapped;
+use Mapped\MappingFactory;
 use Mapped\Tests\Fixtures\Post;
 use Mapped\Tests\Fixtures\Attribute;
 
@@ -10,9 +10,9 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        $m = new Mapped();
-        $mapping = $m->mapping([
-            'choices' => $m->mapping()->multiple(),
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'choices' => $factory->mapping()->multiple(),
         ]);
 
         $result = $mapping->apply([
@@ -26,9 +26,9 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testB()
     {
-        $m = new Mapped();
-        $mapping = $m->mapping([
-            'choices' => $m->mapping()->multiple(),
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'choices' => $factory->mapping()->multiple(),
         ]);
 
         $result = $mapping->apply(['choices' => []]);
@@ -37,9 +37,9 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testC()
     {
-        $m = new Mapped();
-        $mapping = $m->mapping([
-            'choices' => $m->mapping()->multiple(),
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'choices' => $factory->mapping()->multiple(),
         ]);
 
         $result = $mapping->apply([]);
@@ -48,9 +48,9 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testD()
     {
-        $m = new Mapped();
-        $mapping = $m->mapping([
-            'choices' => $m->mapping()->nonEmptyText()->multiple(),
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'choices' => $factory->mapping()->nonEmptyText()->multiple(),
         ]);
 
         $result = $mapping->apply([
@@ -64,9 +64,9 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testE()
     {
-        $m = new Mapped();
-        $mapping = $m->mapping([
-            'choices' => $m->mapping()->nonEmptyText()->multiple(),
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'choices' => $factory->mapping()->nonEmptyText()->multiple(),
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');
@@ -75,14 +75,14 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testF()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'title'      => $m->mapping(),
-            'tags'       => $m->mapping()->multiple(),
-            'attributes' => $m->mapping([
-                'name'  => $m->mapping(),
-                'value' => $m->mapping(),
+        $mapping = $factory->mapping([
+            'title'      => $factory->mapping(),
+            'tags'       => $factory->mapping()->multiple(),
+            'attributes' => $factory->mapping([
+                'name'  => $factory->mapping(),
+                'value' => $factory->mapping(),
             ], function ($name, $value) {
                 return new Attribute($name, $value);
             })->multiple(),
@@ -99,11 +99,11 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testG()
     {
-        $m = new Mapped();
-        $mapping = $m->mapping([
-            'choices' => $m->mapping([
-                'key'   => $m->mapping(),
-                'value' => $m->mapping(),
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'choices' => $factory->mapping([
+                'key'   => $factory->mapping(),
+                'value' => $factory->mapping(),
             ])->multiple(),
         ]);
 
@@ -120,11 +120,11 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testH()
     {
-        $m = new Mapped();
-        $mapping = $m->mapping([
-            'choices' => $m->mapping([
-                'name'  => $m->mapping(),
-                'value' => $m->mapping(),
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'choices' => $factory->mapping([
+                'name'  => $factory->mapping(),
+                'value' => $factory->mapping(),
             ], function ($name, $value) {
                 return new Attribute($name, $value);
             })->multiple(),
@@ -147,9 +147,9 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('InvalidArgumentException');
 
-        $m = new Mapped();
-        $mapping = $m->mapping([
-            'choices' => $m->mapping()->multiple(),
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'choices' => $factory->mapping()->multiple(),
         ]);
 
         $mapping->apply(['choices' => 'foo']);
@@ -157,9 +157,9 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testJ()
     {
-        $m = new Mapped();
-        $mapping = $m->mapping([
-            'choices' => $m->mapping()->multiple(),
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'choices' => $factory->mapping()->multiple(),
         ]);
 
         $result = $mapping->unapply([
@@ -173,11 +173,11 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testK()
     {
-        $m = new Mapped();
-        $mapping = $m->mapping([
-            'choices' => $m->mapping([
-                'key'   => $m->mapping(),
-                'value' => $m->mapping(),
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'choices' => $factory->mapping([
+                'key'   => $factory->mapping(),
+                'value' => $factory->mapping(),
             ])->multiple(),
         ]);
 
@@ -196,14 +196,14 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testL()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'title'      => $m->mapping(),
-            'tags'       => $m->mapping()->multiple(),
-            'attributes' => $m->mapping([
-                'name'  => $m->mapping(),
-                'value' => $m->mapping(),
+        $mapping = $factory->mapping([
+            'title'      => $factory->mapping(),
+            'tags'       => $factory->mapping()->multiple(),
+            'attributes' => $factory->mapping([
+                'name'  => $factory->mapping(),
+                'value' => $factory->mapping(),
             ], null, function (Attribute $attr) {
                 return [
                     'name'  => $attr->getName(),
@@ -235,9 +235,9 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testM()
     {
-        $m = new Mapped();
-        $mapping = $m->mapping([
-            'emails' => $m->mapping()->verifying('email', function ($value) {
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'emails' => $factory->mapping()->verifying('email', function ($value) {
                 return (boolean) filter_var($value, FILTER_VALIDATE_EMAIL);
             })->multiple(),
         ]);
@@ -253,9 +253,9 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testO()
     {
-        $m = new Mapped();
-        $mapping = $m->mapping([
-            'emails' => $m->mapping()->verifying('email', function ($value) {
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'emails' => $factory->mapping()->verifying('email', function ($value) {
                 return (boolean) filter_var($value, FILTER_VALIDATE_EMAIL);
             })->multiple(),
         ]);
@@ -268,9 +268,9 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testP()
     {
-        $m = new Mapped();
-        $mapping = $m->mapping([
-            'choices' => $m->mapping()->multiple(),
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'choices' => $factory->mapping()->multiple(),
         ]);
 
         $result = $mapping->unapply([

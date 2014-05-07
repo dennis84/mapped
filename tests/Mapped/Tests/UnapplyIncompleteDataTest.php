@@ -2,18 +2,18 @@
 
 namespace Mapped\Tests\Integration;
 
-use Mapped\Mapped;
+use Mapped\MappingFactory;
 use Mapped\Tests\Fixtures\Address;
 
 class UnapplyIncompleteDataTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'username' => $m->mapping(),
-            'password' => $m->mapping(),
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
         ]);
 
         $data = ['username' => 'dennis84'];
@@ -24,14 +24,14 @@ class UnapplyIncompleteDataTest extends \PHPUnit_Framework_TestCase
 
     public function testB()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'username' => $m->mapping(),
-            'password' => $m->mapping(),
-            'address'  => $m->mapping([
-                'city'   => $m->mapping(),
-                'street' => $m->mapping(),
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
+            'address'  => $factory->mapping([
+                'city'   => $factory->mapping(),
+                'street' => $factory->mapping(),
             ]),
         ]);
 

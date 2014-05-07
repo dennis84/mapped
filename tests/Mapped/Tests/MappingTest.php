@@ -2,7 +2,7 @@
 
 namespace Mapped\Tests;
 
-use Mapped\Mapped;
+use Mapped\MappingFactory;
 use Mapped\Mapping;
 
 class MappingTest extends MappedTestCase
@@ -28,7 +28,7 @@ class MappingTest extends MappedTestCase
 
     public function testGetChild()
     {
-        $builder = new Mapped();
+        $builder = new MappingFactory();
         $mapping = $builder->mapping([
             'username' => $builder->mapping(),
             'password' => $builder->mapping(),
@@ -44,7 +44,7 @@ class MappingTest extends MappedTestCase
     {
         $this->setExpectedException('InvalidArgumentException');
 
-        $builder = new Mapped();
+        $builder = new MappingFactory();
         $mapping = $builder->mapping([
             'username' => $builder->mapping(),
         ]);

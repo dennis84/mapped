@@ -2,7 +2,8 @@
 
 namespace Mapped\Tests\Integration;
 
-use Mapped\Mapped;
+use Mapped\MappingFactory;
+use Mapped\ValidationException;
 use Mapped\Tests\Fixtures\User;
 use Mapped\Tests\Fixtures\Address;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,50 +13,46 @@ class SymfonifyTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        /* $m = new Mapped([ */
-        /*     new \Mapped\Extension\Symfonify($this->createValidator()), */
-        /* ]); */
+        $this->setExpectedException('Mapped\ValidationException');
 
-        /* $form = $m->create('', [ */
-        /*     $m->create('username'), */
-        /*     $m->create('password'), */
-        /*     $m->create('firstName'), */
-        /*     $m->create('last_name'), */
-        /*     $m->create('address', [ */
-        /*         $m->create('city'), */
-        /*         $m->create('street') */
-        /*     ], function ($city, $street) { */
-        /*         return new Address($city, $street); */
-        /*     }), */
-        /* ], function ($username, $password, $address) { */
-        /*     return new User($username, $password, $address); */
-        /* }); */
+        $factory = new MappingFactory([
+            new \Mapped\Extension\Symfonify($this->createValidator()),
+        ]);
 
-        /* $request = Request::create('/', 'POST', [ */
-        /*     'username' => 'dennis', */
-        /*     'password' => 'demo', */
-        /*     'firstName' => '', */
-        /*     'last_name' => '', */
-        /*     'address' => [ */
-        /*         'city'   => 'Foo', */
-        /*         'street' => 'Foostreet 12', */
-        /*     ], */
-        /* ]); */
+        $mapping = $factory->mapping([
+            'username'  => $factory->mapping(),
+            'password'  => $factory->mapping(),
+            'firstName' => $factory->mapping(),
+            'last_name' => $factory->mapping(),
+            'address'   => $factory->mapping([
+                'city'   => $factory->mapping(),
+                'street' => $factory->mapping()
+            ], function ($city, $street) {
+                return new Address($city, $street);
+            }),
+        ], function ($username, $password, $address) {
+            return new User($username, $password, $address);
+        });
 
-        /* $result = $form->bindFromRequest($request); */
-
-        /* $this->assertCount(1, $form['password']->getErrors()); */
-        /* $this->assertCount(1, $form['address']['city']->getErrors()); */
-        /* $this->assertCount(1, $form['firstName']->getErrors()); */
-        /* $this->assertCount(1, $form['last_name']->getErrors()); */
-        /* $this->assertCount(1, $form->getErrors()); */
-        /* $this->assertSame('passwordValid', $form->getErrors()[0]->getMapping()); */
-        /* $this->assertSame('foo', $form->getErrors()[0]->getMessage()); */
+        try {
+            $result = $mapping->apply([
+                'username'  => 'dennis',
+                'password'  => 'demo',
+                'firstName' => '',
+                'last_name' => '',
+                'address'   => [
+                    'city'   => 'Foo',
+                    'street' => 'Foostreet 12',
+                ],
+            ]);
+        } catch (ValidationException $e) {
+            throw $e;
+        }
     }
 
     private function createValidator()
     {
-        $validator = Validation::createValidatorm()
+        $validator = Validation::createValidatorBuilder()
             ->enableAnnotationMapping()
             ->getValidator();
 

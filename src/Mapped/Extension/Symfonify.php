@@ -9,6 +9,7 @@ use Mapped\Error;
 use Mapped\Event;
 use Mapped\Events;
 use Mapped\Mapping;
+use Mapped\ValidationException;
 
 /**
  * Symfonify.
@@ -34,27 +35,33 @@ class Symfonify implements ExtensionInterface
      */
     public function initialize(Mapping $mapping)
     {
-        // Activates annotation validation
-        if (null !== $this->validator) {
-            $disp = $mapping->getDispatcher();
-            $disp->addListener(Events::APPLIED, function (Event $event) {
-                $data = $event->getData();
-                if (!is_object($data)) {
-                    return;
-                }
-
-                $violations = $this->validator->validate($data);
-
-                foreach ($violations as $vio) {
-                    $mapping = $event->getMapping();
-
-                    if ($mapping->hasChild($vio->getPropertyPath())) {
-                        $mapping = $mapping->getChild($vio->getPropertyPath());
-                    }
-
-                    // thow exceptions ...
-                }
-            });
+        if (null === $this->validator) {
+            return;
         }
+
+        $disp = $mapping->getDispatcher();
+        $disp->addListener(Events::APPLIED, function (Event $event) {
+            $data = $event->getResult();
+            if (!is_object($data)) {
+                return;
+            }
+
+            $violations = $this->validator->validate($data);
+            $errors = [];
+
+            foreach ($violations as $vio) {
+                $mapping = $event->getMapping();
+
+                if ($mapping->hasChild($vio->getPropertyPath())) {
+                    $mapping = $mapping->getChild($vio->getPropertyPath());
+                }
+
+                $errors[] = new Error($mapping, $vio->getMessage());
+            }
+
+            if (count($errors) > 0) {
+                throw new ValidationException($errors);
+            }
+        });
     }
 }

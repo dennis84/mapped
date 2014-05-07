@@ -2,7 +2,7 @@
 
 namespace Mapped\Tests\Integration;
 
-use Mapped\Mapped;
+use Mapped\MappingFactory;
 use Mapped\Tests\Fixtures\Address;
 use Mapped\Tests\Fixtures\User;
 use Mapped\Tests\Fixtures\NullToBlahTransformer;
@@ -11,7 +11,7 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
         $mapping = $this->createNestedMapping();
         $data = [
             'username' => 'dennis84',
@@ -35,7 +35,7 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
 
     public function testB()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
         $mapping = $this->createNestedMapping();
         $data = [
             'username' => 'dennis84',
@@ -52,11 +52,11 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
 
     public function testC()
     {
-        $m = new Mapped();
-        $mapping = $m->mapping([
-            'foo' => $m->mapping()->optional()
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'foo' => $factory->mapping()->optional()
                 ->transform(new NullToBlahTransformer()),
-            'bar' => $m->mapping(),
+            'bar' => $factory->mapping(),
         ]);
 
         $result = $mapping->apply(['foo' => null, 'bar' => 'blub']);
@@ -68,14 +68,14 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
 
     private function createNestedMapping()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        return $m->mapping([
-            'username' => $m->mapping(),
-            'password' => $m->mapping(),
-            'address'  => $m->mapping([
-                'city'   => $m->mapping(),
-                'street' => $m->mapping()
+        return $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
+            'address'  => $factory->mapping([
+                'city'   => $factory->mapping(),
+                'street' => $factory->mapping()
             ], function ($city, $street) {
                 return new Address($city, $street);
             })->optional(),

@@ -2,7 +2,7 @@
 
 namespace Mapped\Tests;
 
-use Mapped\Mapped;
+use Mapped\MappingFactory;
 use Mapped\Tests\Fixtures\User;
 use Mapped\Tests\Fixtures\Address;
 
@@ -10,11 +10,11 @@ class ApplyIncompleteDataTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'username' => $m->mapping(),
-            'password' => $m->mapping(),
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
         ]);
 
         $result = $mapping->apply([
@@ -29,11 +29,11 @@ class ApplyIncompleteDataTest extends \PHPUnit_Framework_TestCase
 
     public function testB()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'username' => $m->mapping(),
-            'password' => $m->mapping(),
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
         ], function ($username, $password) {
             return new User($username, $password);
         });
@@ -49,14 +49,14 @@ class ApplyIncompleteDataTest extends \PHPUnit_Framework_TestCase
 
     public function testC()
     {
-        $m = new Mapped();
+        $factory = new MappingFactory();
 
-        $mapping = $m->mapping([
-            'username' => $m->mapping(),
-            'password' => $m->mapping(),
-            'address'  => $m->mapping([
-                'city'   => $m->mapping(),
-                'street' => $m->mapping(),
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
+            'address'  => $factory->mapping([
+                'city'   => $factory->mapping(),
+                'street' => $factory->mapping(),
             ], function ($city, $street) {
                 return new Address($city, $street);
             }),
