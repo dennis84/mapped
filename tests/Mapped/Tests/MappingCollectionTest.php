@@ -105,4 +105,11 @@ class MappingCollectionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotSame($result1, $result2);
     }
+
+    public function testD()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        $coll = new MappingCollection();
+        $coll->get('foo');
+    }
 }

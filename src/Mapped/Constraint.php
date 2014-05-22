@@ -11,7 +11,6 @@ abstract class Constraint
 {
     protected $message;
     protected $checked = false;
-    protected $result = false;
 
     /**
      * Constructor.
@@ -53,15 +52,5 @@ abstract class Constraint
         }
 
         return new Error($mapping, $this->message);
-    }
-
-    /**
-     * Gets the message.
-     *
-     * @return string
-     */
-    public function getMessage()
-    {
-        return $this->message;
     }
 }
