@@ -12,20 +12,20 @@ use Mapped\Mapping;
 use Mapped\ValidationException;
 
 /**
- * Symfonify.
+ * SymfonyValidation.
  *
  * @author Dennis Dietrich <d.dietrich84@googlemail.com>
  */
-class Symfonify implements ExtensionInterface
+class SymfonyValidation implements ExtensionInterface
 {
     protected $validator;
 
     /**
      * Constructor.
      *
-     * @param ValidatorInterface|null $validator The symfony validator
+     * @param ValidatorInterface $validator The symfony validator
      */
-    public function __construct(ValidatorInterface $validator = null)
+    public function __construct(ValidatorInterface $validator)
     {
         $this->validator = $validator;
     }
@@ -35,10 +35,6 @@ class Symfonify implements ExtensionInterface
      */
     public function initialize(Mapping $mapping)
     {
-        if (null === $this->validator) {
-            return;
-        }
-
         $disp = $mapping->getDispatcher();
         $disp->addListener(Events::APPLIED, function (Event $event) {
             $data = $event->getResult();

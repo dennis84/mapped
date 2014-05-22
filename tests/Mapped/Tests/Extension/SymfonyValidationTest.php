@@ -9,14 +9,14 @@ use Mapped\Tests\Fixtures\Address;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Validation;
 
-class SymfonifyTest extends \PHPUnit_Framework_TestCase
+class SymfonyValidationTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
         $this->setExpectedException('Mapped\ValidationException');
 
         $factory = new MappingFactory([
-            new \Mapped\Extension\Symfonify($this->createValidator()),
+            new \Mapped\Extension\SymfonyValidation($this->createValidator()),
         ]);
 
         $mapping = $factory->mapping([
