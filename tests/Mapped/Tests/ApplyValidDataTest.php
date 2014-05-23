@@ -40,7 +40,7 @@ class ApplyValidDataTest extends \PHPUnit_Framework_TestCase
         $result = $mapping->apply([
             'username' => 'dennis84',
             'password' => 'password',
-        ], 'Mapped\Tests\Fixtures\User');
+        ]);
 
         $this->assertInstanceOf('Mapped\Tests\Fixtures\User', $result);
         $this->assertSame('dennis84', $result->username);
