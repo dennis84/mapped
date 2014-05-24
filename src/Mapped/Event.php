@@ -20,7 +20,7 @@ class Event extends BaseEvent
      *
      * @param Mapping $mapping The mapping object
      * @param mixed   $result  The mapping result
-     * @param mixed   $input   The applied or unapplied data
+     * @param mixed   $data    The applied or unapplied data
      */
     public function __construct(Mapping $mapping, $result = null, $data = null)
     {

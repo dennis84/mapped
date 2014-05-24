@@ -5,22 +5,15 @@ namespace Mapped\Extension;
 use Mapped\Mapping;
 use Mapped\Event;
 use Mapped\Events;
-use Mapped\ExtensionInterface;
+use Mapped\Extension;
 
 /**
  * Optional.
  *
  * @author Dennis Dietrich <d.dietrich84@googlemail.com>
  */
-class Optional implements ExtensionInterface
+class Optional extends Extension
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function initialize(Mapping $mapping)
-    {
-    }
-
     /**
      * Makes this mapping to an optional.
      *

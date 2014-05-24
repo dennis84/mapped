@@ -4,7 +4,7 @@ namespace Mapped\Extension;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\ValidatorInterface;
-use Mapped\ExtensionInterface;
+use Mapped\Extension;
 use Mapped\Error;
 use Mapped\Event;
 use Mapped\Events;
@@ -16,7 +16,7 @@ use Mapped\ValidationException;
  *
  * @author Dennis Dietrich <d.dietrich84@googlemail.com>
  */
-class SymfonyValidation implements ExtensionInterface
+class SymfonyValidation extends Extension
 {
     protected $validator;
 

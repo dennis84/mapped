@@ -2,7 +2,7 @@
 
 namespace Mapped\Extension;
 
-use Mapped\ExtensionInterface;
+use Mapped\Extension;
 use Mapped\Constraint;
 use Mapped\Mapping;
 use Mapped\Events;
@@ -13,15 +13,8 @@ use Mapped\Event;
  *
  * @author Dennis Dietrich <d.dietrich84@googlemail.com>
  */
-class Constraints implements ExtensionInterface
+class Constraints extends Extension
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function initialize(Mapping $mapping)
-    {
-    }
-
     /**
      * Check if this mapping is empty or not.
      *

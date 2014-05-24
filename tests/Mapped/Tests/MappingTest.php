@@ -9,7 +9,7 @@ class MappingTest extends MappedTestCase
 {
     public function testInitialize()
     {
-        $ext = $this->getMock('Mapped\ExtensionInterface');
+        $ext = $this->getMock('Mapped\Extension');
         $ext->expects($this->once())
             ->method('initialize');
 
@@ -18,7 +18,7 @@ class MappingTest extends MappedTestCase
 
     public function testInitializeMethodMustNotBeCallable()
     {
-        $ext = $this->getMock('Mapped\ExtensionInterface');
+        $ext = $this->getMock('Mapped\Extension');
         $ext->expects($this->once())
             ->method('initialize');
 

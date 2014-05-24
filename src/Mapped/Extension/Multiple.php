@@ -4,7 +4,7 @@ namespace Mapped\Extension;
 
 use Mapped\Mapping;
 use Mapped\Events;
-use Mapped\ExtensionInterface;
+use Mapped\Extension;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
@@ -12,15 +12,8 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  *
  * @author Dennis Dietrich <d.dietrich84@googlemail.com>
  */
-class Multiple implements ExtensionInterface
+class Multiple extends Extension
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function initialize(Mapping $mapping)
-    {
-    }
-
     /**
      * Makes this mapping to a multiple.
      *

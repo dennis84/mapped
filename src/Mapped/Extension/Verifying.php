@@ -3,14 +3,14 @@
 namespace Mapped\Extension;
 
 use Mapped\Mapping;
-use Mapped\ExtensionInterface;
+use Mapped\Extension;
 
 /**
  * This extension offers a simpler API to add custom constraints.
  *
  * @author Dennis Dietrich <d.dietrich84@googlemail.com>
  */
-class Verifying implements ExtensionInterface
+class Verifying extends Extension
 {
     /**
      * {@inheritdoc}
