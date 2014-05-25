@@ -32,21 +32,14 @@ abstract class Constraint
     abstract public function check($value);
 
     /**
-     * Validates the given data against this constraint. If the constraint was
-     * already triggered before, then it will return the last result.
+     * Validates the given data against this constraint.
      *
      * @param mixed $data The data
      *
-     * @return boolean
+     * @return null|Error
      */
     public function validate(Mapping $mapping, $data)
     {
-        if (true === $this->checked) {
-            return;
-        }
-
-        $this->checked = true;
-
         if (true === $this->check($data)) {
             return;
         }

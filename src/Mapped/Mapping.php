@@ -94,7 +94,7 @@ class Mapping
             }
 
             array_unshift($arguments, $this);
-            return call_user_func_array([ $extension, $method ], $arguments);
+            return call_user_func_array([$extension, $method], $arguments);
         }
 
         throw new \BadMethodCallException(

@@ -11,14 +11,6 @@ class ConstraintTest extends MappedTestCase
         $constraint->validate($mapping, 42);
     }
 
-    public function testValidateTwice()
-    {
-        $mapping = $this->createMapping();
-        $constraint = new \Mapped\Constraint\Number('');
-        $this->assertNull($constraint->validate($mapping, 42));
-        $this->assertNull($constraint->validate($mapping, 'foo'));
-    }
-
     public function testValidateFail()
     {
         $mapping = $this->createMapping();
