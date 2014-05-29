@@ -28,12 +28,9 @@ class Constraints extends Extension
         $mapping->addConstraint(new \Mapped\Constraint\Required($message));
         $disp = $mapping->getDispatcher();
 
-        $disp->addListener(
-            Events::BEFORE_TRANSFORM,
-            function (Event $event) use ($mapping) {
-                $mapping->validate($event->getData());
-            }
-        );
+        $disp->addListener(Events::BEFORE_TRANSFORM, function (Event $event) use ($mapping) {
+            $mapping->validate($event->getData());
+        });
 
         return $mapping;
     }
