@@ -4,7 +4,7 @@ A lightweight serialization library for PHP.
 
 [![Build Status](https://travis-ci.org/dennis84/mapped.svg?branch=master)](https://travis-ci.org/dennis84/mapped)
 
-# Quick Example
+## Quick Example
 
 ```php
 <?php
