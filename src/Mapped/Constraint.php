@@ -10,7 +10,6 @@ namespace Mapped;
 abstract class Constraint
 {
     protected $message;
-    protected $checked = false;
 
     /**
      * Constructor.
