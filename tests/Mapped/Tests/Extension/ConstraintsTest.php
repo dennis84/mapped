@@ -40,7 +40,7 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
             $mapping->apply([]);
         } catch (ValidationException $e) {
             $errors = $e->getErrors();
-            $this->assertSame('error.non_empty_text', $errors[0]->getMessage());
+            $this->assertSame('error.required', $errors[0]->getMessage());
             throw $e;
         }
     }
@@ -141,25 +141,5 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($result['b']);
         $this->assertTrue($result['c']);
         $this->assertFalse($result['d']);
-    }
-
-    public function test_required_boolean()
-    {
-        $factory = new MappingFactory();
-
-        $mapping = $factory->mapping([
-            'accept' => $factory->mapping()->required()->boolean(),
-        ]);
-
-        $this->setExpectedException('Mapped\ValidationException');
-
-        try {
-            $mapping->apply([]);
-        } catch (ValidationException $e) {
-            $errors = $e->getErrors();
-            $this->assertSame('error.required', $errors[0]->getMessage());
-            $this->assertSame('error.boolean', $errors[1]->getMessage());
-            throw $e;
-        }
     }
 }

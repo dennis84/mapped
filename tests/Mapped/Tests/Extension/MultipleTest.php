@@ -39,33 +39,6 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new MappingFactory();
         $mapping = $factory->mapping([
-            'choices' => $factory->mapping()->multiple(),
-        ]);
-
-        $result = $mapping->apply([]);
-        $this->assertSame($result, ['choices' => []]);
-    }
-
-    public function testD()
-    {
-        $factory = new MappingFactory();
-        $mapping = $factory->mapping([
-            'choices' => $factory->mapping()->nonEmptyText()->multiple(),
-        ]);
-
-        $result = $mapping->apply([
-            'choices' => ['foo', 'bar', 'baz'],
-        ]);
-
-        $this->assertSame([
-            'choices' => ['foo', 'bar', 'baz']
-        ], $result);
-    }
-
-    public function testE()
-    {
-        $factory = new MappingFactory();
-        $mapping = $factory->mapping([
             'choices' => $factory->mapping()->nonEmptyText()->multiple(),
         ]);
 
@@ -73,7 +46,7 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
         $mapping->apply(['choices' => ['']]);
     }
 
-    public function testF()
+    public function testD()
     {
         $factory = new MappingFactory();
 
@@ -90,60 +63,24 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
             return new Post($title, $tags, $attrs);
         });
 
-        $result = $mapping->apply([]);
-
-        $this->assertSame(null, $result->getTitle());
-        $this->assertSame([], $result->getTags());
-        $this->assertSame([], $result->getAttributes());
-    }
-
-    public function testG()
-    {
-        $factory = new MappingFactory();
-        $mapping = $factory->mapping([
-            'choices' => $factory->mapping([
-                'key'   => $factory->mapping(),
-                'value' => $factory->mapping(),
-            ])->multiple(),
+        $result = $mapping->apply([
+            'title' => 'Foo',
+            'tags' => ['foo', 'bar'],
+            'attributes' => [
+                ['name' => 'Foo', 'value' => 'Bar'],
+                ['name' => 'Blah', 'value' => 'Blub'],
+            ],
         ]);
 
-        $data = [
-            'choices' => [
-                ['key' => 'foo', 'value' => 'bar'],
-                ['key' => 'bla', 'value' => 'blubb'],
-            ],
-        ];
-
-        $result = $mapping->apply($data);
-        $this->assertSame($result, $data);
+        $this->assertSame('Foo', $result->getTitle());
+        $this->assertSame(['foo', 'bar'], $result->getTags());
+        $this->assertSame('Foo', $result->getAttributes()[0]->getName());
+        $this->assertSame('Bar', $result->getAttributes()[0]->getValue());
+        $this->assertSame('Blah', $result->getAttributes()[1]->getName());
+        $this->assertSame('Blub', $result->getAttributes()[1]->getValue());
     }
 
-    public function testH()
-    {
-        $factory = new MappingFactory();
-        $mapping = $factory->mapping([
-            'choices' => $factory->mapping([
-                'name'  => $factory->mapping(),
-                'value' => $factory->mapping(),
-            ], function ($name, $value) {
-                return new Attribute($name, $value);
-            })->multiple(),
-        ]);
-
-        $data = [
-            'choices' => [
-                ['name' => 'foo', 'value' => 'bar'],
-                ['name' => 'bla', 'value' => 'blubb'],
-            ],
-        ];
-
-        $result = $mapping->apply($data);
-
-        $this->assertInstanceOf('Mapped\Tests\Fixtures\Attribute', $result['choices'][0]);
-        $this->assertInstanceOf('Mapped\Tests\Fixtures\Attribute', $result['choices'][1]);
-    }
-
-    public function testI()
+    public function testE()
     {
         $this->setExpectedException('InvalidArgumentException');
 
@@ -155,46 +92,7 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
         $mapping->apply(['choices' => 'foo']);
     }
 
-    public function testJ()
-    {
-        $factory = new MappingFactory();
-        $mapping = $factory->mapping([
-            'choices' => $factory->mapping()->multiple(),
-        ]);
-
-        $result = $mapping->unapply([
-            'choices' => ['foo', 'bar', 'baz'],
-        ]);
-
-        $this->assertSame('foo', $result['choices']['0']);
-        $this->assertSame('bar', $result['choices']['1']);
-        $this->assertSame('baz', $result['choices']['2']);
-    }
-
-    public function testK()
-    {
-        $factory = new MappingFactory();
-        $mapping = $factory->mapping([
-            'choices' => $factory->mapping([
-                'key'   => $factory->mapping(),
-                'value' => $factory->mapping(),
-            ])->multiple(),
-        ]);
-
-        $result = $mapping->unapply([
-            'choices' => [
-                ['key' => 'foo', 'value' => 'bar'],
-                ['key' => 'bla', 'value' => 'blubb'],
-            ],
-        ]);
-
-        $this->assertSame('foo', $result['choices']['0']['key']);
-        $this->assertSame('bar', $result['choices']['0']['value']);
-        $this->assertSame('bla', $result['choices']['1']['key']);
-        $this->assertSame('blubb', $result['choices']['1']['value']);
-    }
-
-    public function testL()
+    public function testF()
     {
         $factory = new MappingFactory();
 
@@ -233,25 +131,7 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('world', $result['attributes']['1']['value']);
     }
 
-    public function testM()
-    {
-        $factory = new MappingFactory();
-        $mapping = $factory->mapping([
-            'emails' => $factory->mapping()->verifying('email', function ($value) {
-                return (boolean) filter_var($value, FILTER_VALIDATE_EMAIL);
-            })->multiple(),
-        ]);
-
-        $result = $mapping->apply([
-            'emails' => ['foo@bar.de', 'blah@blub.de'],
-        ]);
-
-        $this->assertSame([
-            'emails' => ['foo@bar.de', 'blah@blub.de'],
-        ], $result);
-    }
-
-    public function testO()
+    public function testG()
     {
         $factory = new MappingFactory();
         $mapping = $factory->mapping([
@@ -266,7 +146,7 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
         ]);
     }
 
-    public function testP()
+    public function testH()
     {
         $factory = new MappingFactory();
         $mapping = $factory->mapping([
@@ -286,5 +166,16 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($result, [
             'choices' => ['foo', 'bar'],
         ]);
+    }
+
+    public function testI()
+    {
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'choices' => $factory->mapping()->multiple(),
+        ]);
+
+        $result = $mapping->apply(['choices' => null]);
+        $this->assertSame(['choices' => []], $result);
     }
 }

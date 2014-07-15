@@ -22,7 +22,6 @@ class MappingFactory
     {
         $this->extensions = array_merge([
             new \Mapped\Extension\Constraints(),
-            new \Mapped\Extension\Optional(),
             new \Mapped\Extension\Multiple(),
             new \Mapped\Extension\Verifying(),
         ], $extensions);

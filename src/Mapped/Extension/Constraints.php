@@ -5,8 +5,6 @@ namespace Mapped\Extension;
 use Mapped\Extension;
 use Mapped\Constraint;
 use Mapped\Mapping;
-use Mapped\Events;
-use Mapped\Event;
 
 /**
  * The default constraints extension.
@@ -15,26 +13,6 @@ use Mapped\Event;
  */
 class Constraints extends Extension
 {
-    /**
-     * Check if this mapping is empty or not.
-     *
-     * @param Mapping $mapping The mapping object
-     * @param string  $message The error message
-     *
-     * @return Mapping
-     */
-    public function required(Mapping $mapping, $message = 'error.required')
-    {
-        $mapping->addConstraint(new \Mapped\Constraint\Required($message));
-        $disp = $mapping->getDispatcher();
-
-        $disp->addListener(Events::BEFORE_TRANSFORM, function (Event $event) use ($mapping) {
-            $mapping->validate($event->getData());
-        });
-
-        return $mapping;
-    }
-
     /**
      * Checks if the mapping value is not empty.
      *

@@ -10,7 +10,6 @@ namespace Mapped;
 class Events
 {
     const APPLY            = 'mapped.apply';
-    const BEFORE_TRANSFORM = 'mapped.before_transform';
     const APPLIED          = 'mapped.applied';
     const UNAPPLY          = 'mapped.unapply';
 }

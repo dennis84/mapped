@@ -3,10 +3,11 @@
 namespace Mapped\Tests;
 
 use Mapped\MappingFactory;
+use Mapped\ValidationException;
 use Mapped\Tests\Fixtures\User;
 use Mapped\Tests\Fixtures\Address;
 
-class ApplyValidDataTest extends \PHPUnit_Framework_TestCase
+class ApplyTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
@@ -17,12 +18,12 @@ class ApplyValidDataTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $result = $mapping->apply([
-            'username' => 'dennis84',
+            'username' => 'dennis',
             'password' => 'password',
         ]);
 
-        $this->assertSame([
-            'username' => 'dennis84',
+        $this->assertEquals([
+            'username' => 'dennis',
             'password' => 'password',
         ], $result);
     }
@@ -33,21 +34,80 @@ class ApplyValidDataTest extends \PHPUnit_Framework_TestCase
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
             'password' => $factory->mapping(),
+        ]);
+
+        $result = $mapping->apply([
+            'username' => 'dennis',
+            'password' => null,
+        ]);
+
+        $this->assertEquals([
+            'username' => 'dennis',
+            'password' => null,
+        ], $result);
+    }
+
+    public function testC()
+    {
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
         ], function ($username, $password) {
             return new User($username, $password);
         });
 
         $result = $mapping->apply([
-            'username' => 'dennis84',
+            'username' => 'dennis',
             'password' => 'password',
         ]);
 
         $this->assertInstanceOf('Mapped\Tests\Fixtures\User', $result);
-        $this->assertSame('dennis84', $result->username);
+        $this->assertSame('dennis', $result->username);
         $this->assertSame('password', $result->password);
     }
 
-    public function testC()
+    public function testD()
+    {
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
+        ], function ($username, $password) {
+            return new User($username, $password);
+        });
+
+        $result = $mapping->apply([
+            'username' => 'dennis',
+            'password' => null,
+        ]);
+
+        $this->assertInstanceOf('Mapped\Tests\Fixtures\User', $result);
+        $this->assertSame('dennis', $result->username);
+        $this->assertNull($result->password);
+    }
+
+    public function testE()
+    {
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
+        ]);
+
+        $this->setExpectedException('Mapped\ValidationException');
+        $result = $mapping->apply(['username' => 'dennis']);
+
+        try {
+            $result = $mapping->apply(['username' => 'dennis']);
+        } catch (ValidationException $e) {
+            $errors = $e->getErrors();
+            $this->assertSame('error.required', $errors[0]->getMessage());
+            throw $e;
+        }
+    }
+
+    public function testF()
     {
         $factory = new MappingFactory();
         $mapping = $factory->mapping([

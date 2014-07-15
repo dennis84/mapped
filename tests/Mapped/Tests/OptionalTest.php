@@ -1,10 +1,11 @@
 <?php
 
-namespace Mapped\Tests\Integration;
+namespace Mapped\Tests;
 
 use Mapped\MappingFactory;
-use Mapped\Tests\Fixtures\Address;
+use Mapped\ValidationException;
 use Mapped\Tests\Fixtures\User;
+use Mapped\Tests\Fixtures\Address;
 use Mapped\Tests\Fixtures\NullToBlahTransformer;
 
 class OptionalTest extends \PHPUnit_Framework_TestCase
@@ -12,28 +13,41 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
     public function testA()
     {
         $factory = new MappingFactory();
-        $mapping = $this->createNestedMapping();
-        $data = [
-            'username' => 'dennis84',
-            'password' => 'password',
-            'address'  => [
-                'city'   => 'foo',
-                'street' => 'bar',
-            ],
-        ];
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping()->optional(),
+        ]);
 
-        $result = $mapping->apply($data);
+        $result = $mapping->apply([
+            'username' => 'dennis',
+        ]);
 
-        $this->assertInstanceOf('Mapped\Tests\Fixtures\User', $result);
-        $this->assertSame('dennis84', $result->username);
-        $this->assertSame('password', $result->password);
-
-        $this->assertInstanceOf('Mapped\Tests\Fixtures\Address', $result->address);
-        $this->assertSame('foo', $result->address->city);
-        $this->assertSame('bar', $result->address->street);
+        $this->assertEquals([
+            'username' => 'dennis',
+            'password' => null,
+        ], $result);
     }
 
     public function testB()
+    {
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping()->optional(),
+        ]);
+
+        $result = $mapping->apply([
+            'username' => 'dennis',
+            'password' => 'passwd',
+        ]);
+
+        $this->assertEquals([
+            'username' => 'dennis',
+            'password' => 'passwd',
+        ], $result);
+    }
+
+    public function testC()
     {
         $factory = new MappingFactory();
         $mapping = $this->createNestedMapping();
@@ -50,19 +64,20 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($result->address);
     }
 
-    public function testC()
+    public function testD()
     {
         $factory = new MappingFactory();
         $mapping = $factory->mapping([
             'foo' => $factory->mapping()->optional()
                 ->transform(new NullToBlahTransformer()),
-            'bar' => $factory->mapping(),
+            'bar' => $factory->mapping()->optional()
+                ->transform(new NullToBlahTransformer()),
         ]);
 
-        $result = $mapping->apply(['foo' => null, 'bar' => 'blub']);
+        $result = $mapping->apply(['foo' => null]);
         $this->assertSame([
             'foo' => 'blah',
-            'bar' => 'blub',
+            'bar' => null,
         ], $result);
     }
 

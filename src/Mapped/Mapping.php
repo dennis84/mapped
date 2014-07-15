@@ -17,6 +17,7 @@ class Mapping
     protected $constraints = [];
     protected $children = [];
     protected $options = [];
+    protected $optional = false;
 
     /**
      * Constructor.
@@ -265,14 +266,38 @@ class Mapping
      * Applies the given data to the mapping.
      *
      * @param mixed $data Any data
+     *
+     * @return mixed
+     *
+     * @throw ValidationException If the validation failed
      */
     public function apply($data)
+    {
+        $result = $this->doApply($data);
+
+        if (count($result->getErrors()) > 0) {
+            throw new ValidationException($result->getErrors());
+        }
+
+        return $result->getData();
+    }
+
+    /**
+     * The recursive apply call.
+     *
+     * @param mixed $data Any data
+     *
+     * @return MappingResult
+     */
+    public function doApply($data)
     {
         if ($this->dispatcher->hasListeners(Events::APPLY)) {
             $event = new Event($this, null, $data);
             $this->dispatcher->dispatch(Events::APPLY, $event);
             $data = $event->getData();
         }
+
+        $errors = [];
 
         if ($this->hasChildren()) {
             $result = [];
@@ -281,19 +306,15 @@ class Mapping
         }
 
         foreach ($this->children as $name => $child) {
-            if (isset($data[$name])) {
-                $r = $child->apply($data[$name]);
+            if (is_array($data) && array_key_exists($name, $data)) {
+                $childResult = $child->doApply($data[$name]);
+                $result[$name] = $childResult->getData();
+                $errors = array_merge($errors, $childResult->getErrors());
+            } elseif ($child->isOptional()) {
+                $result[$name] = null;
             } else {
-                $r = $child->apply(null);
+                $errors[] = new Error($child, 'error.required');
             }
-
-            $result[$name] = $r;
-        }
-
-        if ($this->dispatcher->hasListeners(Events::BEFORE_TRANSFORM)) {
-            $event = new Event($this, $result, $data);
-            $this->dispatcher->dispatch(Events::BEFORE_TRANSFORM, $event);
-            $result = $event->getResult();
         }
 
         foreach ($this->getTransformers() as $transformer) {
@@ -306,31 +327,13 @@ class Mapping
             $result = $event->getResult();
         }
 
-        $this->validate($result);
-
-        return $result;
-    }
-
-    /**
-     * Validates the given data against the constraints.
-     *
-     * @param mixed $data The data to validate
-     *
-     * @throws ValidationException
-     */
-    public function validate($data)
-    {
-        $errors = [];
         foreach ($this->constraints as $cons) {
-            $error = $cons->validate($this, $data);
-            if (null !== $error) {
+            if ($error = $cons->validate($this, $data)) {
                 $errors[] = $error;
             }
         }
 
-        if (count($errors) > 0) {
-            throw new ValidationException($errors);
-        }
+        return new MappingResult($result, $errors);
     }
 
     /**
@@ -363,5 +366,26 @@ class Mapping
         }
 
         return $value;
+    }
+
+    /**
+     * Makes this mapping to an optional.
+     *
+     * @return Mapping 
+     */
+    public function optional()
+    {
+        $this->optional = true;
+        return $this;
+    }
+
+    /**
+     * Returns true if the mapping is optional, otherwise false.
+     *
+     * @return boolean
+     */
+    public function isOptional()
+    {
+        return $this->optional;
     }
 }
