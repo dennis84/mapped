@@ -40,25 +40,17 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
             ]),
         ]);
 
-        $result = $mapping->unapply([
+        $data = [
             'username' => 'dennis84',
             'password' => 'password',
             'address'  => [
                 'city'   => 'Foo',
                 'street' => 'Bar',
             ],
-        ]);
+        ];
 
-        $this->assertSame('dennis84', $result['username']);
-        $this->assertSame('password', $result['password']);
-
-        $this->assertSame([
-            'city'   => 'Foo',
-            'street' => 'Bar',
-        ], $result['address']);
-
-        $this->assertSame('Foo', $result['address']['city']);
-        $this->assertSame('Bar', $result['address']['street']);
+        $result = $mapping->unapply($data);
+        $this->assertEquals($data, $result);
     }
 
     public function testC()
@@ -121,10 +113,6 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
         });
 
         $result = $mapping->unapply($user);
-
-        $this->assertSame('dennis84', $result['username']);
-        $this->assertSame('password', $result['password']);
-
         $this->assertSame([
             'username' => 'dennis84',
             'password' => 'password',
@@ -134,5 +122,64 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
                 'location' => ['lat' => '50', 'lng' => '8'],
             ],
         ], $result);
+    }
+
+    public function testE()
+    {
+        $factory = new MappingFactory();
+
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
+        ]);
+
+        $data = ['username' => 'dennis84'];
+        $result = $mapping->unapply($data);
+
+        $this->assertSame($data, $result);
+    }
+
+    public function testF()
+    {
+        $factory = new MappingFactory();
+
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
+            'address'  => $factory->mapping([
+                'city'   => $factory->mapping(),
+                'street' => $factory->mapping(),
+            ]),
+        ]);
+
+        $data = [
+            'username' => 'dennis84',
+            'address'  => [
+                'street' => 'Foo',
+            ],
+        ];
+
+        $result = $mapping->unapply($data);
+        $this->assertSame($data, $result);
+    }
+
+    public function testG()
+    {
+        $factory = new MappingFactory();
+
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
+        ], null, function (User $user) {
+            return [
+                'username' => $user->username,
+                'password' => $user->password,
+            ];
+        });
+
+        $result = $mapping->unapply(new User('dennis', null));
+
+        $this->assertSame('dennis', $result['username']);
+        $this->assertNull($result['password']);
     }
 }

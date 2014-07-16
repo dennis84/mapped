@@ -351,15 +351,15 @@ class Mapping
             return $data;
         }
 
-        $value = [];
+        $result = [];
 
         foreach ($this->getChildren() as $name => $child) {
-            if (isset($data[$name])) {
-                $value[$name] = $child->unapply($data[$name]);
+            if (is_array($data) && array_key_exists($name, $data)) {
+                $result[$name] = $child->unapply($data[$name]);
             }
         }
 
-        return $value;
+        return $result;
     }
 
     /**
