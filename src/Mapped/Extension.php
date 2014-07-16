@@ -14,7 +14,7 @@ abstract class Extension
      *
      * @param Mapping $mapping The mapping object
      */
-    function initialize(Mapping $mapping)
+    public function initialize(Mapping $mapping)
     {
     }
 }

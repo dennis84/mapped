@@ -3,6 +3,7 @@
 namespace Mapped\Tests\Integration;
 
 use Mapped\MappingFactory;
+use Mapped\Tests\Fixtures\User;
 
 class CustomConstraintTest extends \PHPUnit_Framework_TestCase
 {
@@ -42,4 +43,24 @@ class CustomConstraintTest extends \PHPUnit_Framework_TestCase
             'password2' => 'demo',
         ]);
     }
+
+    public function testC()
+    {
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
+        ], function ($username, $password) {
+            return new User($username, $password);
+        })->verifying('foo', function ($value) {
+            $this->assertInstanceOf('Mapped\Tests\Fixtures\User', $value);
+            return true;
+        });
+
+        $mapping->apply([
+            'username' => 'dennis',
+            'password' => 'password',
+        ]);
+    }
+
 }

@@ -321,15 +321,9 @@ class Mapping
             $result = $transformer->transform($result);
         }
 
-        if ($this->dispatcher->hasListeners(Events::APPLIED)) {
-            $event = new Event($this, $result, $data);
-            $this->dispatcher->dispatch(Events::APPLIED, $event);
-            $result = $event->getResult();
-        }
-
         foreach ($this->constraints as $cons) {
-            if ($error = $cons->validate($this, $data)) {
-                $errors[] = $error;
+            if ($error = $cons->validate($this, $result)) {
+                array_unshift($errors, $error);
             }
         }
 
@@ -369,9 +363,9 @@ class Mapping
     }
 
     /**
-     * Makes this mapping to an optional.
+     * Makes this mapping optional.
      *
-     * @return Mapping 
+     * @return Mapping
      */
     public function optional()
     {

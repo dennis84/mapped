@@ -5,6 +5,7 @@ namespace Mapped\Tests;
 use Mapped\MappingFactory;
 use Mapped\ValidationException;
 use Mapped\Tests\Fixtures\User;
+use Mapped\Tests\Fixtures\Address;
 
 class ValidationTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,6 +33,51 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
             $this->assertSame('error.non_empty_text', $errors[0]->getMessage());
             $this->assertSame('foo', $errors[1]->getMessage());
             $this->assertSame('error.required', $errors[2]->getMessage());
+            throw $e;
+        }
+    }
+
+    public function testB()
+    {
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping()->nonEmptyText(),
+            'password' => $factory->mapping()->verifying('error.password', function ($value) {
+                return false;
+            }),
+            'address'  => $factory->mapping([
+                'city'   => $factory->mapping()->verifying('error.city', function ($value) {
+                    return false;
+                }),
+                'street' => $factory->mapping(),
+            ], function ($city, $street = null) {
+                return new Address($city, $street);
+            }),
+            'accept' => $factory->mapping(),
+        ], function ($username, $password, Address $address) {
+            return new User($username, $password, $address);
+        })->verifying('foo', function ($value) {
+            return false;
+        });
+
+        $this->setExpectedException('Mapped\ValidationException');
+
+        try {
+            $result = $mapping->apply([
+                'username' => '',
+                'password' => 'pass',
+                'address' => [
+                    'city' => 'Foobar',
+                ],
+            ]);
+        } catch (ValidationException $e) {
+            $errors = $e->getErrors();
+            $this->assertSame('foo', $errors[0]->getMessage());
+            $this->assertSame('error.non_empty_text', $errors[1]->getMessage());
+            $this->assertSame('error.password', $errors[2]->getMessage());
+            $this->assertSame('error.city', $errors[3]->getMessage());
+            $this->assertSame('error.required', $errors[4]->getMessage());
+            $this->assertSame('error.required', $errors[5]->getMessage());
             throw $e;
         }
     }

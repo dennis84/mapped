@@ -41,6 +41,8 @@ class MultipleResizeListener
      *
      * @param Mapping $mapping The mapping object
      * @param mixed   $data    The data
+     *
+     * @throw InvalidArgumentException If given data is not an array
      */
     protected function prepare(Mapping $mapping, $data)
     {

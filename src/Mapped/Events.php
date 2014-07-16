@@ -10,6 +10,5 @@ namespace Mapped;
 class Events
 {
     const APPLY            = 'mapped.apply';
-    const APPLIED          = 'mapped.applied';
     const UNAPPLY          = 'mapped.unapply';
 }
