@@ -285,11 +285,12 @@ class Mapping
     /**
      * The recursive apply call.
      *
-     * @param mixed $data Any data
+     * @param mixed $data         Any data
+     * @param array $propertyPath The property path
      *
      * @return MappingResult
      */
-    public function doApply($data)
+    public function doApply($data, array $propertyPath = [])
     {
         if ($this->dispatcher->hasListeners(Events::APPLY)) {
             $event = new Event($this, null, $data);
@@ -306,14 +307,16 @@ class Mapping
         }
 
         foreach ($this->children as $name => $child) {
+            $childPath = array_merge($propertyPath, [$name]);
+
             if (is_array($data) && array_key_exists($name, $data)) {
-                $childResult = $child->doApply($data[$name]);
+                $childResult = $child->doApply($data[$name], $childPath);
                 $result[$name] = $childResult->getData();
                 $errors = array_merge($errors, $childResult->getErrors());
             } elseif ($child->isOptional()) {
                 $result[$name] = null;
             } else {
-                $errors[] = new Error($child, 'error.required');
+                $errors[] = new Error($child, 'error.required', $childPath);
             }
         }
 
@@ -322,7 +325,7 @@ class Mapping
         }
 
         foreach ($this->constraints as $cons) {
-            if ($error = $cons->validate($this, $result)) {
+            if ($error = $cons->validate($this, $result, $propertyPath)) {
                 array_unshift($errors, $error);
             }
         }

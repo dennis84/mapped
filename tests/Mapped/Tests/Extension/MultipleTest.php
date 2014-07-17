@@ -3,6 +3,7 @@
 namespace Mapped\Tests\Integration;
 
 use Mapped\MappingFactory;
+use Mapped\ValidationException;
 use Mapped\Tests\Fixtures\Post;
 use Mapped\Tests\Fixtures\Attribute;
 
@@ -43,7 +44,15 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');
-        $mapping->apply(['choices' => ['']]);
+
+        try {
+            $mapping->apply(['choices' => ['']]);
+        } catch (ValidationException $e) {
+            $errors = $e->getErrors();
+            $this->assertSame(['choices', 0], $errors[0]->getPropertyPath());
+            $this->assertSame('error.non_empty_text', $errors[0]->getMessage());
+            throw $e;
+        }
     }
 
     public function testD()

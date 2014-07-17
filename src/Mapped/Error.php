@@ -11,17 +11,20 @@ class Error
 {
     protected $mapping;
     protected $message;
+    protected $propertyPath = [];
 
     /**
      * Constructor.
      *
-     * @param Mapping $mapping The mapping object
-     * @param string  $message The error message
+     * @param Mapping $mapping      The mapping object
+     * @param string  $message      The error message
+     * @param array   $propertyPath The property path
      */
-    public function __construct(Mapping $mapping, $message)
+    public function __construct(Mapping $mapping, $message, array $propertyPath = [])
     {
         $this->mapping = $mapping;
         $this->message = $message;
+        $this->propertyPath = $propertyPath;
     }
 
     /**
@@ -42,5 +45,15 @@ class Error
     public function getMessage()
     {
         return $this->message;
+    }
+
+    /**
+     * Gets the property path.
+     *
+     * @return array
+     */
+    public function getPropertyPath()
+    {
+        return $this->propertyPath;
     }
 }

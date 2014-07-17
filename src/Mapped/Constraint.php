@@ -33,16 +33,18 @@ abstract class Constraint
     /**
      * Validates the given data against this constraint.
      *
-     * @param mixed $data The data
+     * @param Mapping $mapping      The mapping object
+     * @param mixed   $data         The data
+     * @param array   $propertyPath The property path
      *
      * @return null|Error
      */
-    public function validate(Mapping $mapping, $data)
+    public function validate(Mapping $mapping, $data, array $propertyPath = [])
     {
         if (true === $this->check($data)) {
             return;
         }
 
-        return new Error($mapping, $this->message);
+        return new Error($mapping, $this->message, $propertyPath);
     }
 }
