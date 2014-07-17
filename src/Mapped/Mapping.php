@@ -263,6 +263,27 @@ class Mapping
     }
 
     /**
+     * Makes this mapping optional.
+     *
+     * @return Mapping
+     */
+    public function optional()
+    {
+        $this->optional = true;
+        return $this;
+    }
+
+    /**
+     * Returns true if the mapping is optional, otherwise false.
+     *
+     * @return boolean
+     */
+    public function isOptional()
+    {
+        return $this->optional;
+    }
+
+    /**
      * Applies the given data to the mapping.
      *
      * @param mixed $data Any data
@@ -283,6 +304,38 @@ class Mapping
     }
 
     /**
+     * Unapply the given data.
+     *
+     * @param mixed $data The data to unapply
+     */
+    public function unapply($data)
+    {
+        if ($this->dispatcher->hasListeners(Events::UNAPPLY)) {
+            $event = new Event($this, $data);
+            $this->dispatcher->dispatch(Events::UNAPPLY, $event);
+            $data = $event->getResult();
+        }
+
+        foreach ($this->getTransformers() as $transformer) {
+            $data = $transformer->reverseTransform($data);
+        }
+
+        if (!$this->hasChildren()) {
+            return $data;
+        }
+
+        $result = [];
+
+        foreach ($this->getChildren() as $name => $child) {
+            if (is_array($data) && array_key_exists($name, $data)) {
+                $result[$name] = $child->unapply($data[$name]);
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * The recursive apply call.
      *
      * @param mixed $data         Any data
@@ -290,7 +343,7 @@ class Mapping
      *
      * @return MappingResult
      */
-    public function doApply($data, array $propertyPath = [])
+    private function doApply($data, array $propertyPath = [])
     {
         if ($this->dispatcher->hasListeners(Events::APPLY)) {
             $event = new Event($this, null, $data);
@@ -331,58 +384,5 @@ class Mapping
         }
 
         return new MappingResult($result, $errors);
-    }
-
-    /**
-     * Unapply the given data.
-     *
-     * @param mixed $data The data to unapply
-     */
-    public function unapply($data)
-    {
-        if ($this->dispatcher->hasListeners(Events::UNAPPLY)) {
-            $event = new Event($this, $data);
-            $this->dispatcher->dispatch(Events::UNAPPLY, $event);
-            $data = $event->getResult();
-        }
-
-        foreach ($this->getTransformers() as $transformer) {
-            $data = $transformer->reverseTransform($data);
-        }
-
-        if (!$this->hasChildren()) {
-            return $data;
-        }
-
-        $result = [];
-
-        foreach ($this->getChildren() as $name => $child) {
-            if (is_array($data) && array_key_exists($name, $data)) {
-                $result[$name] = $child->unapply($data[$name]);
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Makes this mapping optional.
-     *
-     * @return Mapping
-     */
-    public function optional()
-    {
-        $this->optional = true;
-        return $this;
-    }
-
-    /**
-     * Returns true if the mapping is optional, otherwise false.
-     *
-     * @return boolean
-     */
-    public function isOptional()
-    {
-        return $this->optional;
     }
 }
