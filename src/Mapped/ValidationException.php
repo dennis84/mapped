@@ -19,7 +19,7 @@ class ValidationException extends \Exception
     public function __construct(array $errors)
     {
         $this->errors = $errors;
-        parent::__construct('');
+        parent::__construct('Validation failed');
     }
 
     /**
