@@ -187,4 +187,19 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
         $result = $mapping->apply(['choices' => null]);
         $this->assertSame(['choices' => []], $result);
     }
+
+    public function testJ()
+    {
+        $factory = new MappingFactory();
+        $mapping = $factory->mapping([
+            'foos' => $factory->mapping([
+                'bars' => $factory->mapping()->multiple(),
+            ])->multiple(),
+        ]);
+
+        $data = ['foos' => [['bars' => ['a', 'b']], ['bars' => ['c', 'd']]]];
+
+        $result = $mapping->apply($data);
+        $this->assertSame($data, $result);
+    }
 }

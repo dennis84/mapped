@@ -50,36 +50,11 @@ class MultipleResizeListener
             throw new \InvalidArgumentException('');
         }
 
-        $clones = [];
+        $children = [];
         foreach ($data as $index => $value) {
-            $proto = $mapping->getOption('prototype');
-            $clone = $this->cloneMapping($proto);
-
-            $clones[(string) $index] = $clone;
+            $children[(string) $index] = $mapping->getOption('prototype');
         }
 
-        $mapping->setChildren($clones);
-    }
-
-    /**
-     * Clones a mapping object.
-     *
-     * @param Mapping $mapping The mapping object
-     *
-     * @return Mapping The cloned mapping object
-     */
-    protected function cloneMapping(Mapping $mapping)
-    {
-        $clone = clone $mapping;
-
-        $clone->setChildren(array_map(function ($child) {
-            return $this->cloneMapping($child);
-        }, $mapping->getChildren()));
-
-        $clone->setConstraints(array_map(function ($constraint) {
-            return clone $constraint;
-        }, $mapping->getConstraints()));
-
-        return $clone;
+        $mapping->setChildren($children);
     }
 }
