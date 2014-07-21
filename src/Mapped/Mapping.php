@@ -147,37 +147,6 @@ class Mapping
     }
 
     /**
-     * Returns true if a child with given name exists, otherwise false.
-     *
-     * @param boolean $name The mapping name
-     *
-     * @return boolean
-     */
-    public function hasChild($name)
-    {
-        return array_key_exists($name, $this->children);
-    }
-
-    /**
-     * Gets a child by name.
-     *
-     * @param string $name The mapping name.
-     *
-     * @return Mapping
-     *
-     * @throws InvalidArgumentException If the child does not exists
-     */
-    public function getChild($name)
-    {
-        if (!$this->hasChild($name)) {
-            throw new \InvalidArgumentException(sprintf(
-                'There is no child with name "%s" registered.', $name));
-        }
-
-        return $this->children[$name];
-    }
-
-    /**
      * Adds a constraint to the mapping.
      *
      * @param Constraint $constraint The constaint object

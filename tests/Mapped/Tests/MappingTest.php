@@ -26,32 +26,6 @@ class MappingTest extends MappedTestCase
         $mapping->initialize($mapping);
     }
 
-    public function testGetChild()
-    {
-        $builder = new MappingFactory();
-        $mapping = $builder->mapping([
-            'username' => $builder->mapping(),
-            'password' => $builder->mapping(),
-            'address'  => $builder->mapping([
-                'street' => $builder->mapping(),
-            ]),
-        ]);
-
-        $this->assertInstanceOf('Mapped\Mapping', $mapping->getChild('username'));
-    }
-
-    public function testGetChildFail()
-    {
-        $this->setExpectedException('InvalidArgumentException');
-
-        $builder = new MappingFactory();
-        $mapping = $builder->mapping([
-            'username' => $builder->mapping(),
-        ]);
-
-        $mapping->getChild('password');
-    }
-
     public function testValidExtensionMethod()
     {
         $mapping = $this->createMapping([
