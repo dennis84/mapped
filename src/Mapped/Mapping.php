@@ -6,8 +6,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Mapping.
- *
- * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 class Mapping
 {
@@ -73,10 +71,9 @@ class Mapping
     }
 
     /**
-     * Invokes an extension method. If this method is not defined it will throw
-     * an exception.
+     * Invokes an extension method.
      *
-     * @param string  $method    The called method name
+     * @param string  $method    The method name
      * @param mixed[] $arguments The method arguments
      *
      * @return Mapping
@@ -103,7 +100,7 @@ class Mapping
     }
 
     /**
-     * Sets a new array of child mapping objects.
+     * Sets a new array of child mappings.
      *
      * @param Mapping[] $children An array of mapping objects
      */
@@ -139,7 +136,7 @@ class Mapping
      * Adds a child mapping.
      *
      * @param string  $name    The mapping name
-     * @param Mapping $mapping The mapping obejct
+     * @param Mapping $mapping The mapping object
      */
     public function addChild($name, Mapping $child)
     {
@@ -147,7 +144,7 @@ class Mapping
     }
 
     /**
-     * Adds a constraint to the mapping.
+     * Adds a constraint.
      *
      * @param Constraint $constraint The constaint object
      */

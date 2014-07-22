@@ -4,8 +4,6 @@ namespace Mapped;
 
 /**
  * Extension.
- *
- * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 abstract class Extension
 {

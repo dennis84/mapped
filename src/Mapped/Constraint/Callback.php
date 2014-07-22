@@ -6,8 +6,6 @@ use Mapped\Constraint;
 
 /**
  * Callback.
- *
- * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 class Callback extends Constraint
 {
@@ -27,7 +25,7 @@ class Callback extends Constraint
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function check($value)
     {

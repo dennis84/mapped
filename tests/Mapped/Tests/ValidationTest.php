@@ -11,7 +11,7 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
         $mapping = $factory->mapping([
             'username' => $factory->mapping()->nonEmptyText(),
             'password' => $factory->mapping()->verifying('foo', function ($value) {
@@ -43,7 +43,7 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
 
     public function testB()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
         $mapping = $factory->mapping([
             'username' => $factory->mapping()->nonEmptyText(),
             'password' => $factory->mapping()->verifying('error.password', function ($value) {

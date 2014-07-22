@@ -6,8 +6,6 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * This is a helper to build mapping objects.
- *
- * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 class MappingFactory
 {
@@ -21,9 +19,9 @@ class MappingFactory
     public function __construct(array $extensions = [])
     {
         $this->extensions = array_merge([
-            new \Mapped\Extension\Constraints(),
-            new \Mapped\Extension\Multiple(),
-            new \Mapped\Extension\Verifying(),
+            new \Mapped\Extension\Constraints,
+            new \Mapped\Extension\Multiple,
+            new \Mapped\Extension\Verifying,
         ], $extensions);
     }
 

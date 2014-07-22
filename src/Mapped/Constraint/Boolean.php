@@ -6,13 +6,11 @@ use Mapped\Constraint;
 
 /**
  * Boolean.
- *
- * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 class Boolean extends Constraint
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function check($value)
     {

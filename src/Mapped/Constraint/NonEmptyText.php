@@ -6,13 +6,11 @@ use Mapped\Constraint;
 
 /**
  * NonEmptyText.
- *
- * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 class NonEmptyText extends Constraint
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function check($value)
     {

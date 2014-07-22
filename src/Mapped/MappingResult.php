@@ -5,8 +5,6 @@ namespace Mapped;
 /**
  * The mapping result. It contains the applied data and a flat array of error
  * objects.
- *
- * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 class MappingResult
 {

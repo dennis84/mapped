@@ -6,8 +6,6 @@ use Symfony\Component\EventDispatcher\Event as BaseEvent;
 
 /**
  * Event.
- *
- * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 class Event extends BaseEvent
 {
@@ -50,7 +48,7 @@ class Event extends BaseEvent
     }
 
     /**
-     * Gets the result data.
+     * Gets the result.
      *
      * @return mixed
      */

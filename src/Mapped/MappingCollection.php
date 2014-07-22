@@ -4,8 +4,6 @@ namespace Mapped;
 
 /**
  * MappingCollection.
- *
- * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 class MappingCollection
 {

@@ -23,7 +23,7 @@ class FloatTest extends \PHPUnit_Framework_TestCase
      */
     public function testTransform($expected, $value)
     {
-        $transformer = new \Mapped\Transformer\Float();
+        $transformer = new \Mapped\Transformer\Float;
         $this->assertSame($expected, $transformer->transform($value));
     }
 }

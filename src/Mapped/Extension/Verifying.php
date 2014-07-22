@@ -6,25 +6,16 @@ use Mapped\Mapping;
 use Mapped\Extension;
 
 /**
- * This extension offers a simpler API to add custom constraints.
- *
- * @author Dennis Dietrich <d.dietrich84@googlemail.com>
+ * This extension provides a simpler API to add custom constraints.
  */
 class Verifying extends Extension
 {
     /**
-     * {@inheritdoc}
-     */
-    public function initialize(Mapping $mapping)
-    {
-    }
-
-    /**
-     * Adds a constraint to the mapping object.
+     * Adds a callback constraint to the mapping.
      *
      * @param Mapping  $mapping The mapping object
      * @param string   $message The error message
-     * @param callable $check   The check method
+     * @param callable $check   The check function
      *
      * @return Mapping
      */

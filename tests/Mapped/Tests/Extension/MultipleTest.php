@@ -11,7 +11,7 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
         $mapping = $factory->mapping([
             'choices' => $factory->mapping()->multiple(),
         ]);
@@ -27,7 +27,7 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testB()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
         $mapping = $factory->mapping([
             'choices' => $factory->mapping()->multiple(),
         ]);
@@ -38,7 +38,7 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testC()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
         $mapping = $factory->mapping([
             'choices' => $factory->mapping()->nonEmptyText()->multiple(),
         ]);
@@ -57,7 +57,7 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testD()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
             'title'      => $factory->mapping(),
@@ -93,7 +93,7 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('InvalidArgumentException');
 
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
         $mapping = $factory->mapping([
             'choices' => $factory->mapping()->multiple(),
         ]);
@@ -103,7 +103,7 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testF()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
             'title'      => $factory->mapping(),
@@ -142,7 +142,7 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testG()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
         $mapping = $factory->mapping([
             'emails' => $factory->mapping()->verifying('email', function ($value) {
                 return (boolean) filter_var($value, FILTER_VALIDATE_EMAIL);
@@ -157,7 +157,7 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testH()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
         $mapping = $factory->mapping([
             'choices' => $factory->mapping()->multiple(),
         ]);
@@ -179,7 +179,7 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testI()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
         $mapping = $factory->mapping([
             'choices' => $factory->mapping()->multiple(),
         ]);
@@ -190,7 +190,7 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
 
     public function testJ()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
         $mapping = $factory->mapping([
             'foos' => $factory->mapping([
                 'bars' => $factory->mapping()->multiple(),

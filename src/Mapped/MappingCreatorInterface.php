@@ -4,8 +4,6 @@ namespace Mapped;
 
 /**
  * MappingCreatorInterface.
- *
- * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 interface MappingCreatorInterface
 {

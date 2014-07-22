@@ -6,13 +6,11 @@ use Mapped\Transformer;
 
 /**
  * Float.
- *
- * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 class Float extends Transformer
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function transform($data)
     {

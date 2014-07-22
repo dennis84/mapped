@@ -9,7 +9,7 @@ class CustomConstraintTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
             'username' => $factory->mapping()
@@ -24,7 +24,7 @@ class CustomConstraintTest extends \PHPUnit_Framework_TestCase
 
     public function testB()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
             'username'  => $factory->mapping(),
@@ -46,7 +46,7 @@ class CustomConstraintTest extends \PHPUnit_Framework_TestCase
 
     public function testC()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
             'password' => $factory->mapping(),

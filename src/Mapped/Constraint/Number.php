@@ -6,13 +6,11 @@ use Mapped\Constraint;
 
 /**
  * Number.
- *
- * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 class Number extends Constraint
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function check($value)
     {

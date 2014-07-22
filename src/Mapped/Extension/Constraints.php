@@ -7,14 +7,12 @@ use Mapped\Constraint;
 use Mapped\Mapping;
 
 /**
- * The default constraints extension.
- *
- * @author Dennis Dietrich <d.dietrich84@googlemail.com>
+ * Enriches mapping objects with validation and transformation methods.
  */
 class Constraints extends Extension
 {
     /**
-     * Checks if the mapping value is not empty.
+     * Checks if the value is not empty.
      *
      * @param Mapping $mapping The mapping object
      * @param string  $message The error message
@@ -28,7 +26,7 @@ class Constraints extends Extension
     }
 
     /**
-     * Checks if the mapping value is numeric and convert it to an integer.
+     * Checks if the value is numeric and converts it to an integer.
      *
      * @param Mapping $mapping The mapping object
      * @param string  $message The error message
@@ -38,12 +36,12 @@ class Constraints extends Extension
     public function integer(Mapping $mapping, $message = 'error.integer')
     {
         $mapping->addConstraint(new \Mapped\Constraint\Number($message));
-        $mapping->transform(new \Mapped\Transformer\Integer());
+        $mapping->transform(new \Mapped\Transformer\Integer);
         return $mapping;
     }
 
     /**
-     * Checks if the mapping value is numeric and convert it to a float.
+     * Checks if the value is numeric and converts it to a float.
      *
      * @param Mapping $mapping The mapping object
      * @param string  $message The error message
@@ -53,12 +51,12 @@ class Constraints extends Extension
     public function float(Mapping $mapping, $message = 'error.float')
     {
         $mapping->addConstraint(new \Mapped\Constraint\Number($message));
-        $mapping->transform(new \Mapped\Transformer\Float());
+        $mapping->transform(new \Mapped\Transformer\Float);
         return $mapping;
     }
 
     /**
-     * Checks if the mapping value is boolean.
+     * Checks if the value is boolean.
      *
      * @param Mapping $mapping The mapping object
      * @param string  $message The error message
@@ -68,7 +66,7 @@ class Constraints extends Extension
     public function boolean(Mapping $mapping, $message = 'error.boolean')
     {
         $mapping->addConstraint(new \Mapped\Constraint\Boolean($message));
-        $mapping->transform(new \Mapped\Transformer\Boolean());
+        $mapping->transform(new \Mapped\Transformer\Boolean);
         return $mapping;
     }
 }

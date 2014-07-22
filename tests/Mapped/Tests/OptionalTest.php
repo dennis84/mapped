@@ -12,7 +12,7 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
             'password' => $factory->mapping()->optional(),
@@ -30,7 +30,7 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
 
     public function testB()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
             'password' => $factory->mapping()->optional(),
@@ -49,7 +49,7 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
 
     public function testC()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
         $mapping = $this->createNestedMapping();
         $data = [
             'username' => 'dennis84',
@@ -66,12 +66,12 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
 
     public function testD()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
         $mapping = $factory->mapping([
             'foo' => $factory->mapping()->optional()
-                ->transform(new NullToBlahTransformer()),
+                ->transform(new NullToBlahTransformer),
             'bar' => $factory->mapping()->optional()
-                ->transform(new NullToBlahTransformer()),
+                ->transform(new NullToBlahTransformer),
         ]);
 
         $result = $mapping->apply(['foo' => null]);
@@ -83,7 +83,7 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
 
     private function createNestedMapping()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         return $factory->mapping([
             'username' => $factory->mapping(),

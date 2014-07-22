@@ -9,8 +9,6 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Multiple extension.
- *
- * @author Dennis Dietrich <d.dietrich84@googlemail.com>
  */
 class Multiple extends Extension
 {

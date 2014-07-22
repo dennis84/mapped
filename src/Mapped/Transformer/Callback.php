@@ -6,8 +6,6 @@ use Mapped\Transformer;
 
 /**
  * Callback.
- *
- * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 class Callback extends Transformer
 {
@@ -27,7 +25,7 @@ class Callback extends Transformer
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function transform($data)
     {
@@ -35,7 +33,7 @@ class Callback extends Transformer
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function reverseTransform($data)
     {
@@ -43,7 +41,7 @@ class Callback extends Transformer
     }
 
     /**
-     * Maybe executes the given transform function.
+     * Executes the given transform function.
      *
      * @param mixed    $data The data to tranform
      * @param callable $func The callback function

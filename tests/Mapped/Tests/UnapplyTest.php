@@ -11,7 +11,7 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
@@ -29,7 +29,7 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
 
     public function testB()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
@@ -55,7 +55,7 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
 
     public function testC()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
         $user = new User('dennis84', 'password');
 
         $mapping = $factory->mapping([
@@ -76,7 +76,7 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
 
     public function testD()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         $location = new Location('50', '8');
         $address  = new Address('Foo', 'Bar', $location);
@@ -126,7 +126,7 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
 
     public function testE()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
@@ -141,7 +141,7 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
 
     public function testF()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
@@ -165,7 +165,7 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
 
     public function testG()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),

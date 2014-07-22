@@ -19,7 +19,7 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
      */
     public function testTransform($expected, $value)
     {
-        $transformer = new \Mapped\Transformer\Boolean();
+        $transformer = new \Mapped\Transformer\Boolean;
         $this->assertSame($expected, $transformer->transform($value));
     }
 }

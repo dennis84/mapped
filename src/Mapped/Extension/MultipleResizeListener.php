@@ -7,8 +7,6 @@ use Mapped\Mapping;
 
 /**
  * MultipleResizeListener.
- *
- * @author Dennis Dietrich <d.dietrich84@googlemail.com>
  */
 class MultipleResizeListener
 {
@@ -23,7 +21,7 @@ class MultipleResizeListener
             $event->setData([]);
         }
 
-        $this->prepare($event->getMapping(), $event->getData());
+        $this->resize($event->getMapping(), $event->getData());
     }
 
     /**
@@ -33,21 +31,21 @@ class MultipleResizeListener
      */
     public function unapply(Event $event)
     {
-        $this->prepare($event->getMapping(), $event->getResult());
+        $this->resize($event->getMapping(), $event->getResult());
     }
 
     /**
-     * Prepares the multiple mapping.
+     * Adds prototype objects depending on given data.
      *
      * @param Mapping $mapping The mapping object
      * @param mixed   $data    The data
      *
      * @throw InvalidArgumentException If given data is not an array
      */
-    protected function prepare(Mapping $mapping, $data)
+    protected function resize(Mapping $mapping, $data)
     {
         if (!is_array($data)) {
-            throw new \InvalidArgumentException('');
+            throw new \InvalidArgumentException('The data must be an array.');
         }
 
         $children = [];

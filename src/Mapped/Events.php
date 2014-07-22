@@ -4,11 +4,18 @@ namespace Mapped;
 
 /**
  * Events.
- *
- * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 class Events
 {
-    const APPLY            = 'mapped.apply';
-    const UNAPPLY          = 'mapped.unapply';
+    /**
+     * This event will be fired at the beginning of the `apply` process. It
+     * allows you to modify the incoming data.
+     */
+    const APPLY = 'mapped.apply';
+
+    /**
+     * This event will be fired at the beginning of the `unapply` process. It
+     * allows you to modify the incoming data.
+     */
+    const UNAPPLY = 'mapped.unapply';
 }

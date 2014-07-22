@@ -12,8 +12,8 @@ class MappingCollectionTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        $factory = new MappingFactory();
-        $coll = new MappingCollection();
+        $factory = new MappingFactory;
+        $coll = new MappingCollection;
 
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
@@ -47,8 +47,8 @@ class MappingCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testB()
     {
-        $factory = new MappingFactory();
-        $coll = new MappingCollection();
+        $factory = new MappingFactory;
+        $coll = new MappingCollection;
 
         $addressMapping = $factory->mapping([
             'city'   => $factory->mapping(),
@@ -89,8 +89,8 @@ class MappingCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testC()
     {
-        $factory = new MappingFactory();
-        $coll = new MappingCollection();
+        $factory = new MappingFactory;
+        $coll = new MappingCollection;
 
         $foo = $factory->mapping();
         $coll->add('foo', $foo);
@@ -109,7 +109,7 @@ class MappingCollectionTest extends \PHPUnit_Framework_TestCase
     public function testD()
     {
         $this->setExpectedException('InvalidArgumentException');
-        $coll = new MappingCollection();
+        $coll = new MappingCollection;
         $coll->get('foo');
     }
 }

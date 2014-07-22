@@ -4,8 +4,6 @@ namespace Mapped;
 
 /**
  * Constraint.
- *
- * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 abstract class Constraint
 {
@@ -22,7 +20,7 @@ abstract class Constraint
     }
 
     /**
-     * Checks if the submitted value is valid or not.
+     * Checks if the given value is valid or not.
      *
      * @param mixed $value The value
      *

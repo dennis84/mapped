@@ -9,7 +9,7 @@ class CallableTest extends \PHPUnit_Framework_TestCase
 {
     public function testClosure()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
         $applied = false;
         $unapplied = false;
 
@@ -36,7 +36,7 @@ class CallableTest extends \PHPUnit_Framework_TestCase
 
     public function testCallUserFunc()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         $user = new User('dennis84', 'demo123');
 

@@ -10,7 +10,7 @@ class TransformationTest extends \PHPUnit_Framework_TestCase
     public function test_transform_and_apply_order()
     {
         $test = $this;
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
             'foo' => $factory->mapping()->integer(),
@@ -19,7 +19,7 @@ class TransformationTest extends \PHPUnit_Framework_TestCase
             $test->assertSame(420, $foo);
         });
 
-        $mapping->transform(new NonsenseTransformer());
+        $mapping->transform(new NonsenseTransformer);
         $mapping->apply(['foo' => '42.2']);
     }
 }

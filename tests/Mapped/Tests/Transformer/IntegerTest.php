@@ -23,7 +23,7 @@ class IntegerTest extends \PHPUnit_Framework_TestCase
      */
     public function testTransform($expected, $value)
     {
-        $transformer = new \Mapped\Transformer\Integer();
+        $transformer = new \Mapped\Transformer\Integer;
         $this->assertSame($expected, $transformer->transform($value));
     }
 }

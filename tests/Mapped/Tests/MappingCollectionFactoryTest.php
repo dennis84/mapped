@@ -10,9 +10,8 @@ class MappingCollectionFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        $userMapping = new UserMappingCreator();
-
-        $factory = new MappingCollectionFactory();
+        $userMapping = new UserMappingCreator;
+        $factory = new MappingCollectionFactory;
         $coll = $factory->create([$userMapping]);
 
         $user = $coll->apply([

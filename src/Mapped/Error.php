@@ -4,8 +4,6 @@ namespace Mapped;
 
 /**
  * Error.
- *
- * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 class Error
 {

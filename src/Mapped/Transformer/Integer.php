@@ -6,13 +6,11 @@ use Mapped\Transformer;
 
 /**
  * Integer.
- *
- * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 class Integer extends Transformer
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function transform($data)
     {

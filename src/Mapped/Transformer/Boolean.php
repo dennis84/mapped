@@ -6,13 +6,11 @@ use Mapped\Transformer;
 
 /**
  * Boolean.
- *
- * @author Dennis Dietrich <d.dietrich84@gmail.com>
  */
 class Boolean extends Transformer
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function transform($data)
     {

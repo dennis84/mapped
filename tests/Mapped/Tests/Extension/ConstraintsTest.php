@@ -7,9 +7,9 @@ use Mapped\ValidationException;
 
 class ConstraintsTest extends \PHPUnit_Framework_TestCase
 {
-    public function test_nonEmptyText_fail()
+    public function testNonEmptyTextWithEmptyString()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
             'username' => $factory->mapping()->nonEmptyText(),
@@ -26,9 +26,9 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function test_nonEmptyText_with_nothing()
+    public function testNonEmptyTextWithNothing()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
             'username' => $factory->mapping()->nonEmptyText()
@@ -45,9 +45,9 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function test_integer_fail()
+    public function testIntegerFail()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
             'integer' => $factory->mapping()->integer()
@@ -64,9 +64,9 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function test_integer_pass()
+    public function testInteger()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
             'integer' => $factory->mapping()->integer(),
@@ -82,9 +82,9 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(42, $result['float']);
     }
 
-    public function test_number_fail()
+    public function testFloatFail()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
             'float' => $factory->mapping()->float()
@@ -101,9 +101,9 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function test_number_pass()
+    public function testFloat()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
             'integer' => $factory->mapping()->float(),
@@ -119,9 +119,9 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(12.23, $result['float']);
     }
 
-    public function test_boolean()
+    public function testBoolean()
     {
-        $factory = new MappingFactory();
+        $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
             'a' => $factory->mapping()->boolean(),

@@ -29,7 +29,7 @@ class MappingTest extends MappedTestCase
     public function testValidExtensionMethod()
     {
         $mapping = $this->createMapping([
-            new \Mapped\Tests\Fixtures\FooExtension()]);
+            new \Mapped\Tests\Fixtures\FooExtension]);
 
         $return = $mapping->foo();
         $this->assertEquals($return, $mapping);
