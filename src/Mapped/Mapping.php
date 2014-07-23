@@ -335,7 +335,7 @@ class Mapping
             } elseif ($child->isOptional()) {
                 $result[$name] = null;
             } else {
-                $errors[] = new Error($child, 'error.required', $childPath);
+                $errors[] = new Error('error.required', $childPath);
             }
         }
 
@@ -344,7 +344,8 @@ class Mapping
         }
 
         foreach ($this->constraints as $cons) {
-            if ($error = $cons->validate($this, $result, $propertyPath)) {
+            if (true !== $cons->check($result)) {
+                $error = new Error($cons->getMessage(), $propertyPath);
                 array_unshift($errors, $error);
             }
         }

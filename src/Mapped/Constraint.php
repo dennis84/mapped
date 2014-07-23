@@ -29,20 +29,12 @@ abstract class Constraint
     abstract public function check($value);
 
     /**
-     * Validates the given data against this constraint.
+     * Gets the error message.
      *
-     * @param Mapping $mapping      The mapping object
-     * @param mixed   $data         The data
-     * @param array   $propertyPath The property path
-     *
-     * @return null|Error
+     * @return string
      */
-    public function validate(Mapping $mapping, $data, array $propertyPath = [])
+    public function getMessage()
     {
-        if (true === $this->check($data)) {
-            return;
-        }
-
-        return new Error($mapping, $this->message, $propertyPath);
+        return $this->message;
     }
 }

@@ -7,32 +7,19 @@ namespace Mapped;
  */
 class Error
 {
-    protected $mapping;
     protected $message;
     protected $propertyPath = [];
 
     /**
      * Constructor.
      *
-     * @param Mapping $mapping      The mapping object
-     * @param string  $message      The error message
-     * @param array   $propertyPath The property path
+     * @param string $message      The error message
+     * @param array  $propertyPath The property path
      */
-    public function __construct(Mapping $mapping, $message, array $propertyPath = [])
+    public function __construct($message, array $propertyPath = [])
     {
-        $this->mapping = $mapping;
         $this->message = $message;
         $this->propertyPath = $propertyPath;
-    }
-
-    /**
-     * Gets the mapping object.
-     *
-     * @return Mapping
-     */
-    public function getMapping()
-    {
-        return $this->mapping;
     }
 
     /**
