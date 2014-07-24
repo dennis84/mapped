@@ -154,29 +154,6 @@ class Mapping
     }
 
     /**
-     * Sets a new array of constraints.
-     *
-     * @param Constraint[] $constraints An array of constraints
-     */
-    public function setConstraints(array $constraints)
-    {
-        $this->constraints = [];
-        foreach ($constraints as $constraint) {
-            $this->addConstraint($constraint);
-        }
-    }
-
-    /**
-     * Gets the constraints.
-     *
-     * @return Constraint[]
-     */
-    public function getConstraints()
-    {
-        return $this->constraints;
-    }
-
-    /**
      * Gets the event dispatcher.
      *
      * @return EventDispatcherInterface
