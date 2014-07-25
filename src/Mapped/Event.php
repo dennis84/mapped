@@ -12,19 +12,30 @@ class Event extends BaseEvent
     protected $mapping;
     protected $result;
     protected $data;
+    protected $errors = [];
+    protected $propertyPath = [];
 
     /**
      * Constructor.
      *
-     * @param Mapping $mapping The mapping object
-     * @param mixed   $result  The mapping result
-     * @param mixed   $data    The applied or unapplied data
+     * @param Mapping $mapping      The mapping object
+     * @param mixed   $data         The applied or unapplied data
+     * @param mixed   $result       The mapping result
+     * @param Error[] $errors       An array of errors
+     * @param array   $propertyPath The property path
      */
-    public function __construct(Mapping $mapping, $result = null, $data = null)
-    {
+    public function __construct(
+        Mapping $mapping,
+        $data = null,
+        $result = null,
+        array $errors = [],
+        array $propertyPath = []
+    ) {
         $this->mapping = $mapping;
-        $this->result = $result;
         $this->data = $data;
+        $this->result = $result;
+        $this->errors = $errors;
+        $this->propertyPath = $propertyPath;
     }
 
     /**
@@ -35,6 +46,26 @@ class Event extends BaseEvent
     public function getMapping()
     {
         return $this->mapping;
+    }
+
+    /**
+     * Gets the data.
+     *
+     * @return mixed
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * Sets the data.
+     *
+     * @param mixed $data The data
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
     }
 
     /**
@@ -58,22 +89,32 @@ class Event extends BaseEvent
     }
 
     /**
-     * Gets the data.
+     * Sets the errors.
      *
-     * @return mixed
+     * @param Error[] An array of error objects
      */
-    public function getData()
+    public function setErrors(array $errors)
     {
-        return $this->data;
+        $this->errors = $errors;
     }
 
     /**
-     * Sets the data.
+     * Gets the errors.
      *
-     * @param mixed $data The data
+     * @return Error[]
      */
-    public function setData($data)
+    public function getErrors()
     {
-        $this->data = $data;
+        return $this->errors;
+    }
+
+    /**
+     * Gets the property path.
+     *
+     * @return array
+     */
+    public function getPropertyPath()
+    {
+        return $this->propertyPath;
     }
 }

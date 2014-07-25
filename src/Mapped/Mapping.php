@@ -256,7 +256,7 @@ class Mapping
         if ($this->dispatcher->hasListeners(Events::UNAPPLY)) {
             $event = new Event($this, $data);
             $this->dispatcher->dispatch(Events::UNAPPLY, $event);
-            $data = $event->getResult();
+            $data = $event->getData();
         }
 
         foreach ($this->getTransformers() as $transformer) {
@@ -289,7 +289,7 @@ class Mapping
     private function doApply($data, array $propertyPath = [])
     {
         if ($this->dispatcher->hasListeners(Events::APPLY)) {
-            $event = new Event($this, null, $data);
+            $event = new Event($this, $data, null, [], $propertyPath);
             $this->dispatcher->dispatch(Events::APPLY, $event);
             $data = $event->getData();
         }
@@ -325,6 +325,13 @@ class Mapping
                 $error = new Error($cons->getMessage(), $propertyPath);
                 array_unshift($errors, $error);
             }
+        }
+
+        if ($this->dispatcher->hasListeners(Events::APPLIED)) {
+            $event = new Event($this, $data, $result, $errors, $propertyPath);
+            $this->dispatcher->dispatch(Events::APPLIED, $event);
+            $result = $event->getResult();
+            $errors = $event->getErrors();
         }
 
         return new MappingResult($result, $errors);

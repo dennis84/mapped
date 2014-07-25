@@ -2,8 +2,13 @@
 
 namespace Mapped\Tests\Fixtures;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Address
 {
+    /**
+     * @Assert\NotBlank(message="not-blank")
+     */
     public $city;
     public $street;
     public $location;

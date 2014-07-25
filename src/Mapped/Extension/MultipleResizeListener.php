@@ -31,7 +31,7 @@ class MultipleResizeListener
      */
     public function unapply(Event $event)
     {
-        $this->resize($event->getMapping(), $event->getResult());
+        $this->resize($event->getMapping(), $event->getData());
     }
 
     /**
