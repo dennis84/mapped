@@ -14,6 +14,7 @@
   },
   "require-dev": {
     "symfony/validator": "2.*",
+    "symfony/property-access": "2.*",
     "doctrine/common": "2.*"
   },
   "autoload": {

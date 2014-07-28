@@ -10,6 +10,7 @@ use Mapped\Error;
 use Mapped\Constraint\Callback;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ValidatorInterface;
+use Symfony\Component\PropertyAccess\PropertyPath;
 
 /**
  * This extension allows you to use Symfony's validation constraints.
@@ -48,6 +49,32 @@ class SymfonyValidation extends Extension
                         $vio->getMessage(),
                         $event->getPropertyPath()
                     );
+                }
+
+                $event->setErrors($errors);
+            }
+        });
+
+        return $mapping;
+    }
+
+    /**
+     * Enables object validation.
+     *
+     * @param Mapping $mapping The mapping object
+     *
+     * @return Mapping
+     */
+    public function enableObjectValidation(Mapping $mapping)
+    {
+        $disp = $mapping->getDispatcher();
+        $disp->addListener(Events::APPLIED, function (Event $event) {
+            $vios = $this->validator->validate($event->getResult());
+            if (count($vios) > 0) {
+                $errors = $event->getErrors();
+                foreach ($vios as $vio) {
+                    $propertyPath = new PropertyPath($vio->getPropertyPath());
+                    $errors[] = new Error($vio->getMessage(), $propertyPath->getElements());
                 }
 
                 $event->setErrors($errors);

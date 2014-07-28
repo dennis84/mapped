@@ -2,8 +2,13 @@
 
 namespace Mapped\Tests\Fixtures;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Attribute
 {
+    /**
+     * @Assert\NotBlank(message="not-blank")
+     */
     protected $name;
     protected $value;
 
