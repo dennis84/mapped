@@ -16,7 +16,7 @@ class MappingCollectionFactory
      */
     public function create(array $creators = [], array $extensions = [])
     {
-        $coll = new MappingCollection();
+        $coll = new MappingCollection;
         $factory = new MappingFactory($extensions);
 
         foreach ($creators as $creator) {
