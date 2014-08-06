@@ -6,7 +6,6 @@ use Mapped\MappingFactory;
 use Mapped\ValidationException;
 use Mapped\Tests\Fixtures\User;
 use Mapped\Tests\Fixtures\Address;
-use Mapped\Tests\Fixtures\NullToBlahTransformer;
 
 class OptionalTest extends \PHPUnit_Framework_TestCase
 {
@@ -66,12 +65,21 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
 
     public function testD()
     {
+        $transformerA = $this->getMock('Mapped\Transformer');
+        $transformerA->expects($this->at(0))
+            ->method('transform')->with(null)
+            ->will($this->returnValue('blah'));
+
+        $transformerB = $this->getMock('Mapped\Transformer');
+        $transformerB->expects($this->never())
+            ->method('transform');
+
         $factory = new MappingFactory;
         $mapping = $factory->mapping([
             'foo' => $factory->mapping()->optional()
-                ->transform(new NullToBlahTransformer),
+                ->transform($transformerA),
             'bar' => $factory->mapping()->optional()
-                ->transform(new NullToBlahTransformer),
+                ->transform($transformerB),
         ]);
 
         $result = $mapping->apply(['foo' => null]);
