@@ -22,9 +22,9 @@ class Multiple extends Extension
     public function multiple(Mapping $proto)
     {
         $resizer = new MultipleResizeListener;
-
         $disp    = new EventDispatcher;
         $mapping = new Mapping($disp, $proto->getExtensions());
+
         $mapping->setOption('prototype', $proto);
 
         $disp->addListener(Events::APPLY, [$resizer, 'apply']);

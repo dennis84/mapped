@@ -7,7 +7,6 @@ use Mapped\Mapping;
 use Mapped\Events;
 use Mapped\Event;
 use Mapped\Error;
-use Mapped\Constraint\Callback;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ValidatorInterface;
 use Symfony\Component\PropertyAccess\PropertyPath;
