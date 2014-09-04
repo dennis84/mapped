@@ -8,9 +8,9 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [true, true],
-            [true, 'true'],
             [true, false],
-            [true, 'false'],
+            [false, 'true'],
+            [false, 'false'],
             [false, 1],
             [false, '1'],
             [false, '0'],

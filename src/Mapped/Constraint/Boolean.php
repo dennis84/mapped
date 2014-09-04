@@ -14,9 +14,6 @@ class Boolean extends Constraint
      */
     public function check($value)
     {
-        return 'true' === $value
-            || 'false' === $value
-            || true === $value
-            || false === $value;
+        return is_bool($value);
     }
 }
