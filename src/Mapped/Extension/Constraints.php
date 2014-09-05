@@ -9,7 +9,7 @@ use Mapped\Mapping;
 /**
  * Enriches mapping objects with validation and transformation methods.
  */
-class Constraints extends Extension
+class Constraints implements Extension
 {
     /**
      * Checks if the value is not empty.

@@ -8,7 +8,7 @@ use Mapped\Extension;
 /**
  * This extension provides a simpler API to add custom constraints.
  */
-class Verifying extends Extension
+class Verifying implements Extension
 {
     /**
      * Adds a callback constraint to the mapping.

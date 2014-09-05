@@ -14,7 +14,7 @@ use Symfony\Component\PropertyAccess\PropertyPath;
 /**
  * This extension allows you to use Symfony's validation constraints.
  */
-class SymfonyValidation extends Extension
+class SymfonyValidation implements Extension
 {
     protected $validator;
 

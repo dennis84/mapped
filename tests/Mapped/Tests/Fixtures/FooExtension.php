@@ -5,7 +5,7 @@ namespace Mapped\Tests\Fixtures;
 use Mapped\Mapping;
 use Mapped\Extension;
 
-class FooExtension extends Extension
+class FooExtension implements Extension
 {
     public function initialize(Mapping $mapping)
     {

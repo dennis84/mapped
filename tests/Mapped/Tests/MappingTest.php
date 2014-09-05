@@ -7,25 +7,6 @@ use Mapped\Mapping;
 
 class MappingTest extends MappedTestCase
 {
-    public function testInitialize()
-    {
-        $ext = $this->getMock('Mapped\Extension');
-        $ext->expects($this->once())
-            ->method('initialize');
-
-        $mapping = $this->createMapping([$ext]);
-    }
-
-    public function testInitializeMethodMustNotBeCallable()
-    {
-        $ext = $this->getMock('Mapped\Extension');
-        $ext->expects($this->once())
-            ->method('initialize');
-
-        $mapping = $this->createMapping([$ext]);
-        $mapping->initialize($mapping);
-    }
-
     public function testValidExtensionMethod()
     {
         $mapping = $this->createMapping([

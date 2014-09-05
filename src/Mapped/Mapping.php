@@ -27,9 +27,6 @@ class Mapping
     {
         $this->dispatcher = $dispatcher;
         $this->extensions = $extensions;
-        foreach ($extensions as $extension) {
-            $extension->initialize($this);
-        }
     }
 
     /**
@@ -82,10 +79,6 @@ class Mapping
      */
     public function __call($method, $arguments)
     {
-        if ('initialize' === $method) {
-            return;
-        }
-
         foreach ($this->extensions as $extension) {
             if (false === method_exists($extension, $method)) {
                 continue;

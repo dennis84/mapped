@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 /**
  * Multiple extension.
  */
-class Multiple extends Extension
+class Multiple implements Extension
 {
     /**
      * Makes this mapping to a multiple.
