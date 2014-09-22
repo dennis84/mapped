@@ -1,6 +1,6 @@
 <?php
 
-namespace Mapped\Tests\Integration;
+namespace Mapped\Tests;
 
 use Mapped\MappingFactory;
 use Mapped\Tests\Fixtures\User;

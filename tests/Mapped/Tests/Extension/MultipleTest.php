@@ -1,6 +1,6 @@
 <?php
 
-namespace Mapped\Tests\Integration;
+namespace Mapped\Tests\Extension;
 
 use Mapped\MappingFactory;
 use Mapped\ValidationException;
