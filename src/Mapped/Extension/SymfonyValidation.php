@@ -2,7 +2,7 @@
 
 namespace Mapped\Extension;
 
-use Mapped\Extension;
+use Mapped\ExtensionInterface;
 use Mapped\Mapping;
 use Mapped\Events;
 use Mapped\Event;
@@ -14,7 +14,7 @@ use Symfony\Component\PropertyAccess\PropertyPath;
 /**
  * This extension allows you to use Symfony's validation constraints.
  */
-class SymfonyValidation implements Extension
+class SymfonyValidation implements ExtensionInterface
 {
     protected $validator;
 

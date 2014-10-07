@@ -3,12 +3,12 @@
 namespace Mapped\Extension;
 
 use Mapped\Mapping;
-use Mapped\Extension;
+use Mapped\ExtensionInterface;
 
 /**
  * This extension provides a simpler API to add custom constraints.
  */
-class Verifying implements Extension
+class Verifying implements ExtensionInterface
 {
     /**
      * Adds a callback constraint to the mapping.

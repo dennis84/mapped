@@ -3,9 +3,9 @@
 namespace Mapped\Tests\Fixtures;
 
 use Mapped\Mapping;
-use Mapped\Extension;
+use Mapped\ExtensionInterface;
 
-class FooExtension implements Extension
+class FooExtension implements ExtensionInterface
 {
     public function initialize(Mapping $mapping)
     {

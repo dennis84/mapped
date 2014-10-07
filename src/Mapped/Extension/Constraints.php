@@ -2,14 +2,14 @@
 
 namespace Mapped\Extension;
 
-use Mapped\Extension;
+use Mapped\ExtensionInterface;
 use Mapped\Constraint;
 use Mapped\Mapping;
 
 /**
  * Enriches mapping objects with validation and transformation methods.
  */
-class Constraints implements Extension
+class Constraints implements ExtensionInterface
 {
     /**
      * Checks if the value is not empty.

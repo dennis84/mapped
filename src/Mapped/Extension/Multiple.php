@@ -4,13 +4,13 @@ namespace Mapped\Extension;
 
 use Mapped\Mapping;
 use Mapped\Events;
-use Mapped\Extension;
+use Mapped\ExtensionInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Multiple extension.
  */
-class Multiple implements Extension
+class Multiple implements ExtensionInterface
 {
     /**
      * Makes this mapping to a multiple.
