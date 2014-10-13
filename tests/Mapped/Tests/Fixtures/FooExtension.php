@@ -7,10 +7,6 @@ use Mapped\ExtensionInterface;
 
 class FooExtension implements ExtensionInterface
 {
-    public function initialize(Mapping $mapping)
-    {
-    }
-
     public function foo(Mapping $mapping)
     {
         return $mapping;
