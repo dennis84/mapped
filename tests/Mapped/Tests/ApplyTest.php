@@ -139,4 +139,23 @@ class ApplyTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('Foo', $result->address->city);
         $this->assertSame('Bar', $result->address->street);
     }
+
+    public function testG()
+    {
+        $factory = new MappingFactory;
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
+        ]);
+
+        $user = $mapping->apply([
+            'username' => 'dennis',
+            'password' => 'passwd',
+        ], function ($username, $password) {
+            return new User($username, $password);
+        });
+
+        $this->assertEquals('dennis', $user->username);
+        $this->assertEquals('passwd', $user->password);
+    }
 }

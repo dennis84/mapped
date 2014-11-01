@@ -222,15 +222,16 @@ class Mapping
     /**
      * Applies the given data to the mapping.
      *
-     * @param mixed $data Any data
+     * @param mixed    $data Any data
+     * @param callable $func Callback function to transform the final data
      *
      * @return mixed
      *
      * @throw ValidationException If the validation failed
      */
-    public function apply($data)
+    public function apply($data, callable $func = null)
     {
-        $result = $this->doApply($data);
+        $result = $this->doApply($data, [], $func);
 
         if (count($result->getErrors()) > 0) {
             throw new ValidationException($result->getErrors());
@@ -242,9 +243,10 @@ class Mapping
     /**
      * Unapply the given data.
      *
-     * @param mixed $data The data to unapply
+     * @param mixed    $data The data to unapply
+     * @param callable $func Callback function to transform the final data
      */
-    public function unapply($data)
+    public function unapply($data, callable $func = null)
     {
         if ($this->dispatcher->hasListeners(Events::UNAPPLY)) {
             $event = new Event($this, $data);
@@ -252,7 +254,12 @@ class Mapping
             $data = $event->getData();
         }
 
-        foreach ($this->getTransformers() as $transformer) {
+        $transformers = $this->getTransformers();
+        if (null !== $func) {
+            $transformers[] = new Transformer\Callback(null, $func);
+        }
+
+        foreach ($transformers as $transformer) {
             $data = $transformer->reverseTransform($data);
         }
 
@@ -274,12 +281,13 @@ class Mapping
     /**
      * The recursive apply call.
      *
-     * @param mixed $data         Any data
-     * @param array $propertyPath The property path
+     * @param mixed    $data         Any data
+     * @param array    $propertyPath The property path
+     * @param callable $func         Callback function to transform the final data
      *
      * @return MappingResult
      */
-    private function doApply($data, array $propertyPath = [])
+    private function doApply($data, array $propertyPath = [], callable $func = null)
     {
         if ($this->dispatcher->hasListeners(Events::APPLY)) {
             $event = new Event($this, $data, null, [], $propertyPath);
@@ -309,7 +317,12 @@ class Mapping
             }
         }
 
-        foreach ($this->getTransformers() as $transformer) {
+        $transformers = $this->getTransformers();
+        if (null !== $func) {
+            $transformers[] = new Transformer\Callback($func);
+        }
+
+        foreach ($transformers as $transformer) {
             $result = $transformer->transform($result);
         }
 
