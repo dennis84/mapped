@@ -42,7 +42,7 @@ class MappingFactory
             $mapping->addChild($name, $child);
         }
 
-        $mapping->transform(new \Mapped\Transformer\Callback($apply, $unapply), -1);
+        $mapping->transform(new \Mapped\Transformer\Callback($apply, $unapply));
         return $mapping;
     }
 }

@@ -146,7 +146,11 @@ class ApplyTest extends \PHPUnit_Framework_TestCase
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
             'password' => $factory->mapping(),
-        ]);
+        ])->verifying('', function ($username, $password) {
+            $this->assertSame('dennis', $username);
+            $this->assertSame('passwd', $password);
+            return true;
+        });
 
         $user = $mapping->apply([
             'username' => 'dennis',

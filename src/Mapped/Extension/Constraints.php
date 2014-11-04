@@ -65,8 +65,8 @@ class Constraints implements ExtensionInterface
      */
     public function boolean(Mapping $mapping, $message = 'error.boolean')
     {
-        $mapping->addConstraint(new \Mapped\Constraint\Boolean($message));
         $mapping->transform(new \Mapped\Transformer\Boolean);
+        $mapping->addConstraint(new \Mapped\Constraint\Boolean($message));
         return $mapping;
     }
 }

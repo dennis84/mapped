@@ -11,11 +11,10 @@ class Mapping
 {
     protected $dispatcher;
     protected $extensions = [];
-    protected $transformers = [];
-    protected $constraints = [];
     protected $children = [];
     protected $options = [];
     protected $optional = false;
+    protected $hooks = [];
 
     /**
      * Constructor.
@@ -43,28 +42,21 @@ class Mapping
      * Adds a transformer.
      *
      * @param Transformer $transformer The transformer
-     * @param int         $prio        The transformation priority
      */
-    public function transform(Transformer $transformer, $prio = 0)
+    public function transform(Transformer $transformer)
     {
-        $this->transformers[$prio][] = $transformer;
+        $this->hooks[] = $transformer;
         return $this;
     }
 
     /**
-     * Returns the transformers sorted by priority.
+     * Adds a constraint.
      *
-     * @return Transformer[]
+     * @param Constraint $constraint The constaint object
      */
-    public function getTransformers()
+    public function addConstraint(Constraint $constraint)
     {
-        $transformers = $this->transformers;
-        if (0 === count($transformers)) {
-            return $transformers;
-        }
-
-        krsort($transformers);
-        return call_user_func_array('array_merge', $transformers);
+        $this->hooks[] = $constraint;
     }
 
     /**
@@ -134,16 +126,6 @@ class Mapping
     public function addChild($name, Mapping $child)
     {
         $this->children[$name] = $child;
-    }
-
-    /**
-     * Adds a constraint.
-     *
-     * @param Constraint $constraint The constaint object
-     */
-    public function addConstraint(Constraint $constraint)
-    {
-        $this->constraints[] = $constraint;
     }
 
     /**
@@ -248,19 +230,20 @@ class Mapping
      */
     public function unapply($data, callable $func = null)
     {
+        if (null !== $func) {
+            $this->hooks[] = new Transformer\Callback(null, $func);
+        }
+
         if ($this->dispatcher->hasListeners(Events::UNAPPLY)) {
             $event = new Event($this, $data);
             $this->dispatcher->dispatch(Events::UNAPPLY, $event);
             $data = $event->getData();
         }
 
-        $transformers = $this->getTransformers();
-        if (null !== $func) {
-            $transformers[] = new Transformer\Callback(null, $func);
-        }
-
-        foreach ($transformers as $transformer) {
-            $data = $transformer->reverseTransform($data);
+        foreach ($this->hooks as $hook) {
+            if ($hook instanceof Transformer) {
+                $data = $hook->reverseTransform($data);
+            }
         }
 
         if (!$this->hasChildren()) {
@@ -289,6 +272,10 @@ class Mapping
      */
     private function doApply($data, array $propertyPath = [], callable $func = null)
     {
+        if (null !== $func) {
+            $this->hooks[] = new Transformer\Callback($func);
+        }
+
         if ($this->dispatcher->hasListeners(Events::APPLY)) {
             $event = new Event($this, $data, null, [], $propertyPath);
             $this->dispatcher->dispatch(Events::APPLY, $event);
@@ -317,19 +304,14 @@ class Mapping
             }
         }
 
-        $transformers = $this->getTransformers();
-        if (null !== $func) {
-            $transformers[] = new Transformer\Callback($func);
-        }
-
-        foreach ($transformers as $transformer) {
-            $result = $transformer->transform($result);
-        }
-
-        foreach ($this->constraints as $cons) {
-            if (true !== $cons->check($result)) {
-                $error = new Error($cons->getMessage(), $propertyPath);
-                array_unshift($errors, $error);
+        foreach ($this->hooks as $hook) {
+            if ($hook instanceof Transformer) {
+                $result = $hook->transform($result);
+            } elseif ($hook instanceof Constraint) {
+                if (true !== $hook->check($result)) {
+                    $error = new Error($hook->getMessage(), $propertyPath);
+                    array_unshift($errors, $error);
+                }
             }
         }
 
