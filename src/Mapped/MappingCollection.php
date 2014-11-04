@@ -50,26 +50,28 @@ class MappingCollection
     /**
      * Apply.
      *
-     * @param mixed  $data
-     * @param string $name
+     * @param string   $name
+     * @param mixed    $data
+     * @param callable $func
      *
      * return mixed
      */
-    public function apply($data, $name)
+    public function apply($name, $data, callable $func = null)
     {
-        return $this->get($name)->apply($data);
+        return $this->get($name)->apply($data, $func);
     }
 
     /**
      * Unapply.
      *
-     * @param mixed  $data
-     * @param string $name
+     * @param string   $name
+     * @param mixed    $data
+     * @param callable $func
      *
      * return mixed
      */
-    public function unapply($data, $name)
+    public function unapply($name, $data, callable $func = null)
     {
-        return $this->get($name)->unapply($data);
+        return $this->get($name)->unapply($data, $func);
     }
 }

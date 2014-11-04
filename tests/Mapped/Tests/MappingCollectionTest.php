@@ -29,16 +29,16 @@ class MappingCollectionTest extends \PHPUnit_Framework_TestCase
 
         $coll->add('Mapped\Tests\Fixtures\User', $mapping);
 
-        $user = $coll->apply([
+        $user = $coll->apply('Mapped\Tests\Fixtures\User', [
             'username' => 'dennis84',
             'password' => 'password',
-        ], 'Mapped\Tests\Fixtures\User');
+        ]);
 
         $this->assertInstanceOf('Mapped\Tests\Fixtures\User', $user);
         $this->assertSame('dennis84', $user->username);
         $this->assertSame('password', $user->password);
 
-        $result = $coll->unapply($user, 'Mapped\Tests\Fixtures\User');
+        $result = $coll->unapply('Mapped\Tests\Fixtures\User', $user);
         $this->assertSame([
             'username' => 'dennis84',
             'password' => 'password',
@@ -69,14 +69,14 @@ class MappingCollectionTest extends \PHPUnit_Framework_TestCase
 
         $coll->add('Mapped\Tests\Fixtures\User', $userMapping);
 
-        $user = $coll->apply([
+        $user = $coll->apply('Mapped\Tests\Fixtures\User', [
             'username' => 'dennis84',
             'password' => 'password',
             'address'  => [
                 'city'   => 'foo',
                 'street' => 'bar',
             ]
-        ], 'Mapped\Tests\Fixtures\User');
+        ]);
 
         $this->assertInstanceOf('Mapped\Tests\Fixtures\User', $user);
         $this->assertSame('dennis84', $user->username);
@@ -95,13 +95,13 @@ class MappingCollectionTest extends \PHPUnit_Framework_TestCase
         $foo = $factory->mapping();
         $coll->add('foo', $foo);
 
-        $result1 = $coll->apply('test', 'foo');
+        $result1 = $coll->apply('foo', 'test');
 
         $coll->get('foo')->transform(new Callback(function () {
             return;
         }));
 
-        $result2 = $coll->apply('test', 'foo');
+        $result2 = $coll->apply('foo', 'test');
 
         $this->assertNotSame($result1, $result2);
     }

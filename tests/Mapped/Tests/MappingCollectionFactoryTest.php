@@ -14,15 +14,15 @@ class MappingCollectionFactoryTest extends \PHPUnit_Framework_TestCase
         $factory = new MappingCollectionFactory;
         $coll = $factory->create([$userMapping]);
 
-        $user = $coll->apply([
+        $user = $coll->apply('Mapped\Tests\Fixtures\User', [
             'username' => 'dennis84',
             'password' => 'password',
-        ], 'Mapped\Tests\Fixtures\User');
+        ]);
 
         $this->assertSame('dennis84', $user->username);
         $this->assertSame('password', $user->password);
 
-        $data = $coll->unapply($user, 'Mapped\Tests\Fixtures\User');
+        $data = $coll->unapply('Mapped\Tests\Fixtures\User', $user);
         $this->assertEquals([
             'username' => 'dennis84',
             'password' => 'password',
