@@ -1,6 +1,6 @@
 <?php
 
-namespace Mapped\Tests;
+namespace Mapped\Tests\Transformer;
 
 class IntegerTest extends \PHPUnit_Framework_TestCase
 {

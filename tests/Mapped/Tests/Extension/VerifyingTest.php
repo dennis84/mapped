@@ -5,7 +5,7 @@ namespace Mapped\Tests\Extension;
 use Mapped\MappingFactory;
 use Mapped\Tests\Fixtures\User;
 
-class CustomConstraintTest extends \PHPUnit_Framework_TestCase
+class VerifyingTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {

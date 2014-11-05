@@ -3,7 +3,6 @@
 namespace Mapped\Tests;
 
 use Mapped\MappingFactory;
-use Mapped\ValidationException;
 use Mapped\Tests\Fixtures\User;
 use Mapped\Tests\Fixtures\Address;
 

@@ -3,7 +3,6 @@
 namespace Mapped\Tests;
 
 use Mapped\MappingCollectionFactory;
-use Mapped\MappingFactory;
 use Mapped\Tests\Fixtures\UserMappingCreator;
 
 class MappingCollectionFactoryTest extends \PHPUnit_Framework_TestCase

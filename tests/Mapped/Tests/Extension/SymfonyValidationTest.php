@@ -4,7 +4,6 @@ namespace Mapped\Tests\Extension;
 
 use Mapped\MappingFactory;
 use Mapped\ValidationException;
-use Mapped\Tests\Fixtures\User;
 use Mapped\Tests\Fixtures\Post;
 use Mapped\Tests\Fixtures\Attribute;
 use Symfony\Component\Validator\Validation;

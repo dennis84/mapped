@@ -2,7 +2,6 @@
 
 namespace Mapped\Tests;
 
-use Mapped\MappingFactory;
 use Mapped\Mapping;
 
 class MappingTest extends MappedTestCase

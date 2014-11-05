@@ -1,6 +1,6 @@
 <?php
 
-namespace Mapped\Tests;
+namespace Mapped\Tests\Transformer;
 
 class FloatTest extends \PHPUnit_Framework_TestCase
 {

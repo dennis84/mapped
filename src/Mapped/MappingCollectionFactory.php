@@ -10,7 +10,8 @@ class MappingCollectionFactory
     /**
      * Creates a mapping collection.
      *
-     * @param MappingCreatorInterface[] $creators An array of mapping creators
+     * @param MappingCreatorInterface[] $creators   An array of mapping creators
+     * @param ExtensionInterface[]      $extensions An array of extensions
      *
      * @return MappingCollection
      */
