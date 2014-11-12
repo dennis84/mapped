@@ -1,6 +1,7 @@
 # Mapped
 
-A lightweight serialization library for PHP.
+Mapped is a lightweight data transformation and validation tool. You can use it
+for JSON (de)serialization, form handling and many more.
 
 [![Build Status](https://travis-ci.org/dennis84/mapped.svg?branch=master)](https://travis-ci.org/dennis84/mapped)
 [![Coverage Status](https://coveralls.io/repos/dennis84/mapped/badge.png?branch=master)](https://coveralls.io/r/dennis84/mapped?branch=master)
@@ -10,7 +11,7 @@ A lightweight serialization library for PHP.
 ```php
 <?php
 
-$factory = new MappingFactory();
+$factory = new MappingFactory;
 
 $mapping = $factory->mapping([
     'username' => $factory->mapping(),
@@ -25,44 +26,13 @@ $mapping = $factory->mapping([
 });
 
 $user = $mapping->apply([
-    'username' => 'dennis84',
-    'password' => 'password',
+    'username' => 'dennis',
+    'password' => 'passwd',
 ]);
 
 $data = $mapping->unapply($user);
 ```
 
-## Classes
+## More examples
 
-`add/apply/unapply` mappings by name with the `MappingCollection`:
-
-```php
-$mappings = new MappingCollection();
-$mappings->add(User::class, $userMapping);
-
-$user = $mappings->apply([...], User::class);
-$data = $mappings->unapply($user, User::class);
-```
-
-Define mappings via creator classes:
-
-```php
-class UserMappingCreator implements MappingCreatorInterface
-{
-    public function create(MappingFactory $factory)
-    {
-        return $factory->mapping(...);
-    }
-
-    public function getName()
-    {
-        return User::class;
-    }
-}
-
-$userMapping = new UserMappingCreator();
-$factory  = new MappingCollectionFactory();
-
-// @var MappingCollection
-$mappings = $factory->create([$usermapping]);
-```
+Mapped has a pretty comprehensive test coverage that demonstrates [the whole bunch of functionality](https://github.com/dennis84/mapped/tree/master/tests/Mapped/Tests).
