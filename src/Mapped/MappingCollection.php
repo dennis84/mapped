@@ -40,8 +40,7 @@ class MappingCollection
     public function get($name)
     {
         if (false === array_key_exists($name, $this->mappings)) {
-            throw new \InvalidArgumentException(sprintf(
-                'A Mapping with name "%s" does not exists.', $name));
+            throw new \InvalidArgumentException(sprintf('A Mapping with name "%s" does not exist.', $name));
         }
 
         return $this->mappings[$name];

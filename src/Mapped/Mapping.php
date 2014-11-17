@@ -91,8 +91,7 @@ class Mapping
             return call_user_func_array([$extension, $method], $arguments);
         }
 
-        throw new \BadMethodCallException(
-            sprintf('Method "%s" does not exists.', $method));
+        throw new \BadMethodCallException(sprintf('Method "%s" does not exists.', $method));
     }
 
     /**
@@ -102,10 +101,7 @@ class Mapping
      */
     public function setChildren(array $children)
     {
-        $this->children = [];
-        foreach ($children as $name => $child) {
-            $this->addChild($name, $child);
-        }
+        $this->children = $children;
     }
 
     /**
@@ -172,8 +168,7 @@ class Mapping
     public function getOption($name)
     {
         if (!array_key_exists($name, $this->options)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Option with name "%s" does not exists.', $name));
+            throw new \InvalidArgumentException(sprintf('Option with name "%s" does not exist.', $name));
         }
 
         return $this->options[$name];

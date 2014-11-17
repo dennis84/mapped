@@ -14,12 +14,12 @@ interface MappingCreatorInterface
      *
      * @return Mapping
      */
-    function create(MappingFactory $factory);
+    public function create(MappingFactory $factory);
 
     /**
      * Gets the name.
      *
      * @return string
      */
-    function getName();
+    public function getName();
 }
