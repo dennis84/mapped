@@ -14,7 +14,6 @@ class Mapping
     protected $children = [];
     protected $options = [];
     protected $optional = false;
-    protected $hooks = [];
 
     /**
      * Constructor.
@@ -45,7 +44,14 @@ class Mapping
      */
     public function transform(Transformer $transformer)
     {
-        $this->hooks[] = $transformer;
+        $this->dispatcher->addListener(Events::APPLIED, function ($event) use ($transformer) {
+            $event->setResult($transformer->transform($event->getResult()));
+        });
+
+        $this->dispatcher->addListener(Events::UNAPPLY, function ($event) use ($transformer) {
+            $event->setData($transformer->reverseTransform($event->getData()));
+        });
+
         return $this;
     }
 
@@ -56,7 +62,12 @@ class Mapping
      */
     public function addConstraint(Constraint $constraint)
     {
-        $this->hooks[] = $constraint;
+        $this->dispatcher->addListener(Events::APPLIED, function ($event) use ($constraint) {
+            if (true !== $constraint->check($event->getResult())) {
+                $error = new Error($constraint->getMessage(), $event->getPropertyPath());
+                $event->addError($error);
+            }
+        });
     }
 
     /**
@@ -231,19 +242,13 @@ class Mapping
     public function unapply($data, callable $func = null)
     {
         if (null !== $func) {
-            $this->hooks[] = new Transformer\Callback(null, $func);
+            $this->transform(new Transformer\Callback(null, $func));
         }
 
         if ($this->dispatcher->hasListeners(Events::UNAPPLY)) {
             $event = new Event($this, $data);
             $this->dispatcher->dispatch(Events::UNAPPLY, $event);
             $data = $event->getData();
-        }
-
-        foreach ($this->hooks as $hook) {
-            if ($hook instanceof Transformer) {
-                $data = $hook->reverseTransform($data);
-            }
         }
 
         if (!$this->hasChildren()) {
@@ -273,7 +278,7 @@ class Mapping
     private function doApply($data, array $propertyPath = [], callable $func = null)
     {
         if (null !== $func) {
-            $this->hooks[] = new Transformer\Callback($func);
+            $this->transform(new Transformer\Callback($func));
         }
 
         if ($this->dispatcher->hasListeners(Events::APPLY)) {
@@ -282,12 +287,11 @@ class Mapping
             $data = $event->getData();
         }
 
-        $errors = [];
+        $childErrors = [];
+        $result = $data;
 
         if ($this->hasChildren()) {
             $result = [];
-        } else {
-            $result = $data;
         }
 
         foreach ($this->children as $name => $child) {
@@ -296,24 +300,15 @@ class Mapping
             if (is_array($data) && array_key_exists($name, $data)) {
                 $childResult = $child->doApply($data[$name], $childPath);
                 $result[$name] = $childResult->getData();
-                $errors = array_merge($errors, $childResult->getErrors());
+                $childErrors = array_merge($childErrors, $childResult->getErrors());
             } elseif ($child->isOptional()) {
                 $result[$name] = null;
             } else {
-                $errors[] = new Error('error.required', $childPath);
+                $childErrors[] = new Error('error.required', $childPath);
             }
         }
 
-        foreach ($this->hooks as $hook) {
-            if ($hook instanceof Transformer) {
-                $result = $hook->transform($result);
-            } elseif ($hook instanceof Constraint) {
-                if (true !== $hook->check($result)) {
-                    $error = new Error($hook->getMessage(), $propertyPath);
-                    array_unshift($errors, $error);
-                }
-            }
-        }
+        $errors = [];
 
         if ($this->dispatcher->hasListeners(Events::APPLIED)) {
             $event = new Event($this, $data, $result, $errors, $propertyPath);
@@ -322,6 +317,6 @@ class Mapping
             $errors = $event->getErrors();
         }
 
-        return new MappingResult($result, $errors);
+        return new MappingResult($result, array_merge($errors, $childErrors));
     }
 }

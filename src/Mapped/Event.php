@@ -89,6 +89,16 @@ class Event extends BaseEvent
     }
 
     /**
+     * Adds an error.
+     *
+     * @param Error $error
+     */
+    public function addError(Error $error)
+    {
+        $this->errors[] = $error;
+    }
+
+    /**
      * Sets the errors.
      *
      * @param Error[] An array of error objects

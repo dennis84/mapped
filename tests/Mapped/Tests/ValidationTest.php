@@ -49,8 +49,8 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
             'password' => $factory->mapping()->verifying('error.password', function ($value) {
                 return false;
             }),
-            'address'  => $factory->mapping([
-                'city'   => $factory->mapping()->verifying('error.city', function ($value) {
+            'address' => $factory->mapping([
+                'city' => $factory->mapping()->verifying('error.city', function ($value) {
                     return false;
                 }),
                 'street' => $factory->mapping(),
