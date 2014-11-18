@@ -38,39 +38,6 @@ class Mapping
     }
 
     /**
-     * Adds a transformer.
-     *
-     * @param Transformer $transformer The transformer
-     */
-    public function transform(Transformer $transformer)
-    {
-        $this->dispatcher->addListener(Events::APPLIED, function ($event) use ($transformer) {
-            $event->setResult($transformer->transform($event->getResult()));
-        });
-
-        $this->dispatcher->addListener(Events::UNAPPLY, function ($event) use ($transformer) {
-            $event->setData($transformer->reverseTransform($event->getData()));
-        });
-
-        return $this;
-    }
-
-    /**
-     * Adds a constraint.
-     *
-     * @param Constraint $constraint The constaint object
-     */
-    public function addConstraint(Constraint $constraint)
-    {
-        $this->dispatcher->addListener(Events::APPLIED, function ($event) use ($constraint) {
-            if (true !== $constraint->check($event->getResult())) {
-                $error = new Error($constraint->getMessage(), $event->getPropertyPath());
-                $event->addError($error);
-            }
-        });
-    }
-
-    /**
      * Invokes an extension method.
      *
      * @param string  $method    The method name
@@ -233,11 +200,16 @@ class Mapping
      *
      * @param mixed    $data The data to unapply
      * @param callable $func Callback function to transform the final data
+     *
+     * @return mixed
      */
     public function unapply($data, callable $func = null)
     {
         if (null !== $func) {
-            $this->transform(new Transformer\Callback(null, $func));
+            $this->dispatcher->addListener(Events::UNAPPLY, function ($event) use ($func) {
+                $trans = new Transformer\Callback(null, $func);
+                $event->setData($trans->reverseTransform($event->getData()));
+            });
         }
 
         if ($this->dispatcher->hasListeners(Events::UNAPPLY)) {
@@ -273,7 +245,10 @@ class Mapping
     private function doApply($data, array $propertyPath = [], callable $func = null)
     {
         if (null !== $func) {
-            $this->transform(new Transformer\Callback($func));
+            $this->dispatcher->addListener(Events::APPLIED, function ($event) use ($func) {
+                $trans = new Transformer\Callback($func);
+                $event->setResult($trans->transform($event->getResult()));
+            });
         }
 
         if ($this->dispatcher->hasListeners(Events::APPLY)) {
