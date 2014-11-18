@@ -8,7 +8,7 @@ use Mapped\Events;
 use Mapped\Event;
 use Mapped\Error;
 use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\ValidatorInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\PropertyAccess\PropertyPath;
 
 /**
@@ -40,7 +40,7 @@ class SymfonyValidation implements ExtensionInterface
     {
         $disp = $mapping->getDispatcher();
         $disp->addListener(Events::APPLIED, function (Event $event) use ($cons) {
-            $vios = $this->validator->validateValue($event->getResult(), $cons);
+            $vios = $this->validator->validate($event->getResult(), $cons);
             if (count($vios) > 0) {
                 $errors = $event->getErrors();
                 foreach ($vios as $vio) {
