@@ -18,7 +18,10 @@
     "doctrine/common": "2.*"
   },
   "autoload": {
-    "psr-0": { "Mapped": "src/" }
+    "psr-4": { "Mapped\\": "src/" }
+  },
+  "autoload-dev": {
+    "psr-4": { "Mapped\\Tests\\": "tests/" }
   },
   "minimum-stability": "dev"
 }
