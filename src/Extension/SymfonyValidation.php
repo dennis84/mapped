@@ -41,16 +41,11 @@ class SymfonyValidation implements ExtensionInterface
         $disp = $mapping->getDispatcher();
         $disp->addListener(Events::APPLIED, function (Event $event) use ($cons) {
             $vios = $this->validator->validate($event->getResult(), $cons);
-            if (count($vios) > 0) {
-                $errors = $event->getErrors();
-                foreach ($vios as $vio) {
-                    $errors[] = new Error(
-                        $vio->getMessage(),
-                        $event->getPropertyPath()
-                    );
-                }
-
-                $event->setErrors($errors);
+            foreach ($vios as $vio) {
+                $event->addError(new Error(
+                    $vio->getMessage(),
+                    $event->getPropertyPath()
+                ));
             }
         });
 
@@ -69,14 +64,12 @@ class SymfonyValidation implements ExtensionInterface
         $disp = $mapping->getDispatcher();
         $disp->addListener(Events::APPLIED, function (Event $event) {
             $vios = $this->validator->validate($event->getResult());
-            if (count($vios) > 0) {
-                $errors = $event->getErrors();
-                foreach ($vios as $vio) {
-                    $propertyPath = new PropertyPath($vio->getPropertyPath());
-                    $errors[] = new Error($vio->getMessage(), $propertyPath->getElements());
-                }
-
-                $event->setErrors($errors);
+            foreach ($vios as $vio) {
+                $propertyPath = new PropertyPath($vio->getPropertyPath());
+                $event->addError(new Error(
+                    $vio->getMessage(),
+                    $propertyPath->getElements()
+                ));
             }
         });
 

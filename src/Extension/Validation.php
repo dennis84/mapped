@@ -39,8 +39,7 @@ class Validation implements ExtensionInterface
         $disp = $mapping->getDispatcher();
         $disp->addListener(Events::APPLIED, function ($event) use ($cons) {
             if (true !== $cons->check($event->getResult())) {
-                $error = new Error($cons->getMessage(), $event->getPropertyPath());
-                $event->addError($error);
+                $event->addError(new Error($cons->getMessage(), $event->getPropertyPath()));
             }
         });
 

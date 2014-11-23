@@ -21,8 +21,7 @@ class Constraints implements ExtensionInterface
      */
     public function nonEmptyText(Mapping $mapping, $message = 'error.non_empty_text')
     {
-        $mapping->addConstraint(new \Mapped\Constraint\NonEmptyText($message));
-        return $mapping;
+        return $mapping->addConstraint(new \Mapped\Constraint\NonEmptyText($message));
     }
 
     /**
