@@ -45,40 +45,40 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testIntegerFail()
+    public function testIntFail()
     {
         $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
-            'integer' => $factory->mapping()->integer()
+            'int' => $factory->mapping()->int()
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');
 
         try {
-            $mapping->apply(['integer' => '12a']);
+            $mapping->apply(['int' => '12a']);
         } catch (ValidationException $e) {
             $errors = $e->getErrors();
-            $this->assertSame('error.integer', $errors[0]->getMessage());
+            $this->assertSame('error.int', $errors[0]->getMessage());
             throw $e;
         }
     }
 
-    public function testInteger()
+    public function testInt()
     {
         $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
-            'integer' => $factory->mapping()->integer(),
-            'float'   => $factory->mapping()->integer(),
+            'int' => $factory->mapping()->int(),
+            'float'   => $factory->mapping()->int(),
         ]);
 
         $result = $mapping->apply([
-            'integer' => '12',
+            'int' => '12',
             'float'   => '42.23',
         ]);
 
-        $this->assertSame(12, $result['integer']);
+        $this->assertSame(12, $result['int']);
         $this->assertSame(42, $result['float']);
     }
 
@@ -106,16 +106,16 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
         $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
-            'integer' => $factory->mapping()->float(),
+            'int' => $factory->mapping()->float(),
             'float'   => $factory->mapping()->float(),
         ]);
 
         $result = $mapping->apply([
-            'integer' => '12',
+            'int' => '12',
             'float'   => '12.23',
         ]);
 
-        $this->assertSame(12.0, $result['integer']);
+        $this->assertSame(12.0, $result['int']);
         $this->assertSame(12.23, $result['float']);
     }
 

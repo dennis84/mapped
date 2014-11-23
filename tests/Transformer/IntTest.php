@@ -2,7 +2,7 @@
 
 namespace Mapped\Tests\Transformer;
 
-class IntegerTest extends \PHPUnit_Framework_TestCase
+class IntTest extends \PHPUnit_Framework_TestCase
 {
     public function validData()
     {
@@ -23,7 +23,7 @@ class IntegerTest extends \PHPUnit_Framework_TestCase
      */
     public function testTransform($expected, $value)
     {
-        $transformer = new \Mapped\Transformer\Integer;
+        $transformer = new \Mapped\Transformer\Int;
         $this->assertSame($expected, $transformer->transform($value));
     }
 }

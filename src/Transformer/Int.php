@@ -5,9 +5,9 @@ namespace Mapped\Transformer;
 use Mapped\Transformer;
 
 /**
- * Integer.
+ * Int.
  */
-class Integer extends Transformer
+class Int extends Transformer
 {
     /**
      * {@inheritdoc}

@@ -26,17 +26,17 @@ class Constraints implements ExtensionInterface
     }
 
     /**
-     * Checks if the value is numeric and converts it to an integer.
+     * Checks if the value is numeric and converts it to an int.
      *
      * @param Mapping $mapping The mapping object
      * @param string  $message The error message
      *
      * @return Mapping
      */
-    public function integer(Mapping $mapping, $message = 'error.integer')
+    public function int(Mapping $mapping, $message = 'error.int')
     {
         $mapping->addConstraint(new \Mapped\Constraint\Number($message));
-        $mapping->transform(new \Mapped\Transformer\Integer);
+        $mapping->transform(new \Mapped\Transformer\Int);
         return $mapping;
     }
 
