@@ -5,9 +5,9 @@ namespace Mapped\Constraint;
 use Mapped\Constraint;
 
 /**
- * Boolean.
+ * Bool.
  */
-class Boolean extends Constraint
+class Bool extends Constraint
 {
     /**
      * {@inheritdoc}

@@ -24,7 +24,7 @@ abstract class Constraint
      *
      * @param mixed $value The value
      *
-     * @return boolean
+     * @return bool
      */
     abstract public function check($value);
 

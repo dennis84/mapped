@@ -5,9 +5,9 @@ namespace Mapped\Transformer;
 use Mapped\Transformer;
 
 /**
- * Boolean.
+ * Bool.
  */
-class Boolean extends Transformer
+class Bool extends Transformer
 {
     /**
      * {@inheritdoc}
@@ -18,6 +18,6 @@ class Boolean extends Transformer
             $data = false;
         }
 
-        return (boolean) $data;
+        return (bool) $data;
     }
 }

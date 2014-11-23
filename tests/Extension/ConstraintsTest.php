@@ -119,15 +119,15 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(12.23, $result['float']);
     }
 
-    public function testBoolean()
+    public function testBool()
     {
         $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
-            'a' => $factory->mapping()->boolean(),
-            'b' => $factory->mapping()->boolean(),
-            'c' => $factory->mapping()->boolean(),
-            'd' => $factory->mapping()->boolean(),
+            'a' => $factory->mapping()->bool(),
+            'b' => $factory->mapping()->bool(),
+            'c' => $factory->mapping()->bool(),
+            'd' => $factory->mapping()->bool(),
         ]);
 
         $result = $mapping->apply([

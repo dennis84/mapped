@@ -2,7 +2,7 @@
 
 namespace Mapped\Tests\Constraint;
 
-class BooleanTest extends \PHPUnit_Framework_TestCase
+class BoolTest extends \PHPUnit_Framework_TestCase
 {
     public function validData()
     {
@@ -23,7 +23,7 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheck($expected, $value)
     {
-        $constraint = new \Mapped\Constraint\Boolean('');
+        $constraint = new \Mapped\Constraint\Bool('');
         $this->assertSame($expected, $constraint->check($value));
     }
 }

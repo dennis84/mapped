@@ -74,7 +74,7 @@ class Mapping
     /**
      * Returns true if the mapping has children, otherwise false.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasChildren()
     {
@@ -144,9 +144,9 @@ class Mapping
     /**
      * Returns true if an option with given name exists, otherwise false.
      *
-     * @param boolean $name The option name
+     * @param bool $name The option name
      *
-     * @return boolean
+     * @return bool
      */
     public function hasOption($name)
     {
@@ -167,7 +167,7 @@ class Mapping
     /**
      * Returns true if the mapping is optional, otherwise false.
      *
-     * @return boolean
+     * @return bool
      */
     public function isOptional()
     {

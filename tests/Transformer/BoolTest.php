@@ -2,7 +2,7 @@
 
 namespace Mapped\Tests\Transformer;
 
-class BooleanTest extends \PHPUnit_Framework_TestCase
+class BoolTest extends \PHPUnit_Framework_TestCase
 {
     public function validData()
     {
@@ -19,7 +19,7 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
      */
     public function testTransform($expected, $value)
     {
-        $transformer = new \Mapped\Transformer\Boolean;
+        $transformer = new \Mapped\Transformer\Bool;
         $this->assertSame($expected, $transformer->transform($value));
     }
 }

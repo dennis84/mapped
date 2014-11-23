@@ -145,7 +145,7 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
         $factory = new MappingFactory;
         $mapping = $factory->mapping([
             'emails' => $factory->mapping()->verifying('email', function ($value) {
-                return (boolean) filter_var($value, FILTER_VALIDATE_EMAIL);
+                return (bool) filter_var($value, FILTER_VALIDATE_EMAIL);
             })->multiple(),
         ]);
 
