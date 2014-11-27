@@ -257,7 +257,7 @@ class Mapping
             $data = $event->getData();
         }
 
-        $childErrors = [];
+        $errors = [];
         $result = $data;
 
         if ($this->hasChildren()) {
@@ -270,23 +270,21 @@ class Mapping
             if (is_array($data) && array_key_exists($name, $data)) {
                 $childResult = $child->doApply($data[$name], $childPath);
                 $result[$name] = $childResult->getData();
-                $childErrors = array_merge($childErrors, $childResult->getErrors());
+                $errors = array_merge($errors, $childResult->getErrors());
             } elseif ($child->isOptional()) {
                 $result[$name] = null;
             } else {
-                $childErrors[] = new Error('error.required', $childPath);
+                $errors[] = new Error('error.required', $childPath);
             }
         }
 
-        $errors = [];
-
         if ($this->dispatcher->hasListeners(Events::APPLIED)) {
-            $event = new Event($this, $data, $result, $errors, $propertyPath);
+            $event = new Event($this, $data, $result, [], $propertyPath);
             $this->dispatcher->dispatch(Events::APPLIED, $event);
             $result = $event->getResult();
-            $errors = $event->getErrors();
+            $errors = array_merge($event->getErrors(), $errors);
         }
 
-        return new MappingResult($result, array_merge($errors, $childErrors));
+        return new MappingResult($result, $errors);
     }
 }
