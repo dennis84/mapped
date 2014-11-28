@@ -40,22 +40,20 @@ class Mapping
     /**
      * Invokes an extension method.
      *
-     * @param string  $method    The method name
-     * @param mixed[] $arguments The method arguments
+     * @param string  $method The method name
+     * @param mixed[] $args   The method arguments
      *
      * @return Mapping
      *
      * @throws BadMethodCallException If method is not callable
      */
-    public function __call($method, $arguments)
+    public function __call($method, $args)
     {
         foreach ($this->extensions as $extension) {
-            if (false === method_exists($extension, $method)) {
-                continue;
+            if (method_exists($extension, $method)) {
+                array_unshift($args, $this);
+                return call_user_func_array([$extension, $method], $args);
             }
-
-            array_unshift($arguments, $this);
-            return call_user_func_array([$extension, $method], $arguments);
         }
 
         throw new \BadMethodCallException(sprintf('Method "%s" does not exists.', $method));
@@ -134,7 +132,7 @@ class Mapping
      */
     public function getOption($name)
     {
-        if (!array_key_exists($name, $this->options)) {
+        if (!$this->hasOption($name)) {
             throw new \InvalidArgumentException(sprintf('Option with name "%s" does not exist.', $name));
         }
 

@@ -1,6 +1,6 @@
 {
   "name": "dennis84/mapped",
-  "description": "A lightweight serialization library for PHP.",
+  "description": "Mapped is a lightweight data transformation and validation tool.",
   "license": "MIT",
   "authors": [
     {
