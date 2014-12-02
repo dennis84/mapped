@@ -31,16 +31,17 @@ class SymfonyValidation implements ExtensionInterface
     /**
      * Adds a symfony constraint.
      *
-     * @param Mapping    $mapping    The mapping object
-     * @param Constraint $constraint A symfony constraint
+     * @param Mapping    $mapping The mapping object
+     * @param Constraint $cons    The constraint to validate
+     * @param array|null $groups  The validation groups
      *
      * @return Mapping
      */
-    public function assert(Mapping $mapping, Constraint $cons)
+    public function assert(Mapping $mapping, Constraint $cons, $groups = null)
     {
         $disp = $mapping->getDispatcher();
-        $disp->addListener(Events::APPLIED, function (Event $event) use ($cons) {
-            $vios = $this->validator->validate($event->getResult(), $cons);
+        $disp->addListener(Events::APPLIED, function ($event) use ($cons, $groups) {
+            $vios = $this->validator->validate($event->getResult(), $cons, $groups);
             foreach ($vios as $vio) {
                 $event->addError(new Error(
                     $vio->getMessage(),
