@@ -22,6 +22,5 @@
   },
   "autoload-dev": {
     "psr-4": { "Mapped\\Tests\\": "tests/" }
-  },
-  "minimum-stability": "dev"
+  }
 }
