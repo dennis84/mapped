@@ -15,7 +15,7 @@ class Bool extends Transformer
     public function transform($data)
     {
         if ('false' === $data) {
-            $data = false;
+            return false;
         }
 
         return (bool) $data;

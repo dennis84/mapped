@@ -11,13 +11,4 @@ class FooExtension implements ExtensionInterface
     {
         return $mapping;
     }
-
-    public function bar(Mapping $mapping, array $arr)
-    {
-        return $mapping;
-    }
-
-    public function baz()
-    {
-    }
 }

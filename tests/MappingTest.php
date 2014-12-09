@@ -18,7 +18,6 @@ class MappingTest extends MappedTestCase
     public function testUndefinedExtensionMethod()
     {
         $this->setExpectedException('BadMethodCallException');
-
         $mapping = $this->createMapping();
         $mapping->foo();
     }
