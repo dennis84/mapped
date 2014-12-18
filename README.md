@@ -35,4 +35,4 @@ $data = $mapping->unapply($user);
 
 ## More examples
 
-Mapped has a pretty comprehensive test coverage that demonstrates [the whole bunch of functionality](https://github.com/dennis84/mapped/tree/master/tests/Mapped/Tests).
+Mapped has a pretty comprehensive test coverage that demonstrates [the whole bunch of functionality](https://github.com/dennis84/mapped/tree/master/tests).
