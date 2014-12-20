@@ -12,6 +12,21 @@ use Mapped\Mapping;
 class Constraints implements ExtensionInterface
 {
     /**
+     * Checks if the value is a text.
+     *
+     * @param Mapping $mapping The mapping object
+     * @param string  $message The error message
+     *
+     * @return Mapping
+     */
+    public function text(Mapping $mapping, $message = 'error.text')
+    {
+        $mapping->addConstraint(new \Mapped\Constraint\Text($message));
+        $mapping->transform(new \Mapped\Transformer\Text);
+        return $mapping;
+    }
+
+    /**
      * Checks if the value is not empty.
      *
      * @param Mapping $mapping The mapping object
