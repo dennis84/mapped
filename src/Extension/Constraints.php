@@ -21,8 +21,8 @@ class Constraints implements ExtensionInterface
      */
     public function text(Mapping $mapping, $message = 'error.text')
     {
-        $mapping->addConstraint(new \Mapped\Constraint\Text($message));
         $mapping->transform(new \Mapped\Transformer\Text);
+        $mapping->addConstraint(new \Mapped\Constraint\Type($message, 'string'));
         return $mapping;
     }
 
@@ -36,7 +36,7 @@ class Constraints implements ExtensionInterface
      */
     public function nonEmptyText(Mapping $mapping, $message = 'error.non_empty_text')
     {
-        return $mapping->addConstraint(new \Mapped\Constraint\NonEmptyText($message));
+        return $mapping->text()->addConstraint(new \Mapped\Constraint\NonEmptyText($message));
     }
 
     /**
@@ -49,8 +49,8 @@ class Constraints implements ExtensionInterface
      */
     public function int(Mapping $mapping, $message = 'error.int')
     {
-        $mapping->addConstraint(new \Mapped\Constraint\Number($message));
         $mapping->transform(new \Mapped\Transformer\Int);
+        $mapping->addConstraint(new \Mapped\Constraint\Type($message, 'int'));
         return $mapping;
     }
 
@@ -64,8 +64,8 @@ class Constraints implements ExtensionInterface
      */
     public function float(Mapping $mapping, $message = 'error.float')
     {
-        $mapping->addConstraint(new \Mapped\Constraint\Number($message));
         $mapping->transform(new \Mapped\Transformer\Float);
+        $mapping->addConstraint(new \Mapped\Constraint\Type($message, 'float'));
         return $mapping;
     }
 
@@ -80,7 +80,7 @@ class Constraints implements ExtensionInterface
     public function bool(Mapping $mapping, $message = 'error.bool')
     {
         $mapping->transform(new \Mapped\Transformer\Bool);
-        $mapping->addConstraint(new \Mapped\Constraint\Bool($message));
+        $mapping->addConstraint(new \Mapped\Constraint\Type($message, 'bool'));
         return $mapping;
     }
 }
