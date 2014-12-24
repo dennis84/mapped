@@ -13,7 +13,7 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new MappingFactory;
         $mapping = $factory->mapping([
-            'username' => $factory->mapping()->nonEmptyText(),
+            'username' => $factory->mapping()->notEmpty(),
             'password' => $factory->mapping()->verifying('foo', function ($value) {
                 return strlen($value) > 5;
             }),
@@ -31,7 +31,7 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
             $errors = $e->getErrors();
             $this->assertCount(3, $errors);
             $this->assertSame(['username'], $errors[0]->getPropertyPath());
-            $this->assertSame('error.non_empty_text', $errors[0]->getMessage());
+            $this->assertSame('error.not_empty', $errors[0]->getMessage());
             $this->assertSame(['password'], $errors[1]->getPropertyPath());
             $this->assertSame('foo', $errors[1]->getMessage());
 
@@ -45,7 +45,7 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new MappingFactory;
         $mapping = $factory->mapping([
-            'username' => $factory->mapping()->nonEmptyText(),
+            'username' => $factory->mapping()->notEmpty(),
             'password' => $factory->mapping()->verifying('error.password', function ($value) {
                 return false;
             }),
@@ -80,7 +80,7 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
             $this->assertSame('foo', $errors[0]->getMessage());
 
             $this->assertSame(['username'], $errors[1]->getPropertyPath());
-            $this->assertSame('error.non_empty_text', $errors[1]->getMessage());
+            $this->assertSame('error.not_empty', $errors[1]->getMessage());
 
             $this->assertSame(['password'], $errors[2]->getPropertyPath());
             $this->assertSame('error.password', $errors[2]->getMessage());

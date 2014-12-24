@@ -2,17 +2,20 @@
 
 namespace Mapped\Tests\Constraint;
 
-class NonEmptyTextTest extends \PHPUnit_Framework_TestCase
+class NotEmptyTest extends \PHPUnit_Framework_TestCase
 {
     public function validData()
     {
         return [
             [true, 'foo'],
-            [true, '\\n'],
+            [true, "\n"],
             [true, ' '],
             [false, ''],
-            [false, 1],
+            [true, 0],
+            [true, 1],
+            [false, null],
             [false, []],
+            [true, [1]],
         ];
     }
 
@@ -21,7 +24,7 @@ class NonEmptyTextTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheck($expected, $value)
     {
-        $constraint = new \Mapped\Constraint\NonEmptyText('');
+        $constraint = new \Mapped\Constraint\NotEmpty('');
         $this->assertSame($expected, $constraint->check($value));
     }
 }

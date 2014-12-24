@@ -33,7 +33,7 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
     public function testNonEmptyText()
     {
         $factory = new MappingFactory;
-        $mapping = $factory->mapping()->nonEmptyText();
+        $mapping = $factory->mapping()->notEmpty();
         $this->assertSame('foo', $mapping->apply('foo'));
     }
 
@@ -41,7 +41,7 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
     public function testNonEmptyTextFail()
     {
         $factory = new MappingFactory;
-        $mapping = $factory->mapping()->nonEmptyText();
+        $mapping = $factory->mapping()->notEmpty();
 
         $this->setExpectedException('Mapped\ValidationException');
 
@@ -49,7 +49,7 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
             $mapping->apply('');
         } catch (ValidationException $e) {
             $errors = $e->getErrors();
-            $this->assertSame('error.non_empty_text', $errors[0]->getMessage());
+            $this->assertSame('error.not_empty', $errors[0]->getMessage());
             throw $e;
         }
     }

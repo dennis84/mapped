@@ -40,7 +40,7 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new MappingFactory;
         $mapping = $factory->mapping([
-            'choices' => $factory->mapping()->nonEmptyText()->multiple(),
+            'choices' => $factory->mapping()->notEmpty()->multiple(),
         ]);
 
         $this->setExpectedException('Mapped\ValidationException');
@@ -50,7 +50,7 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
         } catch (ValidationException $e) {
             $errors = $e->getErrors();
             $this->assertSame(['choices', 0], $errors[0]->getPropertyPath());
-            $this->assertSame('error.non_empty_text', $errors[0]->getMessage());
+            $this->assertSame('error.not_empty', $errors[0]->getMessage());
             throw $e;
         }
     }
