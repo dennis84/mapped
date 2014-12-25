@@ -12,16 +12,16 @@ use Mapped\Mapping;
 class Constraints implements ExtensionInterface
 {
     /**
-     * Checks if the value is a text.
+     * Checks if the value is a string.
      *
      * @param Mapping $mapping The mapping object
      * @param string  $message The error message
      *
      * @return Mapping
      */
-    public function text(Mapping $mapping, $message = 'error.text')
+    public function string(Mapping $mapping, $message = 'error.text')
     {
-        $mapping->transform(new \Mapped\Transformer\Text);
+        $mapping->transform(new \Mapped\Transformer\String);
         $mapping->addConstraint(new \Mapped\Constraint\Type($message, 'string'));
         return $mapping;
     }

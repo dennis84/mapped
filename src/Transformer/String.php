@@ -5,9 +5,9 @@ namespace Mapped\Transformer;
 use Mapped\Transformer;
 
 /**
- * Text.
+ * String.
  */
-class Text extends Transformer
+class String extends Transformer
 {
     /**
      * {@inheritdoc}

@@ -10,14 +10,14 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
     public function testText()
     {
         $factory = new MappingFactory;
-        $mapping = $factory->mapping()->text();
+        $mapping = $factory->mapping()->string();
         $this->assertSame('foo', $mapping->apply('foo'));
     }
 
     public function testTextFail()
     {
         $factory = new MappingFactory;
-        $mapping = $factory->mapping()->text();
+        $mapping = $factory->mapping()->string();
 
         $this->setExpectedException('Mapped\ValidationException');
 
