@@ -25,6 +25,11 @@ class Transform implements ExtensionInterface
         $disp = $mapping->getDispatcher();
 
         $disp->addListener(Events::APPLIED, function ($event) use ($transformer) {
+            if (count($event->getErrors()) > 0) {
+                $event->stopPropagation();
+                return;
+            }
+
             $event->setResult($transformer->transform($event->getResult()));
         });
 

@@ -277,10 +277,10 @@ class Mapping
         }
 
         if ($this->dispatcher->hasListeners(Events::APPLIED)) {
-            $event = new Event($this, $data, $result, [], $propertyPath);
+            $event = new Event($this, $data, $result, $errors, $propertyPath);
             $this->dispatcher->dispatch(Events::APPLIED, $event);
             $result = $event->getResult();
-            $errors = array_merge($event->getErrors(), $errors);
+            $errors = $event->getErrors();
         }
 
         return new MappingResult($result, $errors);

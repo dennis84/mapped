@@ -93,7 +93,9 @@ class ApplyTest extends \PHPUnit_Framework_TestCase
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
             'password' => $factory->mapping(),
-        ]);
+        ], function ($username, $password) {
+            return new User($username, $password);
+        });
 
         $this->setExpectedException('Mapped\ValidationException');
         $result = $mapping->apply(['username' => 'dennis']);

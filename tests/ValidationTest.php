@@ -60,8 +60,8 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
             'accept' => $factory->mapping(),
         ], function ($username, $password, Address $address) {
             return new User($username, $password, $address);
-        })->verifying('foo', function ($value) {
-            return false;
+        })->verifying('', function ($username, $password, $address, $accept) {
+            $this->fail();
         });
 
         $this->setExpectedException('Mapped\ValidationException');
@@ -76,23 +76,20 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
             ]);
         } catch (ValidationException $e) {
             $errors = $e->getErrors();
-            $this->assertSame([], $errors[0]->getPropertyPath());
-            $this->assertSame('foo', $errors[0]->getMessage());
+            $this->assertSame(['username'], $errors[0]->getPropertyPath());
+            $this->assertSame('error.not_empty', $errors[0]->getMessage());
 
-            $this->assertSame(['username'], $errors[1]->getPropertyPath());
-            $this->assertSame('error.not_empty', $errors[1]->getMessage());
+            $this->assertSame(['password'], $errors[1]->getPropertyPath());
+            $this->assertSame('error.password', $errors[1]->getMessage());
 
-            $this->assertSame(['password'], $errors[2]->getPropertyPath());
-            $this->assertSame('error.password', $errors[2]->getMessage());
+            $this->assertSame(['address', 'city'], $errors[2]->getPropertyPath());
+            $this->assertSame('error.city', $errors[2]->getMessage());
 
-            $this->assertSame(['address', 'city'], $errors[3]->getPropertyPath());
-            $this->assertSame('error.city', $errors[3]->getMessage());
+            $this->assertSame(['address', 'street'], $errors[3]->getPropertyPath());
+            $this->assertSame('error.required', $errors[3]->getMessage());
 
-            $this->assertSame(['address', 'street'], $errors[4]->getPropertyPath());
+            $this->assertSame(['accept'], $errors[4]->getPropertyPath());
             $this->assertSame('error.required', $errors[4]->getMessage());
-
-            $this->assertSame(['accept'], $errors[5]->getPropertyPath());
-            $this->assertSame('error.required', $errors[5]->getMessage());
             throw $e;
         }
     }
