@@ -16,6 +16,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ['bool', true, true],
             ['bool', true, false],
             ['bool', false, 1],
+            ['foo', false, 1],
         ];
     }
 
