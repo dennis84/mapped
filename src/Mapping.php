@@ -152,6 +152,55 @@ class Mapping
     }
 
     /**
+     * Adds a transformer.
+     *
+     * @param Transformer $transformer The transformer
+     *
+     * @return Mapping
+     */
+    public function transform(Transformer $transformer)
+    {
+        $disp = $this->getDispatcher();
+
+        $disp->addListener(Events::APPLIED, function ($event) use ($transformer) {
+            if (count($event->getErrors()) > 0) {
+                $event->stopPropagation();
+                return;
+            }
+
+            $event->setResult($transformer->transform($event->getResult()));
+        });
+
+        $disp->addListener(Events::UNAPPLY, function ($event) use ($transformer) {
+            $event->setData($transformer->reverseTransform($event->getData()));
+        });
+
+        return $this;
+    }
+
+    /**
+     * Adds a constraint.
+     *
+     * @param Constraint $constraint The constaint object
+     */
+    public function validate(Constraint $cons)
+    {
+        $disp = $this->getDispatcher();
+        $disp->addListener(Events::APPLIED, function ($event) use ($cons) {
+            if (count($event->getErrors()) > 0) {
+                $event->stopPropagation();
+                return;
+            }
+
+            if (true !== $cons->check($event->getResult())) {
+                $event->addError(new Error($cons->getMessage(), $event->getPropertyPath()));
+            }
+        });
+
+        return $this;
+    }
+
+    /**
      * Makes this mapping optional.
      *
      * @return Mapping
@@ -204,10 +253,7 @@ class Mapping
     public function unapply($data, callable $func = null)
     {
         if (null !== $func) {
-            $this->dispatcher->addListener(Events::UNAPPLY, function ($event) use ($func) {
-                $trans = new Transformer\Callback(null, $func);
-                $event->setData($trans->reverseTransform($event->getData()));
-            });
+            $this->transform(new Transformer\Callback(null, $func));
         }
 
         if ($this->dispatcher->hasListeners(Events::UNAPPLY)) {
@@ -243,10 +289,7 @@ class Mapping
     private function doApply($data, array $propertyPath = [], callable $func = null)
     {
         if (null !== $func) {
-            $this->dispatcher->addListener(Events::APPLIED, function ($event) use ($func) {
-                $trans = new Transformer\Callback($func);
-                $event->setResult($trans->transform($event->getResult()));
-            });
+            $this->transform(new Transformer\Callback($func));
         }
 
         if ($this->dispatcher->hasListeners(Events::APPLY)) {

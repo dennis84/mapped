@@ -19,7 +19,6 @@ class MappingFactory
     public function __construct(array $extensions = [])
     {
         $this->extensions = array_merge([
-            new \Mapped\Extension\Transform,
             new \Mapped\Extension\Validation,
             new \Mapped\Extension\Constraints,
             new \Mapped\Extension\Multiple,

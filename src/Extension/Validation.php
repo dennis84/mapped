@@ -25,29 +25,6 @@ class Validation implements ExtensionInterface
      */
     public function verifying(Mapping $mapping, $message, callable $func)
     {
-        return $mapping->addConstraint(new \Mapped\Constraint\Callback($message, $func));
-    }
-
-    /**
-     * Adds a constraint.
-     *
-     * @param Mapping    $mapping    The mapping object
-     * @param Constraint $constraint The constaint object
-     */
-    public function addConstraint(Mapping $mapping, Constraint $cons)
-    {
-        $disp = $mapping->getDispatcher();
-        $disp->addListener(Events::APPLIED, function ($event) use ($cons) {
-            if (count($event->getErrors()) > 0) {
-                $event->stopPropagation();
-                return;
-            }
-
-            if (true !== $cons->check($event->getResult())) {
-                $event->addError(new Error($cons->getMessage(), $event->getPropertyPath()));
-            }
-        });
-
-        return $mapping;
+        return $mapping->validate(new \Mapped\Constraint\Callback($message, $func));
     }
 }
