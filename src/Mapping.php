@@ -192,7 +192,7 @@ class Mapping
                 return;
             }
 
-            if (true !== $cons->check($event->getResult())) {
+            if (false === $cons->check($event->getResult())) {
                 $event->addError(new Error($cons->getMessage(), $event->getPropertyPath()));
             }
         });

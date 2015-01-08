@@ -29,6 +29,10 @@ class Type extends Constraint
      */
     public function check($value)
     {
+        if (null === $value) {
+            return;
+        }
+
         $fn = 'is_' . $this->type;
 
         if (function_exists($fn)) {

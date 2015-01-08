@@ -9,6 +9,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         return [
             ['string', true, 'foo'],
             ['string', false, true],
+            ['string', null, null],
             ['int', true, 1],
             ['int', false, '1'],
             ['float', true, 1.0],
