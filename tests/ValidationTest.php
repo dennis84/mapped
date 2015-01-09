@@ -59,11 +59,11 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new MappingFactory;
         $mapping = $factory->mapping()
-            ->verifying('a', function($value) {
+            ->verifying('a', function ($value) {
                 $this->assertSame('foo', $value);
                 return false;
             })
-            ->verifying('b', function($value) {
+            ->verifying('b', function ($value) {
                 $this->fail();
             });
 
@@ -81,14 +81,13 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new MappingFactory;
         $mapping = $factory->mapping()
-            ->verifying('a', function($value) {
+            ->verifying('a', function ($value) {
                 $this->assertSame('foo', $value);
                 return true;
             })
-            ->verifying('b', function($value) {
+            ->verifying('b', function ($value) {
                 $this->assertSame('foo', $value);
                 return false;
-
             });
 
         $this->setExpectedException('Mapped\ValidationException');

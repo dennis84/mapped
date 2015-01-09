@@ -3,11 +3,7 @@
 namespace Mapped\Extension;
 
 use Mapped\ExtensionInterface;
-use Mapped\Constraint;
 use Mapped\Mapping;
-use Mapped\Events;
-use Mapped\Event;
-use Mapped\Error;
 
 /**
  * Validation extension.

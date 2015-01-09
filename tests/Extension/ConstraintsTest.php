@@ -37,7 +37,6 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('foo', $mapping->apply('foo'));
     }
 
-
     public function testNonEmptyTextFail()
     {
         $factory = new MappingFactory;
