@@ -40,7 +40,7 @@ class SymfonyValidation implements ExtensionInterface
     public function assert(Mapping $mapping, Constraint $cons, $groups = null)
     {
         $disp = $mapping->getDispatcher();
-        $disp->addListener(Events::APPLIED, function ($event) use ($cons, $groups) {
+        $disp->addListener(Events::APPLIED, function (Event $event) use ($cons, $groups) {
             $vios = $this->validator->validate($event->getResult(), $cons, $groups);
             foreach ($vios as $vio) {
                 $event->addError(new Error(

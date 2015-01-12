@@ -162,7 +162,7 @@ class Mapping
     {
         $disp = $this->getDispatcher();
 
-        $disp->addListener(Events::APPLIED, function ($event) use ($transformer) {
+        $disp->addListener(Events::APPLIED, function (Event $event) use ($transformer) {
             if (count($event->getErrors()) > 0) {
                 $event->stopPropagation();
                 return;
@@ -171,7 +171,7 @@ class Mapping
             $event->setResult($transformer->transform($event->getResult()));
         });
 
-        $disp->addListener(Events::UNAPPLY, function ($event) use ($transformer) {
+        $disp->addListener(Events::UNAPPLY, function (Event $event) use ($transformer) {
             $event->setData($transformer->reverseTransform($event->getData()));
         });
 
@@ -186,7 +186,7 @@ class Mapping
     public function validate(Constraint $cons)
     {
         $disp = $this->getDispatcher();
-        $disp->addListener(Events::APPLIED, function ($event) use ($cons) {
+        $disp->addListener(Events::APPLIED, function (Event $event) use ($cons) {
             if (count($event->getErrors()) > 0) {
                 $event->stopPropagation();
                 return;
