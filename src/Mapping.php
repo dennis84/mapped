@@ -10,7 +10,6 @@ class Mapping
     protected $emitter;
     protected $extensions = [];
     protected $children = [];
-    protected $options = [];
 
     /**
      * Constructor.
@@ -105,47 +104,6 @@ class Mapping
     public function getEmitter()
     {
         return $this->emitter;
-    }
-
-    /**
-     * Sets an option.
-     *
-     * @param string $name  The option name
-     * @param mixed  $value The option value
-     */
-    public function setOption($name, $value)
-    {
-        $this->options[$name] = $value;
-    }
-
-    /**
-     * Gets an option.
-     *
-     * @param string $name The option name
-     *
-     * @return mixed
-     *
-     * @throws InvalidArgumentException If option does not exists
-     */
-    public function getOption($name)
-    {
-        if (!$this->hasOption($name)) {
-            throw new \InvalidArgumentException(sprintf('Option with name "%s" does not exist.', $name));
-        }
-
-        return $this->options[$name];
-    }
-
-    /**
-     * Returns true if an option with given name exists, otherwise false.
-     *
-     * @param bool $name The option name
-     *
-     * @return bool
-     */
-    public function hasOption($name)
-    {
-        return array_key_exists($name, $this->options);
     }
 
     /**
