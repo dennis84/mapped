@@ -3,8 +3,9 @@
 namespace Mapped\Tests;
 
 use Mapped\Mapping;
+use Mapped\Emitter;
 
-class MappingTest extends MappedTestCase
+class MappingTest extends \PHPUnit_Framework_TestCase
 {
     public function testValidExtensionMethod()
     {
@@ -36,5 +37,10 @@ class MappingTest extends MappedTestCase
         $this->setExpectedException('InvalidArgumentException');
         $foo = $this->createMapping();
         $foo->getOption('foo');
+    }
+
+    private function createMapping(array $extensions = [])
+    {
+        return new Mapping(new Emitter, $extensions);
     }
 }

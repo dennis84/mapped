@@ -2,7 +2,7 @@
 
 namespace Mapped\Tests\Extension;
 
-use Mapped\MappingFactory;
+use Mapped\Factory;
 use Mapped\ValidationException;
 use Mapped\Tests\Fixtures\Post;
 use Mapped\Tests\Fixtures\Attribute;
@@ -14,7 +14,7 @@ class SymfonyValidationTest extends \PHPUnit_Framework_TestCase
     public function testAssert()
     {
         $validator = Validation::createValidator();
-        $factory = new MappingFactory([
+        $factory = new Factory([
             new \Mapped\Extension\SymfonyValidation($validator),
         ]);
 
@@ -41,7 +41,7 @@ class SymfonyValidationTest extends \PHPUnit_Framework_TestCase
             ->enableAnnotationMapping()
             ->getValidator();
 
-        $factory = new MappingFactory([
+        $factory = new Factory([
             new \Mapped\Extension\SymfonyValidation($validator),
         ]);
 

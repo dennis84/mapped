@@ -11,7 +11,7 @@ for JSON (de)serialization, form handling and many more.
 ```php
 <?php
 
-$factory = new MappingFactory;
+$factory = new Factory;
 
 $mapping = $factory->mapping([
     'username' => $factory->mapping(),

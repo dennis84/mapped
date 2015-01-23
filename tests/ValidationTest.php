@@ -2,7 +2,7 @@
 
 namespace Mapped\Tests;
 
-use Mapped\MappingFactory;
+use Mapped\Factory;
 use Mapped\ValidationException;
 use Mapped\Tests\Fixtures\User;
 use Mapped\Tests\Fixtures\Address;
@@ -11,7 +11,7 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $factory->mapping([
             'username' => $factory->mapping()->notEmpty(),
             'password' => $factory->mapping()->verifying('error.min_length', function ($value) {
@@ -57,7 +57,7 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
 
     public function testB()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $factory->mapping()
             ->verifying('a', function ($value) {
                 $this->assertSame('foo', $value);
@@ -79,7 +79,7 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
 
     public function testC()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $factory->mapping()
             ->verifying('a', function ($value) {
                 $this->assertSame('foo', $value);
@@ -102,7 +102,7 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
 
     public function testD()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
             'password' => $factory->mapping(),

@@ -2,14 +2,14 @@
 
 namespace Mapped\Tests;
 
-use Mapped\MappingFactory;
+use Mapped\Factory;
 use Mapped\Tests\Fixtures\User;
 
 class CallableTest extends \PHPUnit_Framework_TestCase
 {
     public function testClosure()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $applied = false;
         $unapplied = false;
 
@@ -36,7 +36,7 @@ class CallableTest extends \PHPUnit_Framework_TestCase
 
     public function testCallUserFunc()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
 
         $user = new User('dennis84', 'demo123');
 

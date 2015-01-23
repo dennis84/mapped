@@ -5,7 +5,7 @@ namespace Mapped;
 /**
  * This is a helper to build mapping objects.
  */
-class MappingFactory
+class Factory
 {
     protected $extensions = [];
 

@@ -2,7 +2,7 @@
 
 namespace Mapped\Tests;
 
-use Mapped\MappingFactory;
+use Mapped\Factory;
 use Mapped\Tests\Fixtures\User;
 use Mapped\Tests\Fixtures\Address;
 
@@ -10,7 +10,7 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
             'password' => $factory->mapping()->optional(),
@@ -28,7 +28,7 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
 
     public function testB()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
             'password' => $factory->mapping()->optional(),
@@ -47,7 +47,7 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
 
     public function testC()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $this->createNestedMapping();
         $data = [
             'username' => 'dennis84',
@@ -73,7 +73,7 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
         $transformerB->expects($this->at(0))
             ->method('transform')->with(null);
 
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $factory->mapping([
             'foo' => $factory->mapping()->optional()
                 ->transform($transformerA),
@@ -90,7 +90,7 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
 
     private function createNestedMapping()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
 
         return $factory->mapping([
             'username' => $factory->mapping(),

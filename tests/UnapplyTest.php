@@ -2,7 +2,7 @@
 
 namespace Mapped\Tests;
 
-use Mapped\MappingFactory;
+use Mapped\Factory;
 use Mapped\Tests\Fixtures\User;
 use Mapped\Tests\Fixtures\Address;
 use Mapped\Tests\Fixtures\Location;
@@ -11,7 +11,7 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
 
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
@@ -29,7 +29,7 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
 
     public function testB()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
 
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
@@ -55,7 +55,7 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
 
     public function testC()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $user = new User('dennis84', 'password');
 
         $mapping = $factory->mapping([
@@ -76,7 +76,7 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
 
     public function testD()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
 
         $location = new Location('50', '8');
         $address  = new Address('Foo', 'Bar', $location);
@@ -126,7 +126,7 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
 
     public function testE()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
 
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
@@ -141,7 +141,7 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
 
     public function testF()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
 
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
@@ -165,7 +165,7 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
 
     public function testG()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
 
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
@@ -181,26 +181,5 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame('dennis', $result['username']);
         $this->assertNull($result['password']);
-    }
-
-    public function testH()
-    {
-        $factory = new MappingFactory;
-
-        $mapping = $factory->mapping([
-            'username' => $factory->mapping(),
-            'password' => $factory->mapping(),
-        ]);
-
-        $user = new User('dennis', 'passwd');
-        $result = $mapping->unapply($user, function (User $user) {
-            return [
-                'username' => $user->username,
-                'password' => $user->password,
-            ];
-        });
-
-        $this->assertSame('dennis', $result['username']);
-        $this->assertSame('passwd', $result['password']);
     }
 }

@@ -2,21 +2,21 @@
 
 namespace Mapped\Tests\Extension;
 
-use Mapped\MappingFactory;
+use Mapped\Factory;
 use Mapped\ValidationException;
 
-class MappingFactoryTest extends \PHPUnit_Framework_TestCase
+class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testText()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $factory->string();
         $this->assertSame('foo', $mapping->apply('foo'));
     }
 
     public function testTextFail()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $factory->string();
 
         $this->setExpectedException('Mapped\ValidationException');
@@ -32,14 +32,14 @@ class MappingFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testNonEmptyText()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $factory->string()->notEmpty();
         $this->assertSame('foo', $mapping->apply('foo'));
     }
 
     public function testNonEmptyTextFail()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $factory->string()->notEmpty();
 
         $this->setExpectedException('Mapped\ValidationException');
@@ -55,7 +55,7 @@ class MappingFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testInt()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
 
         $mapping = $factory->mapping([
             'int' => $factory->int(),
@@ -73,7 +73,7 @@ class MappingFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testIntFail()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $factory->int();
 
         $this->setExpectedException('Mapped\ValidationException');
@@ -89,7 +89,7 @@ class MappingFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testFloat()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
 
         $mapping = $factory->mapping([
             'int' => $factory->float(),
@@ -107,7 +107,7 @@ class MappingFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testFloatFail()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $factory->float();
 
         $this->setExpectedException('Mapped\ValidationException');
@@ -123,7 +123,7 @@ class MappingFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testBool()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
 
         $mapping = $factory->mapping([
             'a' => $factory->bool(),

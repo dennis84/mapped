@@ -2,7 +2,7 @@
 
 namespace Mapped\Tests;
 
-use Mapped\MappingFactory;
+use Mapped\Factory;
 use Mapped\ValidationException;
 use Mapped\Tests\Fixtures\User;
 use Mapped\Tests\Fixtures\Address;
@@ -11,7 +11,7 @@ class ApplyTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
             'password' => $factory->mapping(),
@@ -30,7 +30,7 @@ class ApplyTest extends \PHPUnit_Framework_TestCase
 
     public function testB()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
             'password' => $factory->mapping(),
@@ -49,7 +49,7 @@ class ApplyTest extends \PHPUnit_Framework_TestCase
 
     public function testC()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
             'password' => $factory->mapping(),
@@ -69,7 +69,7 @@ class ApplyTest extends \PHPUnit_Framework_TestCase
 
     public function testD()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
             'password' => $factory->mapping(),
@@ -90,7 +90,7 @@ class ApplyTest extends \PHPUnit_Framework_TestCase
     /** @group foo */
     public function testE()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
             'password' => $factory->mapping(),
@@ -112,7 +112,7 @@ class ApplyTest extends \PHPUnit_Framework_TestCase
 
     public function testF()
     {
-        $factory = new MappingFactory;
+        $factory = new Factory;
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
             'password' => $factory->mapping(),
@@ -141,28 +141,5 @@ class ApplyTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Mapped\Tests\Fixtures\Address', $result->address);
         $this->assertSame('Foo', $result->address->city);
         $this->assertSame('Bar', $result->address->street);
-    }
-
-    public function testG()
-    {
-        $factory = new MappingFactory;
-        $mapping = $factory->mapping([
-            'username' => $factory->mapping(),
-            'password' => $factory->mapping(),
-        ])->verifying('', function ($username, $password) {
-            $this->assertSame('dennis', $username);
-            $this->assertSame('passwd', $password);
-            return true;
-        });
-
-        $user = $mapping->apply([
-            'username' => 'dennis',
-            'password' => 'passwd',
-        ], function ($username, $password) {
-            return new User($username, $password);
-        });
-
-        $this->assertEquals('dennis', $user->username);
-        $this->assertEquals('passwd', $user->password);
     }
 }

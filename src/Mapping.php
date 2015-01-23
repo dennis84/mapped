@@ -199,19 +199,14 @@ class Mapping
     /**
      * Applies the given data to the mapping.
      *
-     * @param mixed    $data Any data
-     * @param callable $func Callback function to transform the final data
+     * @param mixed $data Any data
      *
      * @return mixed
      *
      * @throw ValidationException If the validation failed
      */
-    public function apply($data, callable $func = null)
+    public function apply($data)
     {
-        if (null !== $func) {
-            $this->transform(new Transformer\Callback($func));
-        }
-
         $data = new Data($data);
         $this->doApply($data);
 
@@ -225,17 +220,12 @@ class Mapping
     /**
      * Unapply the given data.
      *
-     * @param mixed    $data The data to unapply
-     * @param callable $func Callback function to transform the final data
+     * @param mixed $data The data to unapply
      *
      * @return mixed
      */
-    public function unapply($input, callable $func = null)
+    public function unapply($input)
     {
-        if (null !== $func) {
-            $this->transform(new Transformer\Callback(null, $func));
-        }
-
         $data = new Data($input);
         $this->emitter->emit(Events::UNAPPLY, $data, $this);
         $input = $data->getInput();
