@@ -5,7 +5,7 @@ namespace Mapped\Extension;
 use Mapped\ExtensionInterface;
 use Mapped\Mapping;
 use Mapped\Events;
-use Mapped\Event;
+use Mapped\Data;
 use Mapped\Error;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -39,13 +39,13 @@ class SymfonyValidation implements ExtensionInterface
      */
     public function assert(Mapping $mapping, Constraint $cons, $groups = null)
     {
-        $disp = $mapping->getDispatcher();
-        $disp->addListener(Events::APPLIED, function (Event $event) use ($cons, $groups) {
-            $vios = $this->validator->validate($event->getResult(), $cons, $groups);
+        $emitter = $mapping->getEmitter();
+        $emitter->on(Events::APPLIED, function (Data $data) use ($cons, $groups) {
+            $vios = $this->validator->validate($data->getResult(), $cons, $groups);
             foreach ($vios as $vio) {
-                $event->addError(new Error(
+                $data->addError(new Error(
                     $vio->getMessage(),
-                    $event->getPropertyPath()
+                    $data->getPropertyPath()
                 ));
             }
         });
@@ -62,12 +62,12 @@ class SymfonyValidation implements ExtensionInterface
      */
     public function enableObjectValidation(Mapping $mapping)
     {
-        $disp = $mapping->getDispatcher();
-        $disp->addListener(Events::APPLIED, function (Event $event) {
-            $vios = $this->validator->validate($event->getResult());
+        $emitter = $mapping->getEmitter();
+        $emitter->on(Events::APPLIED, function (Data $data) {
+            $vios = $this->validator->validate($data->getResult());
             foreach ($vios as $vio) {
                 $propertyPath = new PropertyPath($vio->getPropertyPath());
-                $event->addError(new Error(
+                $data->addError(new Error(
                     $vio->getMessage(),
                     $propertyPath->getElements()
                 ));

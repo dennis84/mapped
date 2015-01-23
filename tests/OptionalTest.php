@@ -66,12 +66,12 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
     {
         $transformerA = $this->getMock('Mapped\Transformer');
         $transformerA->expects($this->at(0))
-            ->method('transform')->with(null)
+            ->method('transform')->with('foo')
             ->will($this->returnValue('blah'));
 
         $transformerB = $this->getMock('Mapped\Transformer');
-        $transformerB->expects($this->never())
-            ->method('transform');
+        $transformerB->expects($this->at(0))
+            ->method('transform')->with(null);
 
         $factory = new MappingFactory;
         $mapping = $factory->mapping([
@@ -81,7 +81,7 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
                 ->transform($transformerB),
         ]);
 
-        $result = $mapping->apply(['foo' => null]);
+        $result = $mapping->apply(['foo' => 'foo']);
         $this->assertSame([
             'foo' => 'blah',
             'bar' => null,

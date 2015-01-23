@@ -5,19 +5,19 @@ namespace Mapped\Tests\Extension;
 use Mapped\MappingFactory;
 use Mapped\ValidationException;
 
-class ConstraintsTest extends \PHPUnit_Framework_TestCase
+class MappingFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testText()
     {
         $factory = new MappingFactory;
-        $mapping = $factory->mapping()->string();
+        $mapping = $factory->string();
         $this->assertSame('foo', $mapping->apply('foo'));
     }
 
     public function testTextFail()
     {
         $factory = new MappingFactory;
-        $mapping = $factory->mapping()->string();
+        $mapping = $factory->string();
 
         $this->setExpectedException('Mapped\ValidationException');
 
@@ -33,14 +33,14 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
     public function testNonEmptyText()
     {
         $factory = new MappingFactory;
-        $mapping = $factory->mapping()->notEmpty();
+        $mapping = $factory->string()->notEmpty();
         $this->assertSame('foo', $mapping->apply('foo'));
     }
 
     public function testNonEmptyTextFail()
     {
         $factory = new MappingFactory;
-        $mapping = $factory->mapping()->notEmpty();
+        $mapping = $factory->string()->notEmpty();
 
         $this->setExpectedException('Mapped\ValidationException');
 
@@ -58,8 +58,8 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
         $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
-            'int' => $factory->mapping()->int(),
-            'float' => $factory->mapping()->int(),
+            'int' => $factory->int(),
+            'float' => $factory->int(),
         ]);
 
         $result = $mapping->apply([
@@ -74,7 +74,7 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
     public function testIntFail()
     {
         $factory = new MappingFactory;
-        $mapping = $factory->mapping()->int();
+        $mapping = $factory->int();
 
         $this->setExpectedException('Mapped\ValidationException');
 
@@ -92,8 +92,8 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
         $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
-            'int' => $factory->mapping()->float(),
-            'float' => $factory->mapping()->float(),
+            'int' => $factory->float(),
+            'float' => $factory->float(),
         ]);
 
         $result = $mapping->apply([
@@ -108,7 +108,7 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
     public function testFloatFail()
     {
         $factory = new MappingFactory;
-        $mapping = $factory->mapping()->float();
+        $mapping = $factory->float();
 
         $this->setExpectedException('Mapped\ValidationException');
 
@@ -126,10 +126,10 @@ class ConstraintsTest extends \PHPUnit_Framework_TestCase
         $factory = new MappingFactory;
 
         $mapping = $factory->mapping([
-            'a' => $factory->mapping()->bool(),
-            'b' => $factory->mapping()->bool(),
-            'c' => $factory->mapping()->bool(),
-            'd' => $factory->mapping()->bool(),
+            'a' => $factory->bool(),
+            'b' => $factory->bool(),
+            'c' => $factory->bool(),
+            'd' => $factory->bool(),
         ]);
 
         $result = $mapping->apply([

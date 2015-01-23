@@ -9,8 +9,7 @@
     }
   ],
   "require": {
-    "php": ">=5.4.0",
-    "symfony/event-dispatcher": "2.*"
+    "php": ">=5.4.0"
   },
   "require-dev": {
     "symfony/validator": "2.*",

@@ -2,70 +2,50 @@
 
 namespace Mapped;
 
-use Symfony\Component\EventDispatcher\Event as BaseEvent;
-
 /**
- * Event.
+ * Data.
  */
-class Event extends BaseEvent
+class Data
 {
-    protected $mapping;
+    protected $input;
     protected $result;
-    protected $data;
     protected $errors = [];
     protected $propertyPath = [];
 
     /**
      * Constructor.
      *
-     * @param Mapping $mapping      The mapping object
-     * @param mixed   $data         The applied or unapplied data
+     * @param mixed   $input        The applied or unapplied data
      * @param mixed   $result       The mapping result
      * @param Error[] $errors       An array of errors
      * @param array   $propertyPath The property path
      */
-    public function __construct(
-        Mapping $mapping,
-        $data = null,
-        $result = null,
-        array $errors = [],
-        array $propertyPath = []
-    ) {
-        $this->mapping = $mapping;
-        $this->data = $data;
+    public function __construct($input, $result = null, array $errors = [], array $propertyPath = [])
+    {
+        $this->input = $input;
         $this->result = $result;
         $this->errors = $errors;
         $this->propertyPath = $propertyPath;
     }
 
     /**
-     * Gets the mapping object.
-     *
-     * @return Mapping
-     */
-    public function getMapping()
-    {
-        return $this->mapping;
-    }
-
-    /**
-     * Gets the data.
+     * Gets the input.
      *
      * @return mixed
      */
-    public function getData()
+    public function getInput()
     {
-        return $this->data;
+        return $this->input;
     }
 
     /**
-     * Sets the data.
+     * Sets the input.
      *
-     * @param mixed $data The data
+     * @param mixed $input The input
      */
-    public function setData($data)
+    public function setInput($input)
     {
-        $this->data = $data;
+        $this->input = $input;
     }
 
     /**
@@ -96,6 +76,19 @@ class Event extends BaseEvent
     public function addError(Error $error)
     {
         $this->errors[] = $error;
+    }
+
+    /**
+     * Removes an error.
+     *
+     * @param Error $error
+     */
+    public function removeError(Error $error)
+    {
+        $index = array_search($error, $this->errors);
+        if (false !== $index) {
+            unset($this->errors[$index]);
+        }
     }
 
     /**

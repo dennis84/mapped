@@ -3,9 +3,9 @@
 namespace Mapped\Extension;
 
 use Mapped\Mapping;
+use Mapped\Emitter;
 use Mapped\Events;
 use Mapped\ExtensionInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Multiple extension.
@@ -22,13 +22,13 @@ class Multiple implements ExtensionInterface
     public function multiple(Mapping $proto)
     {
         $resizer = new MultipleResizeListener;
-        $disp    = new EventDispatcher;
-        $mapping = new Mapping($disp, $proto->getExtensions());
+        $emitter = new Emitter;
+        $mapping = new Mapping($emitter, $proto->getExtensions());
 
         $mapping->setOption('prototype', $proto);
 
-        $disp->addListener(Events::APPLY, [$resizer, 'apply']);
-        $disp->addListener(Events::UNAPPLY, [$resizer, 'unapply']);
+        $emitter->on(Events::APPLY, [$resizer, 'apply']);
+        $emitter->on(Events::UNAPPLY, [$resizer, 'unapply']);
 
         return $mapping;
     }

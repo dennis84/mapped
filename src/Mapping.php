@@ -2,28 +2,25 @@
 
 namespace Mapped;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-
 /**
  * Mapping.
  */
 class Mapping
 {
-    protected $dispatcher;
+    protected $emitter;
     protected $extensions = [];
     protected $children = [];
     protected $options = [];
-    protected $optional = false;
 
     /**
      * Constructor.
      *
-     * @param EventDispatcherInterface $dispatcher The event dispatcher
-     * @param ExtensionInterface[]     $extensions An array of extensions
+     * @param Emitter              $emitter    The event emitter
+     * @param ExtensionInterface[] $extensions An array of extensions
      */
-    public function __construct(EventDispatcherInterface $dispatcher, array $extensions = [])
+    public function __construct(Emitter $emitter, array $extensions = [])
     {
-        $this->dispatcher = $dispatcher;
+        $this->emitter = $emitter;
         $this->extensions = $extensions;
     }
 
@@ -101,13 +98,13 @@ class Mapping
     }
 
     /**
-     * Gets the event dispatcher.
+     * Gets the event emitter.
      *
-     * @return EventDispatcherInterface
+     * @return Emitter
      */
-    public function getDispatcher()
+    public function getEmitter()
     {
-        return $this->dispatcher;
+        return $this->emitter;
     }
 
     /**
@@ -160,19 +157,18 @@ class Mapping
      */
     public function transform(Transformer $transformer)
     {
-        $disp = $this->getDispatcher();
+        $emitter = $this->emitter;
 
-        $disp->addListener(Events::APPLIED, function (Event $event) use ($transformer) {
-            if (count($event->getErrors()) > 0) {
-                $event->stopPropagation();
+        $emitter->on(Events::APPLIED, function (Data $data) use ($transformer) {
+            if (count($data->getErrors()) > 0) {
                 return;
             }
 
-            $event->setResult($transformer->transform($event->getResult()));
+            $data->setResult($transformer->transform($data->getResult()));
         });
 
-        $disp->addListener(Events::UNAPPLY, function (Event $event) use ($transformer) {
-            $event->setData($transformer->reverseTransform($event->getData()));
+        $emitter->on(Events::UNAPPLY, function (Data $data) use ($transformer) {
+            $data->setInput($transformer->reverseTransform($data->getInput()));
         });
 
         return $this;
@@ -185,40 +181,19 @@ class Mapping
      */
     public function validate(Constraint $cons)
     {
-        $disp = $this->getDispatcher();
-        $disp->addListener(Events::APPLIED, function (Event $event) use ($cons) {
-            if (count($event->getErrors()) > 0) {
-                $event->stopPropagation();
+        $emitter = $this->emitter;
+        $emitter->on(Events::APPLIED, function (Data $data) use ($cons) {
+            if (count($data->getErrors()) > 0) {
                 return;
             }
 
-            if (false === $cons->check($event->getResult())) {
-                $event->addError(new Error($cons->getMessage(), $event->getPropertyPath()));
+            if (false === $cons->check($data->getResult())) {
+                $error = new Error($cons->getMessage(), $data->getPropertyPath());
+                $data->addError($error);
             }
         });
 
         return $this;
-    }
-
-    /**
-     * Makes this mapping optional.
-     *
-     * @return Mapping
-     */
-    public function optional()
-    {
-        $this->optional = true;
-        return $this;
-    }
-
-    /**
-     * Returns true if the mapping is optional, otherwise false.
-     *
-     * @return bool
-     */
-    public function isOptional()
-    {
-        return $this->optional;
     }
 
     /**
@@ -233,13 +208,18 @@ class Mapping
      */
     public function apply($data, callable $func = null)
     {
-        $result = $this->doApply($data, [], $func);
-
-        if (count($result->getErrors()) > 0) {
-            throw new ValidationException($result->getErrors());
+        if (null !== $func) {
+            $this->transform(new Transformer\Callback($func));
         }
 
-        return $result->getData();
+        $data = new Data($data);
+        $this->doApply($data);
+
+        if (count($data->getErrors()) > 0) {
+            throw new ValidationException($data->getErrors());
+        }
+
+        return $data->getResult();
     }
 
     /**
@@ -250,27 +230,25 @@ class Mapping
      *
      * @return mixed
      */
-    public function unapply($data, callable $func = null)
+    public function unapply($input, callable $func = null)
     {
         if (null !== $func) {
             $this->transform(new Transformer\Callback(null, $func));
         }
 
-        if ($this->dispatcher->hasListeners(Events::UNAPPLY)) {
-            $event = new Event($this, $data);
-            $this->dispatcher->dispatch(Events::UNAPPLY, $event);
-            $data = $event->getData();
-        }
+        $data = new Data($input);
+        $this->emitter->emit(Events::UNAPPLY, $data, $this);
+        $input = $data->getInput();
 
         if (!$this->hasChildren()) {
-            return $data;
+            return $input;
         }
 
         $result = [];
 
         foreach ($this->getChildren() as $name => $child) {
-            if (is_array($data) && array_key_exists($name, $data)) {
-                $result[$name] = $child->unapply($data[$name]);
+            if (is_array($input) && array_key_exists($name, $input)) {
+                $result[$name] = $child->unapply($input[$name]);
             }
         }
 
@@ -280,52 +258,42 @@ class Mapping
     /**
      * The recursive apply call.
      *
-     * @param mixed    $data         Any data
-     * @param array    $propertyPath The property path
-     * @param callable $func         Callback function to transform the final data
-     *
-     * @return MappingResult
+     * @param Data $data The data
      */
-    private function doApply($data, array $propertyPath = [], callable $func = null)
+    private function doApply(Data $data)
     {
-        if (null !== $func) {
-            $this->transform(new Transformer\Callback($func));
+        $this->emitter->emit(Events::APPLY, $data, $this);
+
+        if (count($data->getErrors()) > 0) {
+            $data->setResult(null);
+            $this->emitter->emit(Events::APPLIED, $data, $this);
+            return;
         }
 
-        if ($this->dispatcher->hasListeners(Events::APPLY)) {
-            $event = new Event($this, $data, null, [], $propertyPath);
-            $this->dispatcher->dispatch(Events::APPLY, $event);
-            $data = $event->getData();
-        }
-
-        $errors = [];
-        $result = $data;
+        $errors = $data->getErrors();
+        $result = $input = $data->getInput();
 
         if ($this->hasChildren()) {
             $result = [];
-        }
 
-        foreach ($this->children as $name => $child) {
-            $childPath = array_merge($propertyPath, [$name]);
+            foreach ($this->children as $name => $child) {
+                $path = array_merge($data->getPropertyPath(), [$name]);
+                $childData = new Data(null, null, [], $path);
 
-            if (is_array($data) && array_key_exists($name, $data)) {
-                $childResult = $child->doApply($data[$name], $childPath);
-                $result[$name] = $childResult->getData();
-                $errors = array_merge($errors, $childResult->getErrors());
-            } elseif ($child->isOptional()) {
-                $result[$name] = null;
-            } else {
-                $errors[] = new Error('error.required', $childPath);
+                if (is_array($input) && array_key_exists($name, $input)) {
+                    $childData->setInput($input[$name]);
+                } else {
+                    $childData->addError(new Error('error.required', $path));
+                }
+
+                $child->doApply($childData);
+                $result[$name] = $childData->getResult();
+                $errors = array_merge($errors, $childData->getErrors());
             }
         }
 
-        if ($this->dispatcher->hasListeners(Events::APPLIED)) {
-            $event = new Event($this, $data, $result, $errors, $propertyPath);
-            $this->dispatcher->dispatch(Events::APPLIED, $event);
-            $result = $event->getResult();
-            $errors = $event->getErrors();
-        }
-
-        return new MappingResult($result, $errors);
+        $data->setErrors($errors);
+        $data->setResult($result);
+        $this->emitter->emit(Events::APPLIED, $data, $this);
     }
 }

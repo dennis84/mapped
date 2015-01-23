@@ -23,4 +23,17 @@ class Validation implements ExtensionInterface
     {
         return $mapping->validate(new \Mapped\Constraint\Callback($message, $func));
     }
+
+    /**
+     * Checks if the value is not empty.
+     *
+     * @param Mapping $mapping The mapping object
+     * @param string  $message The error message
+     *
+     * @return Mapping
+     */
+    public function notEmpty(Mapping $mapping, $message = 'error.not_empty')
+    {
+        return $mapping->validate(new \Mapped\Constraint\NotEmpty($message));
+    }
 }

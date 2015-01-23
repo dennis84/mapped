@@ -2,7 +2,7 @@
 
 namespace Mapped\Extension;
 
-use Mapped\Event;
+use Mapped\Data;
 use Mapped\Mapping;
 
 /**
@@ -13,43 +13,45 @@ class MultipleResizeListener
     /**
      * On apply.
      *
-     * @param Event $event The event
+     * @param Event   $event   The data
+     * @param Mapping $mapping The mapping object
      */
-    public function apply(Event $event)
+    public function apply(Data $data, Mapping $mapping)
     {
-        if (null === $event->getData()) {
-            $event->setData([]);
+        if (null === $data->getInput()) {
+            $data->setInput([]);
         }
 
-        $this->resize($event->getMapping(), $event->getData());
+        $this->resize($mapping, $data->getInput());
     }
 
     /**
      * On unapply.
      *
-     * @param Event $event The event
+     * @param Data    $data    The data
+     * @param Mapping $mapping The mapping object
      */
-    public function unapply(Event $event)
+    public function unapply(Data $data, Mapping $mapping)
     {
-        $this->resize($event->getMapping(), $event->getData());
+        $this->resize($mapping, $data->getInput());
     }
 
     /**
      * Adds prototype objects depending on given data.
      *
      * @param Mapping $mapping The mapping object
-     * @param mixed   $data    The data
+     * @param mixed   $input   The input
      *
      * @throw InvalidArgumentException If given data is not an array
      */
-    protected function resize(Mapping $mapping, $data)
+    protected function resize(Mapping $mapping, $input)
     {
-        if (!is_array($data)) {
-            throw new \InvalidArgumentException('The data must be an array.');
+        if (!is_array($input)) {
+            throw new \InvalidArgumentException('The input must be an array.');
         }
 
         $children = [];
-        foreach ($data as $index => $value) {
+        foreach ($input as $index => $value) {
             $children[(string) $index] = $mapping->getOption('prototype');
         }
 
