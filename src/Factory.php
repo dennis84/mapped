@@ -20,6 +20,7 @@ class Factory
             new \Mapped\Extension\Validation,
             new \Mapped\Extension\Multiple,
             new \Mapped\Extension\Optional,
+            new \Mapped\Extension\Ignored,
         ], $extensions);
     }
 
