@@ -5,7 +5,7 @@ namespace Mapped;
 /**
  * Transformer.
  */
-abstract class Transformer
+class Transformer
 {
     /**
      * Transforms the applied data.

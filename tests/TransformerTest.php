@@ -2,19 +2,19 @@
 
 namespace Mapped;
 
-use Mapped\Tests\Fixtures\NullTransformer;
+use Mapped\Transformer;
 
 class TransformerTest extends \PHPUnit_Framework_TestCase
 {
     public function testTransform()
     {
-        $transformer = new NullTransformer;
+        $transformer = new Transformer;
         $this->assertSame('foo', $transformer->transform('foo'));
     }
 
     public function testReverseTransform()
     {
-        $transformer = new NullTransformer;
+        $transformer = new Transformer;
         $this->assertSame('foo', $transformer->reverseTransform('foo'));
     }
 }

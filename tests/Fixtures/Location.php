@@ -9,7 +9,7 @@ class Location
 
     public function __construct($lat, $lng)
     {
-        $this->lat  = $lat;
+        $this->lat = $lat;
         $this->lng = $lng;
     }
 }

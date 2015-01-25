@@ -81,12 +81,12 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
             ],
         ]);
 
-        $this->assertSame('Foo', $result->getTitle());
-        $this->assertSame(['foo', 'bar'], $result->getTags());
-        $this->assertSame('Foo', $result->getAttributes()[0]->getName());
-        $this->assertSame('Bar', $result->getAttributes()[0]->getValue());
-        $this->assertSame('Blah', $result->getAttributes()[1]->getName());
-        $this->assertSame('Blub', $result->getAttributes()[1]->getValue());
+        $this->assertSame('Foo', $result->title);
+        $this->assertSame(['foo', 'bar'], $result->tags);
+        $this->assertSame('Foo', $result->attributes[0]->name);
+        $this->assertSame('Bar', $result->attributes[0]->value);
+        $this->assertSame('Blah', $result->attributes[1]->name);
+        $this->assertSame('Blub', $result->attributes[1]->value);
     }
 
     public function testE()
@@ -113,15 +113,15 @@ class MultipleTest extends \PHPUnit_Framework_TestCase
                 'value' => $factory->mapping(),
             ], null, function (Attribute $attr) {
                 return [
-                    'name'  => $attr->getName(),
-                    'value' => $attr->getValue(),
+                    'name'  => $attr->name,
+                    'value' => $attr->value,
                 ];
             })->multiple(),
         ], null, function (Post $post) {
             return [
-                'title'      => $post->getTitle(),
-                'tags'       => $post->getTags(),
-                'attributes' => $post->getAttributes(),
+                'title'      => $post->title,
+                'tags'       => $post->tags,
+                'attributes' => $post->attributes,
             ];
         });
 

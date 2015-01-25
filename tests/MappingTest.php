@@ -9,22 +9,16 @@ class MappingTest extends \PHPUnit_Framework_TestCase
 {
     public function testValidExtensionMethod()
     {
-        $mapping = $this->createMapping([
-            new \Mapped\Tests\Fixtures\FooExtension]);
-
+        $extension = $this->getMock('Mapped\ExtensionInterface', ['foo']);
+        $extension->expects($this->once())->method('foo');
+        $mapping = new Mapping(new Emitter, [$extension]);
         $return = $mapping->foo();
-        $this->assertEquals($return, $mapping);
     }
 
     public function testUndefinedExtensionMethod()
     {
         $this->setExpectedException('BadMethodCallException');
-        $mapping = $this->createMapping();
+        $mapping = new Mapping(new Emitter);
         $mapping->foo();
-    }
-
-    private function createMapping(array $extensions = [])
-    {
-        return new Mapping(new Emitter, $extensions);
     }
 }

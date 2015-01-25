@@ -37,12 +37,8 @@ class CallableTest extends \PHPUnit_Framework_TestCase
     public function testCallUserFunc()
     {
         $factory = new Factory;
-
         $user = new User('dennis84', 'demo123');
-
-        $handler = $this->getMock(
-            'Mapped\Tests\Fixtures\UserHandler',
-            ['apply', 'unapply']);
+        $handler = $this->getMock('stdclass', ['apply', 'unapply']);
 
         $handler->expects($this->once())
             ->method('apply')
