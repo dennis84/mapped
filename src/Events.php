@@ -24,4 +24,10 @@ class Events
      * allows you to modify the incoming data.
      */
     const UNAPPLY = 'mapped.unapply';
+ 
+    /**
+     * This event will be fired at the end of the `unapply` process. It allows
+     * yout to modify the result.
+     */
+    const UNAPPLIED = 'mapped.unapplied';
 }

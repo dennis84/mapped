@@ -138,21 +138,21 @@ class Mapping
     {
         $data = new Data($input);
         $this->emitter->emit(Events::UNAPPLY, $data, $this);
-        $input = $data->getInput();
+        $result = $input = $data->getInput();
 
-        if (!$this->hasChildren()) {
-            return $input;
-        }
-
-        $result = [];
-
-        foreach ($this->getChildren() as $name => $child) {
-            if (is_array($input) && array_key_exists($name, $input)) {
-                $result[$name] = $child->unapply($input[$name]);
+        if ($this->hasChildren()) {
+            $result = [];
+            foreach ($this->getChildren() as $name => $child) {
+                if (is_array($input) && array_key_exists($name, $input)) {
+                    $result[$name] = $child->unapply($input[$name]);
+                }
             }
         }
 
-        return $result;
+        $data->setResult($result);
+        $this->emitter->emit(Events::UNAPPLIED, $data, $this);
+
+        return $data->getResult();
     }
 
     /**
