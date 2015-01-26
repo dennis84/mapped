@@ -4,12 +4,39 @@ namespace Mapped\Extension;
 
 use Mapped\ExtensionInterface;
 use Mapped\Mapping;
+use Mapped\Constraint;
+use Mapped\Events;
+use Mapped\Error;
+use Mapped\Data;
 
 /**
  * Validation extension.
  */
 class Validation implements ExtensionInterface
 {
+    /**
+     * Adds a constraint.
+     *
+     * @param Mapping    $mapping    The mapping object
+     * @param Constraint $constraint The constaint object
+     */
+    public function validate(Mapping $mapping, Constraint $cons)
+    {
+        $emitter = $mapping->getEmitter();
+        $emitter->on(Events::APPLIED, function (Data $data) use ($cons) {
+            if (count($data->getErrors()) > 0) {
+                return;
+            }
+
+            if (false === $cons->check($data->getResult())) {
+                $error = new Error($cons->getMessage(), $data->getPropertyPath());
+                $data->addError($error);
+            }
+        });
+
+        return $mapping;
+    }
+
     /**
      * Adds a callback constraint to the mapping.
      *

@@ -107,54 +107,6 @@ class Mapping
     }
 
     /**
-     * Adds a transformer.
-     *
-     * @param Transformer $transformer The transformer
-     *
-     * @return Mapping
-     */
-    public function transform(Transformer $transformer)
-    {
-        $emitter = $this->emitter;
-
-        $emitter->on(Events::APPLIED, function (Data $data) use ($transformer) {
-            if (count($data->getErrors()) > 0) {
-                return;
-            }
-
-            $data->setResult($transformer->transform($data->getResult()));
-        });
-
-        $emitter->on(Events::UNAPPLY, function (Data $data) use ($transformer) {
-            $data->setInput($transformer->reverseTransform($data->getInput()));
-        });
-
-        return $this;
-    }
-
-    /**
-     * Adds a constraint.
-     *
-     * @param Constraint $constraint The constaint object
-     */
-    public function validate(Constraint $cons)
-    {
-        $emitter = $this->emitter;
-        $emitter->on(Events::APPLIED, function (Data $data) use ($cons) {
-            if (count($data->getErrors()) > 0) {
-                return;
-            }
-
-            if (false === $cons->check($data->getResult())) {
-                $error = new Error($cons->getMessage(), $data->getPropertyPath());
-                $data->addError($error);
-            }
-        });
-
-        return $this;
-    }
-
-    /**
      * Applies the given data to the mapping.
      *
      * @param mixed $data Any data

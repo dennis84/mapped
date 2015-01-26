@@ -17,6 +17,7 @@ class Factory
     public function __construct(array $extensions = [])
     {
         $this->extensions = array_merge([
+            new \Mapped\Extension\Transform,
             new \Mapped\Extension\Validation,
             new \Mapped\Extension\Multiple,
             new \Mapped\Extension\Optional,
