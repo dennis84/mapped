@@ -7,7 +7,7 @@ namespace Mapped;
  */
 class Emitter
 {
-    protected $callbacks = [];
+    private $callbacks = [];
 
     /**
      * Adds an event listener.

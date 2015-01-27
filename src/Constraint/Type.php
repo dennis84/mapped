@@ -9,8 +9,7 @@ use Mapped\Constraint;
  */
 class Type extends Constraint
 {
-    protected $message;
-    protected $type;
+    private $type;
 
     /**
      * Constructor.

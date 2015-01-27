@@ -7,9 +7,9 @@ namespace Mapped;
  */
 class Mapping
 {
-    protected $emitter;
-    protected $extensions = [];
-    protected $children = [];
+    private $emitter;
+    private $extensions = [];
+    private $children = [];
 
     /**
      * Constructor.

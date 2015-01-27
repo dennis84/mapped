@@ -7,10 +7,10 @@ namespace Mapped;
  */
 class Data
 {
-    protected $input;
-    protected $result;
-    protected $errors = [];
-    protected $propertyPath = [];
+    private $input;
+    private $result;
+    private $errors = [];
+    private $propertyPath = [];
 
     /**
      * Constructor.

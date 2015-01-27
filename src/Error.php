@@ -7,8 +7,8 @@ namespace Mapped;
  */
 class Error
 {
-    protected $message;
-    protected $propertyPath = [];
+    private $message;
+    private $propertyPath = [];
 
     /**
      * Constructor.

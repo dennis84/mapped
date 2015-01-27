@@ -49,7 +49,7 @@ class Multiple implements ExtensionInterface
      *
      * @throw InvalidArgumentException If given data is not an array
      */
-    protected function resize(Mapping $mapping, Mapping $proto, $input)
+    private function resize(Mapping $mapping, Mapping $proto, $input)
     {
         if (!is_array($input)) {
             throw new \InvalidArgumentException('The input must be an array.');

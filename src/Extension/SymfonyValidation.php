@@ -16,7 +16,7 @@ use Symfony\Component\PropertyAccess\PropertyPath;
  */
 class SymfonyValidation implements ExtensionInterface
 {
-    protected $validator;
+    private $validator;
 
     /**
      * Constructor.

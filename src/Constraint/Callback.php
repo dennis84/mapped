@@ -9,8 +9,7 @@ use Mapped\Constraint;
  */
 class Callback extends Constraint
 {
-    protected $message;
-    protected $callback;
+    private $callback;
 
     /**
      * Constructor.

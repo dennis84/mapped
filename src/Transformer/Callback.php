@@ -9,9 +9,9 @@ use Mapped\Transformer;
  */
 class Callback extends Transformer
 {
-    protected $transform;
-    protected $reverseTransform;
-    protected $expand = true;
+    private $transform;
+    private $reverseTransform;
+    private $expand = true;
 
     /**
      * Constructor.

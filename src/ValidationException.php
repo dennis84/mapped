@@ -7,7 +7,7 @@ namespace Mapped;
  */
 class ValidationException extends \Exception
 {
-    protected $errors = [];
+    private $errors = [];
 
     /**
      * Constructor.
