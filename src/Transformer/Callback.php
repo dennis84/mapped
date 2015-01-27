@@ -11,17 +11,20 @@ class Callback extends Transformer
 {
     protected $transform;
     protected $reverseTransform;
+    protected $expand = true;
 
     /**
      * Constructor.
      *
      * @param callable $transform        The tranform callback
      * @param callable $reverseTransform The reverse tranform callback
+     * @param bool     $expand           Expands the arguments if true
      */
-    public function __construct(callable $transform = null, callable $reverseTransform = null)
+    public function __construct(callable $transform = null, callable $reverseTransform = null, $expand = true)
     {
         $this->transform = $transform;
         $this->reverseTransform = $reverseTransform;
+        $this->expand = $expand;
     }
 
     /**
@@ -52,6 +55,10 @@ class Callback extends Transformer
     {
         if (null === $func || null === $data) {
             return $data;
+        }
+
+        if (false === $this->expand) {
+            return call_user_func($func, $data);
         }
 
         if (!is_array($data)) {

@@ -1,7 +1,6 @@
 # Mapped
 
-Mapped is a lightweight data transformation and validation tool. You can use it
-for JSON (de)serialization, form handling and many more.
+A lightweight data transformation and validation tool for PHP.
 
 [![Build Status](https://travis-ci.org/dennis84/mapped.svg?branch=master)](https://travis-ci.org/dennis84/mapped)
 [![Coverage Status](https://coveralls.io/repos/dennis84/mapped/badge.png?branch=master)](https://coveralls.io/r/dennis84/mapped?branch=master)
@@ -14,8 +13,8 @@ for JSON (de)serialization, form handling and many more.
 $factory = new Factory;
 
 $mapping = $factory->mapping([
-    'username' => $factory->mapping(),
-    'password' => $factory->mapping(),
+    'username' => $factory->string(),
+    'password' => $factory->string(),
 ], function ($username, $password) {
     return new User($username, $password);
 }, function (User $user) {
