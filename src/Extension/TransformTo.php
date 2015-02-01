@@ -60,6 +60,7 @@ class TransformTo implements ExtensionInterface
     {
         if (isset($object->$name)) {
             $object->$name = $value;
+            return;
         }
 
         $setter = 'set' . ucfirst($name);
