@@ -53,7 +53,7 @@ class Factory
      *
      * @return Mapping
      */
-    public function string($message = 'error.text')
+    public function string($message = 'error.string')
     {
         $mapping = new Mapping(new Emitter, $this->extensions);
         $mapping->transform(new \Mapped\Transformer\String);

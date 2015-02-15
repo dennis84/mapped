@@ -87,7 +87,6 @@ class ApplyTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($result->password);
     }
 
-    /** @group foo */
     public function testE()
     {
         $factory = new Factory;

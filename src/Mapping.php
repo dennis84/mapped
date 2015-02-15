@@ -165,7 +165,6 @@ class Mapping
         $this->emitter->emit(Events::APPLY, $data, $this);
 
         if (count($data->getErrors()) > 0) {
-            $data->setResult(null);
             $this->emitter->emit(Events::APPLIED, $data, $this);
             return;
         }

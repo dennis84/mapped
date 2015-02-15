@@ -7,14 +7,14 @@ use Mapped\ValidationException;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
-    public function testText()
+    public function testString()
     {
         $factory = new Factory;
         $mapping = $factory->string();
         $this->assertSame('foo', $mapping->apply('foo'));
     }
 
-    public function testTextFail()
+    public function testStringFail()
     {
         $factory = new Factory;
         $mapping = $factory->string();
@@ -25,7 +25,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             $mapping->apply(true);
         } catch (ValidationException $e) {
             $errors = $e->getErrors();
-            $this->assertSame('error.text', $errors[0]->getMessage());
+            $this->assertSame('error.string', $errors[0]->getMessage());
             throw $e;
         }
     }
