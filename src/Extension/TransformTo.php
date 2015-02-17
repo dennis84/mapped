@@ -13,6 +13,8 @@ class TransformTo implements ExtensionInterface
 {
     /**
      * Transforms the data to given class via setter and getter methods.
+     * Important: If you pass the `object` param as string, then the class must
+     * be initializable without constructor arguments.
      *
      * @param Mapping       $mapping The mapping object
      * @param string|object $object  The class name or an object

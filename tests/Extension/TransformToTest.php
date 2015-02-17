@@ -10,7 +10,7 @@ class TransformToTest extends \PHPUnit_Framework_TestCase
 {
     public function testA()
     {
-        $factory = new Factory([new \Mapped\Extension\TransformTo]);
+        $factory = new Factory;
 
         $mapping = $factory->mapping([
             'title'  => $factory->string(),
@@ -33,7 +33,7 @@ class TransformToTest extends \PHPUnit_Framework_TestCase
 
     public function testB()
     {
-        $factory = new Factory([new \Mapped\Extension\TransformTo]);
+        $factory = new Factory;
 
         $mapping = $factory->mapping([
             'title'  => $factory->string(),
@@ -49,9 +49,9 @@ class TransformToTest extends \PHPUnit_Framework_TestCase
 
     public function testC()
     {
-        $factory = new Factory([new \Mapped\Extension\TransformTo]);
-
+        $factory = new Factory;
         $book = new Book;
+
         $mapping = $factory->mapping([
             'title'  => $factory->string(),
             'author' => $factory->string(),
@@ -68,7 +68,7 @@ class TransformToTest extends \PHPUnit_Framework_TestCase
 
     public function testD()
     {
-        $factory = new Factory([new \Mapped\Extension\TransformTo]);
+        $factory = new Factory;
         $user = new User('a', 'b');
 
         $mapping = $factory->mapping([

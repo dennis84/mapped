@@ -18,6 +18,7 @@ class Factory
     {
         $this->extensions = array_merge([
             new \Mapped\Extension\Transform,
+            new \Mapped\Extension\TransformTo,
             new \Mapped\Extension\Validation,
             new \Mapped\Extension\Multiple,
             new \Mapped\Extension\Optional,
