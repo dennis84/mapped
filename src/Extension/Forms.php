@@ -5,6 +5,7 @@ namespace Mapped\Extension;
 use Mapped\ExtensionInterface;
 use Mapped\Mapping;
 use Mapped\Events;
+use Mapped\Data;
 
 /**
  * Forms.
@@ -27,13 +28,13 @@ class Forms implements ExtensionInterface
         $form = new Form($mapping, $children);
         $emitter = $mapping->getEmitter();
 
-        $emitter->on(Events::APPLIED, function ($data) use ($form) {
+        $emitter->on(Events::APPLIED, function (Data $data) use ($form) {
             $form->setData($data->getResult());
             $form->setValue($data->getInput());
             $form->setErrors($data->getErrors());
         });
-        
-        $emitter->on(Events::UNAPPLIED, function ($data) use ($form) {
+
+        $emitter->on(Events::UNAPPLIED, function (Data $data) use ($form) {
             $form->setValue($data->getResult());
         });
 

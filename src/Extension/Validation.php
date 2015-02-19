@@ -19,6 +19,8 @@ class Validation implements ExtensionInterface
      *
      * @param Mapping    $mapping    The mapping object
      * @param Constraint $constraint The constaint object
+     *
+     * @return Mapping
      */
     public function validate(Mapping $mapping, Constraint $cons)
     {

@@ -16,6 +16,8 @@ class Optional implements ExtensionInterface
      * Makes this mapping optional.
      *
      * @param Mapping $mapping The mapping object
+     *
+     * @return Mapping
      */
     public function optional(Mapping $mapping)
     {

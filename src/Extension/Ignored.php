@@ -17,6 +17,8 @@ class Ignored implements ExtensionInterface
      *
      * @param Mapping $mapping The mapping object
      * @param mixed   $value   The value
+     *
+     * @return Mapping
      */
     public function ignored(Mapping $mapping, $value)
     {
