@@ -12,6 +12,7 @@ class Form implements \ArrayAccess
 {
     private $mapping;
     private $children = [];
+    private $propertyPath = [];
     private $value;
     private $data;
     private $errors = [];
@@ -19,13 +20,15 @@ class Form implements \ArrayAccess
     /**
      * Constructor.
      *
-     * @param Mapping $mapping  The mapping object
-     * @param Form[]  $children An array of form objects
+     * @param Mapping $mapping      The mapping object
+     * @param Form[]  $children     An array of form objects
+     * @param array   $propertyPath The property path
      */
-    public function __construct(Mapping $mapping, array $children = [])
+    public function __construct(Mapping $mapping, array $children = [], array $propertyPath = [])
     {
         $this->mapping = $mapping;
         $this->children = $children;
+        $this->propertyPath = $propertyPath;
     }
 
     /**
@@ -120,6 +123,31 @@ class Form implements \ArrayAccess
     public function getErrors()
     {
         return $this->errors;
+    }
+
+    /**
+     * Returns the field name (e.g. `address[street]`).
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        $elems = $this->propertyPath;
+        $name = array_shift($elems);
+
+        if (null === $name) {
+            return '';
+        }
+
+        foreach ($elems as $elem) {
+            $name .= '['.$elem.']';
+        }
+
+        if (count($this->children) > 0) {
+            $name .= '[]';
+        }
+
+        return $name;
     }
 
     /**

@@ -17,12 +17,12 @@ class Factory
     public function __construct(array $extensions = [])
     {
         $this->extensions = array_merge([
-            new \Mapped\Extension\Transform,
-            new \Mapped\Extension\TransformTo,
-            new \Mapped\Extension\Validation,
-            new \Mapped\Extension\Multiple,
-            new \Mapped\Extension\Optional,
-            new \Mapped\Extension\Ignored,
+            new Extension\Transform,
+            new Extension\TransformTo,
+            new Extension\Validation,
+            new Extension\Multiple,
+            new Extension\Optional,
+            new Extension\Ignored,
         ], $extensions);
     }
 

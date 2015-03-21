@@ -4,6 +4,7 @@ namespace Mapped\Tests\Extension;
 
 use Mapped\Factory;
 use Mapped\Tests\Fixtures\User;
+use Mapped\Tests\Fixtures\Address;
 
 class FormsTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,12 +14,24 @@ class FormsTest extends \PHPUnit_Framework_TestCase
         $mapping = $factory->mapping([
             'username' => $factory->mapping(),
             'password' => $factory->mapping(),
-        ], function ($username, $password) {
-            return new User($username, $password);
+            'address'  => $factory->mapping([
+                'city'   => $factory->mapping(),
+                'street' => $factory->mapping(),
+            ], function ($city, $street) {
+                return new Address($city, $street);
+            }, function (Address $address) {
+                return [
+                    'city'   => $address->city,
+                    'street' => $address->street,
+                ];
+            }),
+        ], function ($username, $password, Address $address) {
+            return new User($username, $password, $address);
         }, function (User $user) {
             return [
                 'username' => $user->username,
                 'password' => $user->password,
+                'address'  => $user->address,
             ];
         });
 
@@ -26,6 +39,10 @@ class FormsTest extends \PHPUnit_Framework_TestCase
         $form->bind([
             'username' => 'dennis',
             'password' => 'passwd',
+            'address'  => [
+                'city'   => 'foo',
+                'street' => 'bar',
+            ],
         ]);
 
         $this->assertTrue($form->isValid());
@@ -38,10 +55,17 @@ class FormsTest extends \PHPUnit_Framework_TestCase
         $this->assertSame([
             'username' => 'dennis',
             'password' => 'passwd',
+            'address'  => [
+                'city'   => 'foo',
+                'street' => 'bar',
+            ],
         ], $form->getValue());
 
         $this->assertSame('dennis', $form['username']->getValue());
         $this->assertSame('passwd', $form['password']->getValue());
+
+        $this->assertSame('address[city]', $form['address']['city']->getName());
+        $this->assertSame('address[street]', $form['address']['street']->getName());
     }
     
     public function testB()

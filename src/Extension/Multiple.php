@@ -57,7 +57,7 @@ class Multiple implements ExtensionInterface
 
         $children = [];
         foreach ($input as $index => $value) {
-            $children[(string) $index] = $proto;
+            $children[$index] = $proto;
         }
 
         $mapping->setChildren($children);

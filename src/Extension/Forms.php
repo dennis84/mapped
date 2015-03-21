@@ -19,13 +19,14 @@ class Forms implements ExtensionInterface
      *
      * @return Form
      */
-    public function form(Mapping $mapping)
+    public function form(Mapping $mapping, $path = [])
     {
-        $children = array_map(function (Mapping $child) {
-            return $child->form();
-        }, $mapping->getChildren());
+        $children = [];
+        foreach ($mapping->getChildren() as $name => $child) {
+            $children[$name] = $child->form(array_merge($path, [$name]));
+        }
 
-        $form = new Form($mapping, $children);
+        $form = new Form($mapping, $children, $path);
         $emitter = $mapping->getEmitter();
 
         $emitter->on(Events::APPLIED, function (Data $data) use ($form) {
