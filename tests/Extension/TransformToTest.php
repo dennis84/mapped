@@ -68,6 +68,10 @@ class TransformToTest extends \PHPUnit_Framework_TestCase
 
     public function testD()
     {
+        // It's not possible to check if public object properties exists
+        // without reflection.
+        $this->setExpectedException('RuntimeException');
+
         $factory = new Factory;
         $user = new User('a', 'b');
 
@@ -76,19 +80,9 @@ class TransformToTest extends \PHPUnit_Framework_TestCase
             'password' => $factory->string(),
         ])->transformTo($user);
 
-        $user = $mapping->apply([
+        $mapping->apply([
             'username' => 'dennis',
             'password' => 'passwd',
         ]);
-
-        $this->assertSame('dennis', $user->username);
-        $this->assertSame('passwd', $user->password);
-
-        $data = $mapping->unapply($user);
-
-        $this->assertEquals([
-            'username' => 'dennis',
-            'password' => 'passwd',
-        ], $data);
     }
 }

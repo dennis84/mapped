@@ -60,15 +60,13 @@ class TransformTo implements ExtensionInterface
      */
     private function setValue($object, $name, $value)
     {
-        if (isset($object->$name)) {
-            $object->$name = $value;
-            return;
-        }
-
         $setter = 'set' . ucfirst($name);
         if (method_exists($object, $setter)) {
             return $object->$setter($value);
         }
+
+        throw new \RuntimeException(sprintf(
+            'Call to undefined method "%s::%s()"', get_class($object), $setter));
     }
 
     /**
@@ -81,13 +79,12 @@ class TransformTo implements ExtensionInterface
      */
     private function getValue($object, $name)
     {
-        if (isset($object->$name)) {
-            return $object->$name;
-        }
-
         $getter = 'get' . ucfirst($name);
         if (method_exists($object, $getter)) {
             return $object->$getter();
         }
+
+        throw new \RuntimeException(sprintf(
+            'Call to undefined method "%s::%s()"', get_class($object), $getter));
     }
 }
