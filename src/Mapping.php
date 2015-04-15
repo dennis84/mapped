@@ -174,7 +174,6 @@ class Mapping
 
         if ($this->hasChildren()) {
             $result = [];
-
             foreach ($this->children as $name => $child) {
                 $path = array_merge($data->getPropertyPath(), [$name]);
                 $childData = new Data(null, null, [], $path);

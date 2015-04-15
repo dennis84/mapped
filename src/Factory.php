@@ -43,7 +43,7 @@ class Factory
             $mapping->addChild($name, $child);
         }
 
-        $mapping->transform(new \Mapped\Transformer\Callback($apply, $unapply));
+        $mapping->transform(new Transformer\Callback($apply, $unapply));
         return $mapping;
     }
 
@@ -57,8 +57,8 @@ class Factory
     public function string($message = 'error.string')
     {
         $mapping = new Mapping(new Emitter, $this->extensions);
-        $mapping->transform(new \Mapped\Transformer\String);
-        $mapping->validate(new \Mapped\Constraint\Type($message, 'string'));
+        $mapping->transform(new Transformer\String);
+        $mapping->validate(new Constraint\Type($message, 'string'));
         return $mapping;
     }
 
@@ -72,8 +72,8 @@ class Factory
     public function int($message = 'error.int')
     {
         $mapping = new Mapping(new Emitter, $this->extensions);
-        $mapping->transform(new \Mapped\Transformer\Int);
-        $mapping->validate(new \Mapped\Constraint\Type($message, 'int'));
+        $mapping->transform(new Transformer\Int);
+        $mapping->validate(new Constraint\Type($message, 'int'));
         return $mapping;
     }
 
@@ -87,8 +87,8 @@ class Factory
     public function float($message = 'error.float')
     {
         $mapping = new Mapping(new Emitter, $this->extensions);
-        $mapping->transform(new \Mapped\Transformer\Float);
-        $mapping->validate(new \Mapped\Constraint\Type($message, 'float'));
+        $mapping->transform(new Transformer\Float);
+        $mapping->validate(new Constraint\Type($message, 'float'));
         return $mapping;
     }
 
@@ -102,8 +102,8 @@ class Factory
     public function bool($message = 'error.bool')
     {
         $mapping = new Mapping(new Emitter, $this->extensions);
-        $mapping->transform(new \Mapped\Transformer\Bool);
-        $mapping->validate(new \Mapped\Constraint\Type($message, 'bool'));
+        $mapping->transform(new Transformer\Bool);
+        $mapping->validate(new Constraint\Type($message, 'bool'));
         return $mapping;
     }
 }
