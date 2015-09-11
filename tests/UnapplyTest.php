@@ -182,4 +182,29 @@ class UnapplyTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('dennis', $result['username']);
         $this->assertNull($result['password']);
     }
+
+    public function testH()
+    {
+        $factory = new Factory;
+        $mapping = $factory->mapping([
+            'username' => $factory->mapping(),
+            'password' => $factory->mapping(),
+            'address'  => $factory->mapping([
+                'city'   => $factory->mapping(),
+                'street' => $factory->mapping(),
+            ]),
+        ]);
+
+        $result = $mapping->unapply([
+            'username' => 'dennis',
+            'password' => 'passwd',
+            'address' => null,
+        ]);
+
+        $this->assertSame([
+            'username' => 'dennis',
+            'password' => 'passwd',
+            'address' => null,
+        ], $result);
+    }
 }

@@ -147,6 +147,10 @@ class Mapping
                     $result[$name] = $child->unapply($input[$name]);
                 }
             }
+
+            if (0 === count($result)) {
+                $result = null;
+            }
         }
 
         $data->setResult($result);
