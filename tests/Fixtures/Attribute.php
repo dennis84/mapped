@@ -8,8 +8,11 @@ class Attribute
 {
     /**
      * @Assert\NotBlank(message="not-blank")
+     * @var string
      */
     public $name;
+
+    /** @var string */
     public $value;
 
     public function __construct($name, $value)

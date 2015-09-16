@@ -7,7 +7,7 @@ use Mapped\Transformer\Callback;
 use Mapped\Mapping;
 
 /**
- * TransformTo.
+ * TransformTo (Experimental).
  */
 class TransformTo implements ExtensionInterface
 {
@@ -23,26 +23,40 @@ class TransformTo implements ExtensionInterface
      */
     public function transformTo(Mapping $mapping, $object)
     {
-        $mapping->transform(new Callback(function ($data) use ($object, $mapping) {
-            if (is_string($object)) {
-                $object = new $object;
+        $refl = new \ReflectionClass($object);
+        if (is_string($object)) {
+            $constr = $refl->getConstructor();
+            if (!$constr || 0 === $constr->getNumberOfRequiredParameters()) {
+                $object = $refl->newInstance();
+            } else {
+                $object = $refl->newInstanceWithoutConstructor();
+            }
+        }
+
+        $mapping->transform(new Callback(function ($data) use ($refl, $object, $mapping) {
+            if ($object instanceof \stdClass) {
+                return json_decode(json_encode($data));
             }
 
             foreach ($mapping->getChildren() as $name => $child) {
                 if (array_key_exists($name, $data) && null !== $data[$name]) {
-                    $this->setValue($object, $name, $data[$name]);
+                    $this->setValue($refl, $object, $name, $data[$name]);
                 }
             }
 
             return $object;
-        }, function ($data) use ($object, $mapping) {
+        }, function ($data) use ($refl, $object, $mapping) {
             if (!$data instanceof $object) {
                 return;
             }
 
+            if ($object instanceof \stdClass) {
+                return json_decode(json_encode($data), true);
+            }
+
             $result = [];
             foreach ($mapping->getChildren() as $name => $child) {
-                $result[$name] = $this->getValue($data, $name);
+                $result[$name] = $this->getValue($refl, $data, $name);
             }
 
             return $result;
@@ -54,37 +68,47 @@ class TransformTo implements ExtensionInterface
     /**
      * Sets the given value into the object.
      *
-     * @param object $object The object
-     * @param string $name   The property name
-     * @param mixed  $value  The value
+     * @param ReflectionClass $refl   The reflection class
+     * @param object          $object The object
+     * @param string          $name   The property name
+     * @param mixed           $value  The value
      */
-    private function setValue($object, $name, $value)
+    private function setValue(\ReflectionClass $refl, $object, $name, $value)
     {
         $setter = 'set' . ucfirst($name);
         if (method_exists($object, $setter)) {
             return $object->$setter($value);
         }
 
-        throw new \RuntimeException(sprintf(
-            'Call to undefined method "%s::%s()"', get_class($object), $setter));
+        $prop = $refl->getProperty($name);
+        if (!$prop->isPublic()) {
+            $prop->setAccessible(true);
+        }
+
+        $prop->setValue($object, $value);
     }
 
     /**
      * Gets a value from given object.
      *
-     * @param object $object The object
-     * @param string $name   The property name
+     * @param ReflectionClass $refl   The reflection class
+     * @param object          $object The object
+     * @param string          $name   The property name
      *
      * @return mixed
      */
-    private function getValue($object, $name)
+    private function getValue(\ReflectionClass $refl, $object, $name)
     {
         $getter = 'get' . ucfirst($name);
         if (method_exists($object, $getter)) {
             return $object->$getter();
         }
 
-        throw new \RuntimeException(sprintf(
-            'Call to undefined method "%s::%s()"', get_class($object), $getter));
+        $prop = $refl->getProperty($name);
+        if (!$prop->isPublic()) {
+            $prop->setAccessible(true);
+        }
+
+        return $prop->getValue($object);
     }
 }

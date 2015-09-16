@@ -7,7 +7,7 @@ namespace Mapped;
  */
 class Factory
 {
-    private $extensions = [];
+    protected $extensions = [];
 
     /**
      * Constructor.

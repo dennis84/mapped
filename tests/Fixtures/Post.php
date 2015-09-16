@@ -8,12 +8,16 @@ class Post
 {
     /**
      * @Assert\NotBlank(message="not-blank")
+     * @var string
      */
     public $title;
+
+    /** @var string[] */
     public $tags = [];
 
     /**
      * @Assert\Valid
+     * @var Attribute[]
      */
     public $attributes = [];
 

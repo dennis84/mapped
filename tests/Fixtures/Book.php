@@ -4,7 +4,9 @@ namespace Mapped\Tests\Fixtures;
 
 class Book
 {
+    /** @var string */
     private $title;
+    /** @var string */
     private $author;
 
     public function __construct()
