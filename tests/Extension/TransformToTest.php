@@ -3,7 +3,7 @@
 namespace Mapped\Tests\Extension;
 
 use Mapped\Factory;
-use Mapped\Tests\Fixtures\User;
+use Mapped\Tests\Fixtures\User\User;
 use Mapped\Tests\Fixtures\Book;
 
 class TransformToTest extends \PHPUnit_Framework_TestCase

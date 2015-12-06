@@ -3,8 +3,8 @@
 namespace Mapped\Tests\Extension;
 
 use Mapped\Factory;
-use Mapped\Tests\Fixtures\User;
-use Mapped\Tests\Fixtures\Address;
+use Mapped\Tests\Fixtures\User\User;
+use Mapped\Tests\Fixtures\User\Address;
 
 class OptionalTest extends \PHPUnit_Framework_TestCase
 {
@@ -56,7 +56,7 @@ class OptionalTest extends \PHPUnit_Framework_TestCase
 
         $result = $mapping->apply($data);
 
-        $this->assertInstanceOf('Mapped\Tests\Fixtures\User', $result);
+        $this->assertInstanceOf('Mapped\Tests\Fixtures\User\User', $result);
         $this->assertSame('dennis84', $result->username);
         $this->assertSame('password', $result->password);
         $this->assertNull($result->address);

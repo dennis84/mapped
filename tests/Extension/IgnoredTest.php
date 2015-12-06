@@ -3,8 +3,8 @@
 namespace Mapped\Tests\Extension;
 
 use Mapped\Factory;
-use Mapped\Tests\Fixtures\User;
-use Mapped\Tests\Fixtures\Address;
+use Mapped\Tests\Fixtures\User\User;
+use Mapped\Tests\Fixtures\User\Address;
 
 class IgnoredTest extends \PHPUnit_Framework_TestCase
 {

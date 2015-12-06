@@ -4,8 +4,8 @@ namespace Mapped\Tests\Extension;
 
 use Mapped\Factory;
 use Mapped\ValidationException;
-use Mapped\Tests\Fixtures\Post;
-use Mapped\Tests\Fixtures\Attribute;
+use Mapped\Tests\Fixtures\Blog\Post;
+use Mapped\Tests\Fixtures\Blog\Attribute;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints as Assert;
 

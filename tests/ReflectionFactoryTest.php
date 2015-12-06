@@ -3,7 +3,7 @@
 namespace Mapped\Tests;
 
 use Mapped\ReflectionFactory;
-use Mapped\Tests\Fixtures\User;
+use Mapped\Tests\Fixtures\User\User;
 
 class ReflectionFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,13 +26,13 @@ class ReflectionFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new ReflectionFactory;
 
-        $mapping = $factory->of('Mapped\Tests\Fixtures\User');
+        $mapping = $factory->of('Mapped\Tests\Fixtures\User\User');
         $user = $mapping->apply([
             'username' => 'dennis',
             'password' => 'passwd',
         ]);
 
-        $this->assertInstanceOf('Mapped\Tests\Fixtures\User', $user);
+        $this->assertInstanceOf('Mapped\Tests\Fixtures\User\User', $user);
         $this->assertSame('dennis', $user->username);
         $this->assertSame('passwd', $user->password);
         $this->assertNull($user->address);
@@ -48,7 +48,7 @@ class ReflectionFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new ReflectionFactory;
 
-        $mapping = $factory->of('Mapped\Tests\Fixtures\User');
+        $mapping = $factory->of('Mapped\Tests\Fixtures\User\User');
         $user = $mapping->apply([
             'username' => 'dennis',
             'password' => 'passwd',
@@ -58,10 +58,10 @@ class ReflectionFactoryTest extends \PHPUnit_Framework_TestCase
             ],
         ]);
 
-        $this->assertInstanceOf('Mapped\Tests\Fixtures\User', $user);
+        $this->assertInstanceOf('Mapped\Tests\Fixtures\User\User', $user);
         $this->assertSame('dennis', $user->username);
         $this->assertSame('passwd', $user->password);
-        $this->assertInstanceOf('Mapped\Tests\Fixtures\Address', $user->address);
+        $this->assertInstanceOf('Mapped\Tests\Fixtures\User\Address', $user->address);
         $this->assertSame('Foo', $user->address->street);
         $this->assertSame('Bar', $user->address->city);
         $this->assertNull($user->address->location);
@@ -84,12 +84,12 @@ class ReflectionFactoryTest extends \PHPUnit_Framework_TestCase
 
         $factory = new ReflectionFactory;
 
-        $mapping = $factory->of('Mapped\Tests\Fixtures\User');
+        $mapping = $factory->of('Mapped\Tests\Fixtures\User\User');
         $user = $mapping->apply([
             'username' => 'dennis',
         ]);
 
-        $this->assertInstanceOf('Mapped\Tests\Fixtures\User', $user);
+        $this->assertInstanceOf('Mapped\Tests\Fixtures\User\User', $user);
         $this->assertSame('dennis', $user->username);
     }
 
@@ -97,7 +97,7 @@ class ReflectionFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new ReflectionFactory;
 
-        $mapping = $factory->of('Mapped\Tests\Fixtures\Post');
+        $mapping = $factory->of('Mapped\Tests\Fixtures\Blog\Post');
         $post = $mapping->apply([
             'title' => 'Hello World',
             'tags' => ['foo', 'bar', 'baz'],
@@ -107,7 +107,7 @@ class ReflectionFactoryTest extends \PHPUnit_Framework_TestCase
             ]],
         ]);
 
-        $this->assertInstanceOf('Mapped\Tests\Fixtures\Post', $post);
+        $this->assertInstanceOf('Mapped\Tests\Fixtures\Blog\Post', $post);
         $this->assertSame('Hello World', $post->title);
         $this->assertSame(['foo', 'bar', 'baz'], $post->tags);
 

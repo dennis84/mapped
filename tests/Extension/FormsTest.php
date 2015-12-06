@@ -3,8 +3,8 @@
 namespace Mapped\Tests\Extension;
 
 use Mapped\Factory;
-use Mapped\Tests\Fixtures\User;
-use Mapped\Tests\Fixtures\Address;
+use Mapped\Tests\Fixtures\User\User;
+use Mapped\Tests\Fixtures\User\Address;
 
 class FormsTest extends \PHPUnit_Framework_TestCase
 {
@@ -46,7 +46,7 @@ class FormsTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->assertTrue($form->isValid());
-        $this->assertInstanceOf('Mapped\Tests\Fixtures\User', $form->getData());
+        $this->assertInstanceOf('Mapped\Tests\Fixtures\User\User', $form->getData());
         $this->assertSame('dennis', $form['username']->getData());
         $this->assertSame('passwd', $form['password']->getData());
 

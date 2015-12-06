@@ -3,9 +3,9 @@
 namespace Mapped\Tests;
 
 use Mapped\Factory;
-use Mapped\Tests\Fixtures\User;
-use Mapped\Tests\Fixtures\Address;
-use Mapped\Tests\Fixtures\Location;
+use Mapped\Tests\Fixtures\User\User;
+use Mapped\Tests\Fixtures\User\Address;
+use Mapped\Tests\Fixtures\User\Location;
 
 class UnapplyTest extends \PHPUnit_Framework_TestCase
 {

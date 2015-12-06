@@ -4,8 +4,8 @@ namespace Mapped\Tests;
 
 use Mapped\Factory;
 use Mapped\ValidationException;
-use Mapped\Tests\Fixtures\User;
-use Mapped\Tests\Fixtures\Address;
+use Mapped\Tests\Fixtures\User\User;
+use Mapped\Tests\Fixtures\User\Address;
 
 class ApplyTest extends \PHPUnit_Framework_TestCase
 {
@@ -62,7 +62,7 @@ class ApplyTest extends \PHPUnit_Framework_TestCase
             'password' => 'password',
         ]);
 
-        $this->assertInstanceOf('Mapped\Tests\Fixtures\User', $result);
+        $this->assertInstanceOf('Mapped\Tests\Fixtures\User\User', $result);
         $this->assertSame('dennis', $result->username);
         $this->assertSame('password', $result->password);
     }
@@ -82,7 +82,7 @@ class ApplyTest extends \PHPUnit_Framework_TestCase
             'password' => null,
         ]);
 
-        $this->assertInstanceOf('Mapped\Tests\Fixtures\User', $result);
+        $this->assertInstanceOf('Mapped\Tests\Fixtures\User\User', $result);
         $this->assertSame('dennis', $result->username);
         $this->assertNull($result->password);
     }
@@ -134,10 +134,10 @@ class ApplyTest extends \PHPUnit_Framework_TestCase
             ],
         ]);
 
-        $this->assertInstanceOf('Mapped\Tests\Fixtures\User', $result);
+        $this->assertInstanceOf('Mapped\Tests\Fixtures\User\User', $result);
         $this->assertSame('dennis84', $result->username);
         $this->assertSame('password', $result->password);
-        $this->assertInstanceOf('Mapped\Tests\Fixtures\Address', $result->address);
+        $this->assertInstanceOf('Mapped\Tests\Fixtures\User\Address', $result->address);
         $this->assertSame('Foo', $result->address->city);
         $this->assertSame('Bar', $result->address->street);
     }

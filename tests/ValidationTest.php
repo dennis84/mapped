@@ -4,8 +4,8 @@ namespace Mapped\Tests;
 
 use Mapped\Factory;
 use Mapped\ValidationException;
-use Mapped\Tests\Fixtures\User;
-use Mapped\Tests\Fixtures\Address;
+use Mapped\Tests\Fixtures\User\User;
+use Mapped\Tests\Fixtures\User\Address;
 
 class ValidationTest extends \PHPUnit_Framework_TestCase
 {
@@ -109,7 +109,7 @@ class ValidationTest extends \PHPUnit_Framework_TestCase
         ], function ($username, $password) {
             return new User($username, $password);
         })->verifying('foo', function ($user) {
-            $this->assertInstanceOf('Mapped\Tests\Fixtures\User', $user);
+            $this->assertInstanceOf('Mapped\Tests\Fixtures\User\User', $user);
             return true;
         });
 

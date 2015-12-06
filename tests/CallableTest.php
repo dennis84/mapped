@@ -3,7 +3,7 @@
 namespace Mapped\Tests;
 
 use Mapped\Factory;
-use Mapped\Tests\Fixtures\User;
+use Mapped\Tests\Fixtures\User\User;
 
 class CallableTest extends \PHPUnit_Framework_TestCase
 {

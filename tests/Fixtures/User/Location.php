@@ -1,6 +1,6 @@
 <?php
 
-namespace Mapped\Tests\Fixtures;
+namespace Mapped\Tests\Fixtures\User;
 
 class Location
 {
