@@ -14,7 +14,8 @@
   "require-dev": {
     "symfony/validator": "2.*",
     "symfony/property-access": "2.*",
-    "doctrine/common": "2.*"
+    "doctrine/common": "2.*",
+    "phpunit/phpunit": "^4.6"
   },
   "autoload": {
     "psr-4": { "Mapped\\": "src/" }
