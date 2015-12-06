@@ -3,7 +3,7 @@
 namespace Mapped\Extension;
 
 use Mapped\ExtensionInterface;
-use Mapped\Transformer\Callback;
+use Mapped\Transformer\CallbackTransformer;
 use Mapped\Mapping;
 
 /**
@@ -33,7 +33,7 @@ class TransformTo implements ExtensionInterface
             }
         }
 
-        $mapping->transform(new Callback(function ($data) use ($refl, $object, $mapping) {
+        $mapping->transform(new CallbackTransformer(function ($data) use ($refl, $object, $mapping) {
             if ($object instanceof \stdClass) {
                 return json_decode(json_encode($data));
             }

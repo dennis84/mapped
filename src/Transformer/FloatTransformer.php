@@ -5,9 +5,9 @@ namespace Mapped\Transformer;
 use Mapped\Transformer;
 
 /**
- * Int.
+ * FloatTransformer.
  */
-class Int extends Transformer
+class FloatTransformer extends Transformer
 {
     /**
      * {@inheritdoc}
@@ -18,6 +18,6 @@ class Int extends Transformer
             return $data;
         }
 
-        return intval($data);
+        return floatval($data);
     }
 }

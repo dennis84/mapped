@@ -19,7 +19,7 @@ class BoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testTransform($expected, $value)
     {
-        $transformer = new \Mapped\Transformer\Bool;
+        $transformer = new \Mapped\Transformer\BoolTransformer;
         $this->assertSame($expected, $transformer->transform($value));
     }
 }

@@ -5,19 +5,19 @@ namespace Mapped\Transformer;
 use Mapped\Transformer;
 
 /**
- * Bool.
+ * StringTransformer.
  */
-class Bool extends Transformer
+class StringTransformer extends Transformer
 {
     /**
      * {@inheritdoc}
      */
     public function transform($data)
     {
-        if ('false' === $data) {
-            return false;
+        if (!is_string($data)) {
+            return $data;
         }
 
-        return (bool) $data;
+        return (string) $data;
     }
 }

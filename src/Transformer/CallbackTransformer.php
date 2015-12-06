@@ -5,9 +5,9 @@ namespace Mapped\Transformer;
 use Mapped\Transformer;
 
 /**
- * Callback.
+ * CallbackTransformer.
  */
-class Callback extends Transformer
+class CallbackTransformer extends Transformer
 {
     private $transform;
     private $reverseTransform;

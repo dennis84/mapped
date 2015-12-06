@@ -43,7 +43,7 @@ class Factory
             $mapping->addChild($name, $child);
         }
 
-        $mapping->transform(new Transformer\Callback($apply, $unapply));
+        $mapping->transform(new Transformer\CallbackTransformer($apply, $unapply));
         return $mapping;
     }
 
@@ -57,7 +57,7 @@ class Factory
     public function string($message = 'error.string')
     {
         $mapping = new Mapping(new Emitter, $this->extensions);
-        $mapping->transform(new Transformer\String);
+        $mapping->transform(new Transformer\StringTransformer);
         $mapping->validate(new Constraint\Type($message, 'string'));
         return $mapping;
     }
@@ -72,7 +72,7 @@ class Factory
     public function int($message = 'error.int')
     {
         $mapping = new Mapping(new Emitter, $this->extensions);
-        $mapping->transform(new Transformer\Int);
+        $mapping->transform(new Transformer\IntTransformer);
         $mapping->validate(new Constraint\Type($message, 'int'));
         return $mapping;
     }
@@ -87,7 +87,7 @@ class Factory
     public function float($message = 'error.float')
     {
         $mapping = new Mapping(new Emitter, $this->extensions);
-        $mapping->transform(new Transformer\Float);
+        $mapping->transform(new Transformer\FloatTransformer);
         $mapping->validate(new Constraint\Type($message, 'float'));
         return $mapping;
     }
@@ -102,7 +102,7 @@ class Factory
     public function bool($message = 'error.bool')
     {
         $mapping = new Mapping(new Emitter, $this->extensions);
-        $mapping->transform(new Transformer\Bool);
+        $mapping->transform(new Transformer\BoolTransformer);
         $mapping->validate(new Constraint\Type($message, 'bool'));
         return $mapping;
     }
