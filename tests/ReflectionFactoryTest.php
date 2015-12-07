@@ -135,4 +135,23 @@ class ReflectionFactoryTest extends \PHPUnit_Framework_TestCase
         $res = $expected->foo = 'bar';
         $this->assertEquals($expected, $factory->of('stdClass')->apply(['foo' => 'bar']));
     }
+
+    public function testG()
+    {
+        $factory = new ReflectionFactory;
+
+        $mapping = $factory->of('Mapped\Tests\Fixtures\Blog\Comment');
+        $comment = $mapping->apply([
+            'message' => 'Hello World',
+            'user' => [
+                'username' => 'dennis',
+                'password' => 'passwd',
+            ],
+        ]);
+
+        $this->assertInstanceOf('Mapped\Tests\Fixtures\Blog\Comment', $comment);
+        $this->assertSame('Hello World', $comment->getMessage());
+        $this->assertSame('dennis', $comment->getUser()->username);
+        $this->assertSame('passwd', $comment->getUser()->password);
+    }
 }
