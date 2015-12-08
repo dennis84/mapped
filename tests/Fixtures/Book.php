@@ -2,10 +2,16 @@
 
 namespace Mapped\Tests\Fixtures;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Book
 {
-    /** @var string */
+    /**
+     * @var string
+     * @Assert\NotBlank(message="not-blank")
+     */
     private $title;
+
     /** @var string */
     private $author;
 

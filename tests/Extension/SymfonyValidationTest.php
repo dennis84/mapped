@@ -3,6 +3,7 @@
 namespace Mapped\Tests\Extension;
 
 use Mapped\Factory;
+use Mapped\ReflectionFactory;
 use Mapped\ValidationException;
 use Mapped\Tests\Fixtures\Blog\Post;
 use Mapped\Tests\Fixtures\Blog\Attribute;
@@ -74,6 +75,30 @@ class SymfonyValidationTest extends \PHPUnit_Framework_TestCase
             $this->assertSame(['title'], $errors[0]->getPropertyPath());
             $this->assertSame('not-blank', $errors[1]->getMessage());
             $this->assertSame(['attributes', '0', 'name'], $errors[1]->getPropertyPath());
+            throw $e;
+        }
+    }
+
+    public function testReflection()
+    {
+        $validator = Validation::createValidatorBuilder()
+            ->enableAnnotationMapping()
+            ->getValidator();
+
+        $factory = new ReflectionFactory([
+            new \Mapped\Extension\SymfonyValidation($validator),
+        ]);
+
+        $mapping = $factory->of('Mapped\Tests\Fixtures\Book')->enableObjectValidation();
+
+        $this->setExpectedException('Mapped\ValidationException');
+
+        try {
+            $book = $mapping->apply(['title' => '']);
+        } catch (ValidationException $e) {
+            $errors = $e->getErrors();
+            $this->assertSame('not-blank', $errors[0]->getMessage());
+            $this->assertSame(['title'], $errors[0]->getPropertyPath());
             throw $e;
         }
     }
