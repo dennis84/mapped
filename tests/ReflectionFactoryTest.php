@@ -154,4 +154,14 @@ class ReflectionFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('dennis', $comment->getUser()->username);
         $this->assertSame('passwd', $comment->getUser()->password);
     }
+
+    public function testH()
+    {
+        $factory = new ReflectionFactory;
+        $this->assertNotSame($factory->of('string'), $factory->of('string'));
+        $this->assertNotSame(
+            $factory->of('Mapped\Tests\Fixtures\Book'),
+            $factory->of('Mapped\Tests\Fixtures\Book')
+        );
+    }
 }

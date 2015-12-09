@@ -39,7 +39,7 @@ class ReflectionFactory extends Factory
         }
 
         if (array_key_exists($type, $this->mappings)) {
-            $mapping = $this->mappings[$type];
+            $mapping = clone $this->mappings[$type];
         } else {
             $refl = new \ReflectionClass($type);
             $mapping = new Mapping(new Emitter, $this->extensions);
@@ -51,6 +51,7 @@ class ReflectionFactory extends Factory
             }
 
             $mapping->transformTo($type);
+            $this->mappings[$type] = clone $mapping;
         }
 
         if ($isArray) {
