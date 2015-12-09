@@ -33,8 +33,8 @@ class ReflectionFactory extends Factory
      */
     public function of($type)
     {
-        $l2c = substr($type, -2);
-        if ('[]' === $l2c) {
+        $isArray = '[]' === substr($type, -2);
+        if ($isArray) {
             $type = substr($type, 0, -2);
         }
 
@@ -53,7 +53,7 @@ class ReflectionFactory extends Factory
             $mapping->transformTo($type);
         }
 
-        if ('[]' === $l2c) {
+        if ($isArray) {
             $mapping = $mapping->multiple();
         }
 
